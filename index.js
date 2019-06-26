@@ -1,3 +1,6 @@
+const swaggerJSDoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
+
 const fs = require("fs"),
     http = require("http"),
     path = require("path"),
@@ -14,6 +17,36 @@ const isProduction = process.env.NODE_ENV === "production";
 
 // Create global app object
 const app = express();
+
+const options = {
+   definition: {
+     openapi: '3.0.0',
+     info: {
+       title: 'Authors Haven', 
+       version: '1.0.0', 
+       description: 'Endpoints for Authors Haven'
+     },
+     securityDefinitions: {
+       bearerAuth: {
+         type: 'apiKey',
+         name: 'Authorization',
+         scheme: 'bearer',
+         in: 'header',
+       },
+   },
+},
+   apis: ['./routes/api/*.js'],
+};
+ const swaggerSpec = swaggerJSDoc(options);
+
+ app.get('/api-docs.json', (req, res) => {
+   res.setHeader('Content-Type', 'application/json');
+   res.send(swaggerSpec);
+ });
+
+ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+
 
 app.use(cors());
 
