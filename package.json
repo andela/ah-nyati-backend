@@ -7,7 +7,7 @@
     "build": "babel index.js -d lib",
     "test": "mocha --require @babel/register --exit",
     "start": "npm run build && node lib index",
-    "serve": "nodemon --exec babel-node index"
+    "start:dev": "nodemon --exec babel-node index"
   },
   "author": "Andela Simulations Programme",
   "license": "MIT",
