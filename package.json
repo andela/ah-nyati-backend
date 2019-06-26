@@ -32,6 +32,9 @@
   },
   "devDependencies": {
     "coveralls": "^3.0.4",
-    "nyc": "^14.1.1"
+    "nyc": "^14.1.1",
+    "eslint": "^5.13.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.16.0"
   }
 }
