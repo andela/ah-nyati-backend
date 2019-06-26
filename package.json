@@ -4,7 +4,10 @@
   "description": "A Social platform for the creative at heart",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "nyc mocha --compilers js:@babel/register --recursive API/test/*.spec.js",
+    "generate-lcov": "nyc report --reporter=text-lcov > lcov.info",
+    "coveralls-coverage": "coveralls < lcov.info",
+    "coverage": "nyc npm test && npm run coveralls-coverage"  
   },
   "author": "Andela Simulations Programme",
   "license": "MIT",
@@ -26,5 +29,8 @@
     "passport-local": "^1.0.0",
     "request": "^2.87.0",
     "underscore": "^1.9.1"
+  },
+  "devDependencies": {
+    "coveralls": "^3.0.4"
   }
 }

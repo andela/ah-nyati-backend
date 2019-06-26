@@ -1,3 +1,8 @@
+
+[![Coverage Status](https://coveralls.io/repos/github/andela/ah-nyati-backend/badge.svg?branch=staging)](https://coveralls.io/github/andela/ah-nyati-backend?branch=staging)
+
+
+
 Authors Haven - A Social platform for the creative at heart.
 =======
 
