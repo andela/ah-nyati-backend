@@ -7,12 +7,18 @@
     "test": "mocha --require @babel/register --exit",
     "generate-lcov": "nyc report --reporter=text-lcov > lcov.info",
     "coveralls-coverage": "coveralls < lcov.info",
-    "coverage": "nyc npm test && npm run generate-lcov && npm run coveralls-coverage"
+    "coverage": "nyc npm test && npm run generate-lcov && npm run coveralls-coverage",
+    "build": "babel index.js -d lib",
+    "start": "npm run build && node lib index",
+    "start:dev": "nodemon --exec babel-node index"
   },
   "author": "Andela Simulations Programme",
   "license": "MIT",
   "dependencies": {
+    "@babel/polyfill": "^7.4.3",
     "body-parser": "^1.18.3",
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
     "cors": "^2.8.4",
     "dotenv": "^6.2.0",
     "ejs": "^2.6.1",
@@ -23,6 +29,7 @@
     "jsonwebtoken": "^8.3.0",
     "method-override": "^2.3.10",
     "methods": "^1.1.2",
+    "mocha": "^6.1.4",
     "mongoose": "^5.2.2",
     "mongoose-unique-validator": "^2.0.1",
     "passport": "^0.4.0",
@@ -39,6 +46,13 @@
     "nyc": "^14.1.1",
     "eslint": "^5.13.0",
     "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-plugin-import": "^2.16.0"
+    "eslint-plugin-import": "^2.16.0",
+    "@babel/cli": "^7.4.3",
+    "@babel/core": "^7.4.3",
+    "@babel/node": "^7.2.2",
+    "@babel/preset-env": "^7.4.3",
+    "@babel/register": "^7.4.0",
+    "morgan": "^1.9.1",
+    "nodemon": "^1.19.1"
   }
 }
