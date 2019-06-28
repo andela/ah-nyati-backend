@@ -4,10 +4,10 @@
   "description": "A Social platform for the creative at heart",
   "main": "index.js",
   "scripts": {
-    "build": "babel index.js -d lib",
+    "build": "babel src -d lib",
     "test": "mocha --require @babel/register --exit",
     "start": "npm run build && node lib index",
-    "start:dev": "nodemon --exec babel-node index"
+    "start:dev": "nodemon --exec babel-node src  index"
   },
   "author": "Andela Simulations Programme",
   "license": "MIT",
