@@ -1,0 +1,12 @@
+language: node_js
+node_js:
+- node
+deploy:
+  provider: heroku
+  api_key:
+    secure: Z5GZtuGrGTwsZma5FhH/jpWddMCW/V8iePC9vuWRWXAdP+VwQCNomB933jDlfYEM/urehLdkQnVfXiaDQUkJEYA/wj/Y/sHC7TEijwcUu83kWcbnwMQchJ9BhbIp14BEK1FYRAatUC2Zlnpwt6tK28H8xF+n7WzUVYGTo39F5HHEFIuQEggWM4wmK6tO+W67Ef09+o0rnJpzzLv0vsvi6XZEDRbiXXdcgN7c9W5k8naFliCcmlCkR7NvX63YEwtB9vv1Q9gTsT5NVHUDpD9Oo8uW7F41XDncYdrRsiYCzjfZqxnkIMALQ//CqfpefsDjArUxzKFST4SoQG15r6uXPywJ6kOHdjfybmplpxbXB4lrKnpja2xH5g5K5NjP/nIHhHGLo/ymGoNk5g3n1oxZ8+/m1VYerxzRpuEy8wY2tZ7l1A91CSIqhxqTP6enHgP8PJ+Eqi63ponN57BwP9D4Lr9lR3My+s4DzjETd5mVANmDbu9YoYJrp7tg7nueaM5GT7Rhjl0+lLx3n411SoxNQCz1RMrqG8n8xw8CiiQ/FXyCTB9EO694iMWEq2LQgu/k6Ljh6huaJorChZTXrNmU46l6B6itynZ/p6wCEp6Ea1gI51BvY/2huR579Rh2NuN8NkvlUtMQXtL5SeRXbWFss9FUR+jTEQzxwtCBEJsomDI=
+app:
+    master: ah-nyati-backend
+    staging: ah-nyati-backend-staging
+  on:
+    repo: andela/ah-nyati-backend

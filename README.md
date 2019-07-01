@@ -3,6 +3,7 @@ Authors Haven - A Social platform for the creative at heart.
 
 ## Badges
 [![Reviewed by Hound](https://img.shields.io/badge/Reviewed_by-Hound-yellow.svg)] (https://houndci.com)
+[![Build Status](https://travis-ci.com/andela/ah-nyati-backend.svg?branch=staging)](https://travis-ci.com/andela/ah-nyati-backend)
 
 ## Vision
 Create a community of like minded authors to foster inspiration and innovation
