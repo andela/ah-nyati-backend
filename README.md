@@ -7,8 +7,31 @@ Authors Haven - A Social platform for the creative at heart.
 =======
 
 ## Badges
-[![Reviewed by Hound](https://img.shields.io/badge/Reviewed_by-Hound-yellow.svg)] (https://houndci.com)
+![Reviewed by Hound](https://img.shields.io/badge/Reviewed_by-Hound-yellow.svg)
 [![Build Status](https://travis-ci.com/andela/ah-nyati-backend.svg?branch=staging)](https://travis-ci.com/andela/ah-nyati-backend)
+
+## Getting Started
+Clone the Repo.
+-------------
+`git clone https://github.com/andela/ah-nyati-backend.git`
+
+## Prerequisites
+The following tools will be needed to run this application successfully:
+* Node v10.15.0 or above
+* Npm v6.4 or above
+
+## Installation
+**On your Local Machine**
+- Pull the [staging](https://github.com/andela/ah-nyati-backend/tree/staging) branch off this repository
+- Run `npm install` to install all dependencies
+- Run npm start to start the app
+- Access endpoints on **localhost:3000**
+## Running the database migrations
+Run `npm run undo:migrate` in the terminal for the cloned folder to undo existing migrations.
+
+Run `npm run migrate` in the terminal for the cloned folder to do migrations.
+
+Run `npm run seed` in the terminal for the cloned folder to add seeds to the database.
 
 ## Vision
 Create a community of like minded authors to foster inspiration and innovation
