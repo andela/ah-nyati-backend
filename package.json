@@ -4,8 +4,11 @@
   "description": "A Social platform for the creative at heart",
   "main": "index.js",
   "scripts": {
-    "build": "babel index.js -d lib",
     "test": "mocha --require @babel/register --exit",
+    "generate-lcov": "nyc report --reporter=text-lcov > lcov.info",
+    "coveralls-coverage": "coveralls < lcov.info",
+    "coverage": "nyc npm test && npm run generate-lcov && npm run coveralls-coverage",
+    "build": "babel index.js -d lib",
     "start": "npm run build && node lib index",
     "start:dev": "nodemon --exec babel-node index"
   },
@@ -41,6 +44,8 @@
     "underscore": "^1.9.1"
   },
   "devDependencies": {
+    "coveralls": "^3.0.4",
+    "nyc": "^14.1.1",
     "eslint": "^5.13.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.16.0",
