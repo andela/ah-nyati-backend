@@ -4,13 +4,14 @@
   "description": "A Social platform for the creative at heart",
   "main": "index.js",
   "scripts": {
+    "build": "babel src -d lib",
     "test": "mocha --require @babel/register --exit",
     "generate-lcov": "nyc report --reporter=text-lcov > lcov.info",
     "coveralls-coverage": "coveralls < lcov.info",
     "coverage": "nyc npm test && npm run generate-lcov && npm run coveralls-coverage",
     "build": "babel index.js -d lib",
     "start": "npm run build && node lib index",
-    "start:dev": "nodemon --exec babel-node index"
+    "start:dev": "nodemon --exec babel-node src  index"
   },
   "author": "Andela Simulations Programme",
   "license": "MIT",
