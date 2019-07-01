@@ -3,9 +3,9 @@ import bodyParser from 'body-parser';
 import session from 'express-session';
 import cors from 'cors';
 import errorhandler from 'errorhandler';
-import config from './db/config/config';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
+import config from './db/config/config';
 
 const { isProduction, port } = config;
 
@@ -13,33 +13,32 @@ const { isProduction, port } = config;
 const app = express();
 
 const options = {
-   definition: {
-     openapi: '3.0.0',
-     info: {
-       title: 'Authors Haven', 
-       version: '1.0.0', 
-       description: 'Endpoints for Authors Haven'
-     },
-     securityDefinitions: {
-       bearerAuth: {
-         type: 'apiKey',
-         name: 'Authorization',
-         scheme: 'bearer',
-         in: 'header',
-       },
-   },
-},
-   apis: ['./routes/api/*.js'],
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'Authors Haven',
+      version: '1.0.0',
+      description: 'Endpoints for Authors Haven'
+    },
+    securityDefinitions: {
+      bearerAuth: {
+        type: 'apiKey',
+        name: 'Authorization',
+        scheme: 'bearer',
+        in: 'header',
+      },
+    },
+  },
+  apis: ['./routes/api/*.js'],
 };
- const swaggerSpec = swaggerJSDoc(options);
+const swaggerSpec = swaggerJSDoc(options);
 
- app.get('/api-docs.json', (req, res) => {
-   res.setHeader('Content-Type', 'application/json');
-   res.send(swaggerSpec);
- });
+app.get('/api-docs.json', (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.send(swaggerSpec);
+});
 
- app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 
 app.use(cors());
