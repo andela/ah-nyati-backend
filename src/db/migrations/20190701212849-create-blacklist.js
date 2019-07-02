@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+'use strict';
+>>>>>>> feature(signout backend): User signout backend-create user controller-add a signout function-create a blacklist model-create logout route[Delivers #166841010]
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('Blacklists', {
