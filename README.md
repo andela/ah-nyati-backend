@@ -19,10 +19,11 @@ Clone the Repo.
 The following tools will be needed to run this application successfully:
 * Node v10.15.0 or above
 * Npm v6.4 or above
+* Postgres 9.6.14 or above
 
 ## Installation
 **On your Local Machine**
-- Pull the [staging](https://github.com/andela/ah-nyati-backend/tree/staging) branch off this repository
+- Pull the [ch-Setup-database-models-167013882](https://github.com/andela/ah-nyati-backend.git) branch off this repository
 - Run `npm install` to install all dependencies
 - Run npm start to start the app
 - Access endpoints on **localhost:3000**
