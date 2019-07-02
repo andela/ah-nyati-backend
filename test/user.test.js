@@ -10,13 +10,18 @@ describe('User Controller', () => {
   it('should logout user successfully', (done) => {
     chai.request(app).post('/api/v1/auth/logout')
       .end((err, res) => {
+<<<<<<< HEAD
         res.should.have.status(200);
+=======
+        res.should.have.status(201);
+>>>>>>> feature(signout backend): User signout backend-create user controller-add a signout function-create a blacklist model-create logout route[Delivers #166841010]
         expect(res.body.message).equal('User successfully Logged Out');
         expect(res.body.data).to.have.property('id');
         expect(res.body.data).to.have.property('token');
         done();
       });
   });
+<<<<<<< HEAD
   it('should login user successfully', (done) => {
     const user = {
       email: 'john.doe@andela.com',
@@ -33,4 +38,6 @@ describe('User Controller', () => {
         done();
       });
   });
+=======
+>>>>>>> feature(signout backend): User signout backend-create user controller-add a signout function-create a blacklist model-create logout route[Delivers #166841010]
 });
