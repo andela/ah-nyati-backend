@@ -6,6 +6,7 @@ import errorhandler from 'errorhandler';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import config from './db/config/config';
+import router from './routes/index';
 
 const { isProduction, port } = config;
 
@@ -66,6 +67,7 @@ app.get('/', (req, res) => {
     message: 'Welcome to Author\'s Haven',
   });
 });
+app.use(router);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
