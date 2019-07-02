@@ -2,11 +2,16 @@ module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     firstName: {
       type: DataTypes.STRING,
-      required: true
+      required: false
     },
     lastName: {
       type: DataTypes.STRING,
-      required: true
+      required: false
+    },
+    userName: {
+      type: DataTypes.STRING,
+      required: true,
+      unique: true
     },
     email: {
       type: DataTypes.STRING,
@@ -25,10 +30,11 @@ module.exports = (sequelize, DataTypes) => {
     },
     imageUrl: {
       type: DataTypes.STRING,
-      required: true
+      required: false
     },
-    token: {
-      type: DataTypes.STRING
+    verificationToken: {
+      type: DataTypes.STRING,
+      required: false,
     }
   }, {});
   User.associate = (models) => {

@@ -6,6 +6,7 @@ import errorhandler from 'errorhandler';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import config from './db/config/config';
+import router from './routes/index';
 
 const { isProduction, port } = config;
 
@@ -66,9 +67,10 @@ app.get('/', (req, res) => {
     message: 'Welcome to Author\'s Haven',
   });
 });
+app.use(router);
 
 // catch 404 and forward to error handler
-app.use((req, res, next) => {
+app.use('*', (req, res, next) => {
   const err = new Error('Not Found');
   err.status = 404;
   next(err);
@@ -79,9 +81,7 @@ app.use((req, res, next) => {
 // development error handler
 // will print stacktrace
 if (!isProduction) {
-  app.use((err, req, res) => {
-    console.log(err.stack);
-
+  app.use((err, req, res, next) => {
     res.status(err.status || 500);
 
     res.json({
@@ -95,7 +95,7 @@ if (!isProduction) {
 
 // production error handler
 // no stacktraces leaked to user
-app.use((err, req, res) => {
+app.use((err, req, res, next) => {
   res.status(err.status || 500);
   res.json({
     errors: {
