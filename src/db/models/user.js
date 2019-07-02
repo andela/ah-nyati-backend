@@ -13,6 +13,11 @@ module.exports = (sequelize, DataTypes) => {
       required: true,
       unique: true
     },
+    username: {
+      type: DataTypes.STRING,
+      required: true,
+      unique: true
+    },
     email: {
       type: DataTypes.STRING,
       required: true,
