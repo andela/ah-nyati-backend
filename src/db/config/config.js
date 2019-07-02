@@ -1,13 +1,13 @@
-import dotenv from 'dotenv';
+const dotenv = require('dotenv');
 
 dotenv.config();
 
 module.exports = {
   development: {
-    username: process.env.DEV_DB_USERNAME,
-    password: process.env.DEV_DB_PASSWORD,
-    database: process.env.DEV_DB_DBNAME,
-    host: process.env.DEV_DB_HOST,
+    username: process.env.DATABASE_USERNAME,
+    password: process.env.DATABASE_PASSWORD,
+    database: process.env.DATABASE_DBNAME,
+    host: process.env.DATABASE_HOST,
     dialect: 'postgres'
   },
   test: {
@@ -18,10 +18,10 @@ module.exports = {
     dialect: 'postgres'
   },
   production: {
-    username: process.env.PROD_DB_USERNAME,
-    password: process.env.PROD_DB_PASSWORD,
-    database: process.env.PROD_DB_DBNAME,
-    host: process.env.PROD_DB_HOST,
+    username: process.env.DATABASE_USERNAME,
+    password: process.env.DATABASE_PASSWORD,
+    database: process.env.DATABASE_DBNAME,
+    host: process.env.DATABASE_HOST,
     dialect: 'postgres'
   },
   isProduction: process.env.NODE_ENV === 'production',
