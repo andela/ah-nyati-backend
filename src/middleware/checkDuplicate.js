@@ -19,14 +19,14 @@ class CheckDuplicate {
    * @memberof CheckDuplicate
    */
   static async checkExistingUser(request, response, next) {
-    const { username, email } = request.body;
+    const { userName, email } = request.body;
     let existingEmail = [];
     let existingUsername = [];
 
     try {
       existingUsername = await User.findAll({
         where: {
-          username
+          userName
         }
       });
 

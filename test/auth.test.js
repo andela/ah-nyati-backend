@@ -20,7 +20,7 @@ describe('User Controller', () => {
   it('should login user successfully', (done) => {
     const user = {
       email: 'john.doe@andela.com',
-      password: 'password',
+      password: 'password123',
     };
     chai.request(app).post('/api/v1/auth/login')
       .send(user)

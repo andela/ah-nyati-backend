@@ -1,23 +1,27 @@
 import express from 'express';
-import UserController from '../controllers/auth';
 import authValidator from '../middleware/authValidator';
 import validate from '../middleware/validate';
 import checkDuplicate from '../middleware/checkDuplicate';
+import AuthController from '../controllers/Auth';
 
 const { usernameValidator, emailValidator, passwordValidator } = authValidator;
 const { checkExistingUser } = checkDuplicate;
 
 const router = express.Router();
-router.post('/auth/signup',
+router.post('/signup',
   usernameValidator,
   emailValidator,
   passwordValidator,
   validate,
   checkExistingUser,
-  UserController.createAccount);
-router.post('/auth/logout', UserController.logOut);
+  AuthController.createAccount);
 
-router.post('/auth/logout', UserController.logOut);
+router.post('/login',
+  emailValidator,
+  passwordValidator,
+  validate,
+  AuthController.login);
 
+router.post('/logout', AuthController.logOut);
 
 export default router;

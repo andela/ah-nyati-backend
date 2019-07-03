@@ -6,7 +6,7 @@ module.exports = {
     email: 'john.doe@andela.com',
     bio: 'local man is stuck in traffic',
     isVerified: true,
-    password: 'password',
+    password: 'password123',
     verificationToken: '',
     imageUrl: 'image.png'
   },

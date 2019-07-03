@@ -4,11 +4,9 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const transport = nodemailer.createTransport(
-  nodemailerSendgrid({
-    apiKey: process.env.SENDGRID_API_KEY
-  })
-);
+const transport = nodemailer.createTransport(nodemailerSendgrid({
+  apiKey: process.env.SENDGRID_API_KEY
+}));
 
 const sendEmail = {
   async sendEmail(from, to, subject, html) {

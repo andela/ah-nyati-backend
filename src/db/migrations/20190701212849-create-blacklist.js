@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-'use strict';
->>>>>>> feature(signout backend): User signout backend-create user controller-add a signout function-create a blacklist model-create logout route[Delivers #166841010]
+
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('Blacklists', {
@@ -30,7 +26,7 @@ module.exports = {
   down: (queryInterface, Sequelize) => {
     return queryInterface.dropTable('Blacklists');
   }
-=======
+};
 
 module.exports = {
   up: (queryInterface, Sequelize) => queryInterface.createTable('Blacklists', {
@@ -55,5 +51,4 @@ module.exports = {
     }
   }),
   down: (queryInterface, Sequelize) => queryInterface.dropTable('Blacklists')
->>>>>>> feat(signup):user signup route
 };

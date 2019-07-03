@@ -21,7 +21,7 @@ const authValidator = {
       .withMessage('Invalid email address.'),
   ],
   usernameValidator: [
-    body('username')
+    body('userName')
       .trim()
       .exists({ checkFalsy: true })
       .withMessage('Username is required.')
