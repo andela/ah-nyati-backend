@@ -2,21 +2,20 @@ import auth from '../middleware/Auth';
 import { Blacklist, User } from '../db/models';
 
 /**
- *
- *
+ * @description This class handles user requests
  * @class UserController
  */
 class UserController {
-/**
+  /**
  *
  *
  * @static
  * @param {object} request
  * @param {object} response
- * @returns
+ * @returns {object} response
  * @memberof UserController
  */
-static async login(request, response) {
+  static async login(request, response) {
     const { email } = request.body;
     try {
       const user = await User.findOne({
@@ -44,14 +43,13 @@ static async login(request, response) {
     }
   }
 
-
   /**
   *
   *@description Logout a user
   * @static
   * @param {object} request
   * @param {object} response
-  * @returns {object}
+  * @returns {object} response
   * @memberof UserController
   */
   static async logOut(request, response) {
@@ -69,6 +67,69 @@ static async login(request, response) {
       return response.status(500).json({
         status: 500,
         data: error,
+      });
+    }
+  }
+
+  /**
+     *
+     * @param {object} req the request body
+     * @param {object} res the response body
+     * @returns {object} res
+     * @memberof UserController
+     */
+  static async updateProfile(req, res) {
+    try {
+      const {
+        firstname, lastname, username, bio,
+      } = req.body;
+
+      const userId = req.user.id;
+
+      const userData = await User.findOne({
+        where: {
+          userId
+        }
+      });
+
+      let firstnameValue;
+      let lastnameValue;
+      let bioValue;
+      let usernameValue;
+
+      if (!firstname) firstnameValue = userData.firstname;
+      else firstnameValue = firstname;
+      if (!lastname) lastnameValue = userData.lastname;
+      else lastnameValue = lastname;
+      if (!bio) bioValue = userData.bio;
+      else bioValue = bio;
+      if (!username) usernameValue = userData.username;
+      else usernameValue = username;
+
+      await userData.update({
+        firstname: firstnameValue,
+        lastname: lastnameValue,
+        username: usernameValue,
+        bio: bioValue,
+      }, {
+        where: {
+          firstname: firstnameValue,
+          lastname: lastnameValue,
+          username: usernameValue,
+          bio: bioValue,
+        }
+      });
+
+      return res.status(200).json({
+        firstname: firstnameValue,
+        lastname: lastnameValue,
+        username: usernameValue,
+        bio: bioValue,
+      });
+    } catch (error) {
+      return res.status(400).json({
+        status: 400,
+        error,
       });
     }
   }
