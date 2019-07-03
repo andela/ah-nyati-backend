@@ -7,6 +7,9 @@ import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import config from './db/config/config';
 
+// IMPORT ROUTES
+import AuthRoute from './routes/auth';
+
 const { isProduction, port } = config;
 
 // Create global app object
@@ -68,42 +71,45 @@ app.get('/', (req, res) => {
 });
 
 // catch 404 and forward to error handler
-app.use((req, res, next) => {
-  const err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
+// app.use((req, res, next) => {
+//   const err = new Error('Not Found');
+//   err.status = 404;
+//   next(err);
+// });
 
 // error handlers
 
 // development error handler
 // will print stacktrace
-if (!isProduction) {
-  app.use((err, req, res) => {
-    console.log(err.stack);
+// if (!isProduction) {
+//   app.use((err, req, res) => {
+//     console.log(err.stack);
 
-    res.status(err.status || 500);
+//     res.status(err.status || 500);
 
-    res.json({
-      errors: {
-        message: err.message,
-        error: err
-      }
-    });
-  });
-}
+//     res.json({
+//       errors: {
+//         message: err.message,
+//         error: err
+//       }
+//     });
+//   });
+// }
+
+// APP ROUTES
+app.use('/api/auth', AuthRoute);
 
 // production error handler
 // no stacktraces leaked to user
-app.use((err, req, res) => {
-  res.status(err.status || 500);
-  res.json({
-    errors: {
-      message: err.message,
-      error: {}
-    }
-  });
-});
+// app.use((err, req, res) => {
+//   res.status(err.status || 500);
+//   res.json({
+//     errors: {
+//       message: err.message,
+//       error: {}
+//     }
+//   });
+// });
 
 // finally, let's start our server...
 const server = app.listen(port, () => {
