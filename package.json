@@ -9,7 +9,7 @@
     "generate-lcov": "nyc report --reporter=text-lcov > lcov.info",
     "coveralls-coverage": "coveralls < lcov.info",
     "coverage": "nyc npm test && npm run generate-lcov && npm run coveralls-coverage",
-    "start": "npm run build && npm run migrate && node lib/server",
+    "start": "npm run build && node lib/server",
     "start:dev": "nodemon --exec babel-node src/server",
     "migrate": "sequelize db:migrate",
     "undo:migrate": "sequelize db:migrate:undo:all",
@@ -40,6 +40,7 @@
     "mocha": "^6.1.4",
     "mongoose": "^5.2.2",
     "mongoose-unique-validator": "^2.0.1",
+    "node-cron": "^2.0.3",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "pg": "^7.11.0",
@@ -53,11 +54,11 @@
   },
   "devDependencies": {
     "coveralls": "^3.0.4",
-    "nyc": "^14.1.1",
     "eslint": "^5.13.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.16.0",
     "morgan": "^1.9.1",
-    "nodemon": "^1.19.1"
+    "nodemon": "^1.19.1",
+    "nyc": "^14.1.1"
   }
 }

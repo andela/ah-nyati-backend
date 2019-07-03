@@ -13,15 +13,6 @@ module.exports = (sequelize, DataTypes) => {
       required: true,
       unique: true
     },
-<<<<<<< HEAD
-    userName: {
-=======
-    username: {
->>>>>>> feature(signout backend): User signout backend-create user controller-add a signout function-create a blacklist model-create logout route[Delivers #166841010]
-      type: DataTypes.STRING,
-      required: true,
-      unique: true
-    },
     email: {
       type: DataTypes.STRING,
       required: true,

@@ -19,16 +19,6 @@ module.exports = {
       required: true,
       unique: true
     },
-<<<<<<< HEAD
-    userName: {
-=======
-    username: {
->>>>>>> feature(signout backend): User signout backend-create user controller-add a signout function-create a blacklist model-create logout route[Delivers #166841010]
-      type: Sequelize.STRING,
-      required: true,
-      allowNull: false,
-      unique: true
-    },
     email: {
       type: Sequelize.STRING,
       required: true,
