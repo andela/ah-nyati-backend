@@ -9,8 +9,8 @@
     "generate-lcov": "nyc report --reporter=text-lcov > lcov.info",
     "coveralls-coverage": "coveralls < lcov.info",
     "coverage": "nyc npm test && npm run generate-lcov && npm run coveralls-coverage",
-    "start": "npm run build && node lib server",
-    "start:dev": "nodemon --exec babel-node src server",
+    "start": "npm run build && node lib/server",
+    "start:dev": "nodemon --exec babel-node src/server",
     "migrate": "sequelize db:migrate",
     "undo:migrate": "sequelize db:migrate:undo:all",
     "seed": "sequelize db:seed:all"
