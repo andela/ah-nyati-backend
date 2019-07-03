@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
     imageUrl: {
       type: DataTypes.STRING
     },
-    encrypted: {
+    encripted: {
       type: DataTypes.STRING,
       unique: true
     }

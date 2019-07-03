@@ -11,7 +11,7 @@ describe('User Controller', () => {
   const defaultUser = {
     username: 'MaryJane',
     email: 'mary.jane@andela.com',
-    password: 'userpassword'
+    password: 'user4password'
   };
   it(('should signup a user'), (done) => {
     chai.request(app).post('/api/v1/auth/signup')
@@ -19,15 +19,6 @@ describe('User Controller', () => {
       .end((err, res) => {
         res.should.have.status(201);
         res.body.message.should.be.a('string').eql('User signup successful');
-        done();
-      });
-  });
-  it(('should throw a server error'), (done) => {
-    chai.request(app).post('/api/v1/auth/signup')
-      .send(app)
-      .end((err, res) => {
-        res.should.have.status(500);
-        res.body.message.should.be.a('string').eql('Internal server error');
         done();
       });
   });

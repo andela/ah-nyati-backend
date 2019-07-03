@@ -12,29 +12,33 @@ const {
  * @class UserController
  */
 class UserController {
-  // eslint-disable-next-line valid-jsdoc
   /**
-   *
-   *
+   * @description Creates a new user account
    * @static
-   * @param {*} req
-   * @param {*} res
-   * @returns
+   * @async
+   *
+   * @param {object} req - signup request object
+   * @param {object} res - signup response object
+   *
+   * @returns {object} signup details
    * @memberof UserController
    */
   static async createAccount(req, res) {
     try {
       const {
-        firstname, lastname, username, email, password
+        username, email, password
       } = req.body;
-      const isVerified = false;
       const hashedpassword = passwordHash.generate(password);
       const values = {
-        firstname, lastname, username, email, password: hashedpassword, isVerified
+        username, email, password: hashedpassword,
       };
       const user = await User.create(values);
       const { id } = user;
       const token = await generateToken({ id, username, email });
+
+      const newUser = {};
+      newUser.username = user.username;
+      newUser.email = user.email;
 
       const html = `
             <div>
@@ -51,13 +55,15 @@ class UserController {
             </div>
             `;
       await sendEmail
-        .sendEmail('do_not_reply@authorhaven.com',
-          email, 'User Account Registration', html);
+        .sendEmail(
+          'do_not_reply@authorhaven.com',
+          email, 'User Account Registration', html
+        );
 
       return res.status(201).json({
         status: 201,
         message: 'User signup successful',
-        data: [{ token, user }],
+        data: [{ token, newUser }],
       });
     } catch (err) {
       return res.status(500).json({
@@ -67,16 +73,17 @@ class UserController {
     }
   }
 
-  // eslint-disable-next-line valid-jsdoc
   /**
-  *
-  *@description Logout a user
-  * @static
-  * @param {object} request
-  * @param {object} response
-  * @returns {object}
-  * @memberof UserController
-  */
+   * @description Logout a user
+   * @static
+   * @async
+   *
+   * @param {object} request - logout request object
+   * @param {object} response - logout response object
+   *
+   * @returns {object} logout details
+   * @memberof UserController
+   */
   static async logOut(request, response) {
     const { token } = request.headers || request.body || request.query;
     try {
