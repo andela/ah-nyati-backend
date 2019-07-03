@@ -5,10 +5,10 @@ module.exports = {
     username: 'JohnDoe',
     email: 'john.doe@andela.com',
     bio: 'local man is stuck in traffic',
-    is_verified: true,
+    isVerified: true,
     password: 'password',
-    token: '',
-    image_url: 'image.png'
+    encripted: '',
+    imageUrl: 'image.png'
   },
   ], {}),
   down: queryInterface => queryInterface.bulkDelete('Users', null, {})
