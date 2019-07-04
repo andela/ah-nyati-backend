@@ -18,7 +18,8 @@ class TokenGenerator {
    */
   static tokenGenerate(req, res, next) {
     const payload = {
-      token: 'token'
+      token: 'token',
+      id: 2
     };
     jwt.sign(payload,
       process.env.GENERATE_SECRET, {

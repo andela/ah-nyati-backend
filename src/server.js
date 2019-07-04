@@ -9,6 +9,7 @@ import config from './db/config/config';
 
 // IMPORT ROUTES
 import AuthRoute from './routes/auth';
+import UserRoute from './routes/user';
 
 const { isProduction, port } = config;
 
@@ -98,6 +99,7 @@ app.get('/', (req, res) => {
 
 // APP ROUTES
 app.use('/api/auth', AuthRoute);
+app.use('/api/user', UserRoute);
 
 // production error handler
 // no stacktraces leaked to user

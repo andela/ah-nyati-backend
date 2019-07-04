@@ -200,6 +200,25 @@ class AuthServices {
       return err;
     }
   }
+
+  /**
+   * MOCK TOKEN
+   * @constructor
+   * @param {*} token - query
+   */
+  static mockToken(token) {
+    let statusCode = '',
+      successMessage = '';
+    const errorMessage = '';
+
+    statusCode = 200;
+    successMessage = token;
+    return {
+      statusCode,
+      errorMessage,
+      successMessage
+    };
+  }
 }
 
 export default AuthServices;

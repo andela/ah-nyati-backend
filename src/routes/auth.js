@@ -6,7 +6,8 @@ const router = express.Router();
 const {
   sendResetToken,
   resendToken,
-  resetPassword
+  resetPassword,
+  mockToken
 } = AuthController;
 
 
@@ -17,5 +18,8 @@ router.post('/resendToken', resendToken);
 router.post('/resetpassword',
   generateToken.verifyToken,
   resetPassword);
+router.post('/mockToken',
+  generateToken.tokenGenerate,
+  mockToken);
 
 export default router;

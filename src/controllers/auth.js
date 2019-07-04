@@ -8,7 +8,8 @@ const {
 const {
   sendResetToken,
   resendToken,
-  resetPassword
+  resetPassword,
+  mockToken
 } = AuthServices;
 
 /**
@@ -89,6 +90,33 @@ class AuthController {
         errorMessage,
         successMessage
       } = await resetPassword(password, resetToken);
+
+      const response = await statusChecker(
+        req,
+        res,
+        statusCode,
+        errorMessage,
+        successMessage
+      );
+      return response;
+    } catch (err) {
+      return err;
+    }
+  }
+
+  /**
+   * Mock
+   * @constructor
+   * @param {*} req - req
+   * @param {*} res - res
+   */
+  static async mockToken(req, res) {
+    try {
+      const {
+        statusCode,
+        errorMessage,
+        successMessage
+      } = await mockToken(req.generate);
 
       const response = await statusChecker(
         req,
