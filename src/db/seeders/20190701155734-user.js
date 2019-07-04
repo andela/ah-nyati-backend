@@ -1,14 +1,14 @@
 module.exports = {
   up: queryInterface => queryInterface.bulkInsert('Users', [{
-    firstname: 'John',
-    lastname: 'Doe',
-    username: 'JohnDoe',
+    firstName: 'John',
+    lastName: 'Doe',
+    userName: 'JohnDoe',
     email: 'john.doe@andela.com',
     bio: 'local man is stuck in traffic',
-    is_verified: true,
+    isVerified: true,
     password: 'password',
-    token: '',
-    image_url: 'image.png'
+    verificationToken: '',
+    imageUrl: 'image.png'
   },
   ], {}),
   down: queryInterface => queryInterface.bulkDelete('Users', null, {})

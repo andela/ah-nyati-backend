@@ -1,14 +1,14 @@
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
-    firstname: {
+    firstName: {
       type: DataTypes.STRING,
-      required: true
+      required: false,
     },
-    lastname: {
+    lastName: {
       type: DataTypes.STRING,
-      required: true
+      required: true,
     },
-    username: {
+    userName: {
       type: DataTypes.STRING,
       required: true,
       unique: true
@@ -20,26 +20,28 @@ module.exports = (sequelize, DataTypes) => {
     },
     password: {
       type: DataTypes.STRING,
-      required: true
+      required: true,
+      unique: true
     },
-    is_verified: {
+    isVerified: {
       type: DataTypes.BOOLEAN,
     },
     bio: {
       type: DataTypes.STRING
     },
-    image_url: {
+    imageUrl: {
       type: DataTypes.STRING,
-      required: true
+      required: false,
     },
-    token: {
-      type: DataTypes.STRING
+    verificationToken: {
+      type: DataTypes.STRING,
+      unique: true
     }
   }, {});
   User.associate = (models) => {
     User.hasMany(models.Article, {
-      foreignKey: 'user_id',
-      as: 'user_articles'
+      foreignKey: 'userId',
+      as: 'userArticles'
     });
   };
   return User;
