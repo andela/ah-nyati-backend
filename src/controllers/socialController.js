@@ -23,25 +23,27 @@ export default class socialController {
       const newPassword = Math.random().toString(36).slice(-10);
       const password = hashPassword(newPassword);
 
-      let firstname, lastname;
-      const { displayName } = userData;
 
+      let firstName, lastName;
+      const { displayName } = userData;
       if (displayName) {
-        firstname = displayName.split(' ')[0];
-        lastname = displayName.split(' ')[1];
+        [firstName, lastName] = displayName.split(' ');
       } else {
-        firstname = userData.name.familyName;
-        lastname = userData.name.givenName;
+        firstName = userData.name.familyName;
+        lastName = userData.name.givenName;
       }
 
       const user = await User.findOrCreate({
         where: { email: userData.emails[0].value },
         defaults: {
-          firstname,
-          lastname,
+          firstName,
+          lastName,
           password,
+          isVerified: false,
+          bio: 'local man',
+          token: 'hgnvhmgknjgjgvhmbn',
           email: userData.emails[0].value,
-          image_url: userData.photos[0].value,
+          imageUrl: userData.photos[0].value,
           social: userData.provider
         }
       });
@@ -52,8 +54,8 @@ export default class socialController {
 
       const {
         id,
-        firstname: firstName,
-        lastname: lastName,
+        firstName: firstname,
+        lastName: lastname,
         email,
         bio,
         image_url: image,
@@ -61,8 +63,8 @@ export default class socialController {
 
       const token = generateToken({
         id,
-        firstName,
-        lastName,
+        firstname,
+        lastname,
         email,
         bio,
         image_url: image,

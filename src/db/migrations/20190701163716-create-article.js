@@ -15,27 +15,27 @@ module.exports = {
     body: {
       type: Sequelize.TEXT
     },
-    tag_list: {
+    tagList: {
       type: Sequelize.STRING
     },
-    cat_id: {
+    catId: {
       type: Sequelize.INTEGER,
       onUpdate: 'CASCADE',
       onDelete: 'CASCADE',
       references: {
         model: 'Categories',
         key: 'id',
-        as: 'cat_id'
+        as: 'catId'
       }
     },
-    user_id: {
+    userId: {
       type: Sequelize.INTEGER,
       onUpdate: 'CASCADE',
       onDelete: 'CASCADE',
       references: {
         model: 'Users',
         key: 'id',
-        as: 'user_id'
+        as: 'userId'
       }
     },
     createdAt: {

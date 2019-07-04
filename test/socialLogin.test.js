@@ -32,7 +32,7 @@ describe('GET Social Login', () => {
   afterEach(() => {
     sinon.restore();
   });
-  it('should save new google user to the database', async () => {
+  it('should save new google or facebookuser to the database', async () => {
     const request = {
       authInfo: randomSocialUser
     };
