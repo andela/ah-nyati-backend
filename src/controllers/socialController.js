@@ -28,7 +28,7 @@ export default class socialController {
 
       if (displayName) {
         firstname = displayName.split(' ')[0];
-        lastname = displayName.split(' ')[0];
+        lastname = displayName.split(' ')[1];
       } else {
         firstname = userData.name.familyName;
         lastname = userData.name.givenName;
