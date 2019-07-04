@@ -8,8 +8,7 @@ const router = express.Router();
 const { usernameValidator, emailValidator, passwordValidator } = authValidator;
 const { checkExistingUser } = checkDuplicate;
 
-router.post(
-  '/auth/signup',
+router.post('/auth/signup',
   usernameValidator,
   emailValidator,
   passwordValidator,
