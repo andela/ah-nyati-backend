@@ -13,7 +13,6 @@ export default class socialController {
   static async socialUser(req, res) {
     try {
       const userData = req.authInfo;
-      console.log(userData);
       if (userData.emails === undefined) {
         return res.status(400).send('Email not found');
       }
