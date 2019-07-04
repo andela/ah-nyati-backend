@@ -1,5 +1,4 @@
-import auth from '../middleware/Auth';
-import { Blacklist, User } from '../db/models';
+import { User } from '../db/models';
 
 /**
  * @description This class handles user requests
@@ -7,72 +6,45 @@ import { Blacklist, User } from '../db/models';
  */
 class UserController {
   /**
- *
- *
- * @static
- * @param {object} request
- * @param {object} response
- * @returns {object} response
- * @memberof UserController
- */
-  static async login(request, response) {
-    const { email } = request.body;
+   * @static
+   * @description this function gets all registered users
+   * @param {object} req the request body
+   * @param {object} res the response body
+   * @returns {object} res
+   * @memberof UserController
+   */
+  static async getUserProfile(req, res) {
+    const { userName } = req.params;
+
     try {
-      const user = await User.findOne({
-        where: { email },
-        attributes: { exclude: ['password'] }
+      const userData = await User.findOne({
+        attributes: ['firstName', 'lastName', 'userName',
+          'email', 'bio', 'imageUrl'],
+        where: { userName },
       });
-      const { id } = user;
-      const userToken = auth.authenticate(id);
-      if (user) {
-        return response.status(200).json({
-          status: 200,
-          message: 'User successfully Logged In',
-          data: userToken
+
+      if (!userData) {
+        return res.status(404).json({
+          status: 404,
+          error: 'User not found',
         });
       }
-      return response.status(404).json({
-        status: 404,
-        message: 'User Not Found',
+
+      return res.status(200).json({
+        status: 200,
+        users: userData,
       });
     } catch (error) {
-      return response.status(500).json({
+      return res.status(500).json({
         status: 500,
-        message: error,
+        error: error.message
       });
     }
   }
 
   /**
-  *
-  *@description Logout a user
-  * @static
-  * @param {object} request
-  * @param {object} response
-  * @returns {object} response
-  * @memberof UserController
-  */
-  static async logOut(request, response) {
-    const { token } = request.headers || request.body || request.query;
-    try {
-      const createdToken = await Blacklist.create({
-        token
-      });
-      return response.status(201).json({
-        status: 201,
-        message: 'User successfully Logged Out',
-        data: createdToken
-      });
-    } catch (error) {
-      return response.status(500).json({
-        status: 500,
-        data: error,
-      });
-    }
-  }
-
-  /**
-     *
+     *@static
+     *@description this function creates and updates user profile
      * @param {object} req the request body
      * @param {object} res the response body
      * @returns {object} res
@@ -81,55 +53,56 @@ class UserController {
   static async updateProfile(req, res) {
     try {
       const {
-        firstname, lastname, username, bio,
+        firstName, lastName, userName, bio,
       } = req.body;
 
-      const userId = req.user.id;
+      const avatar = req.file;
+      const userId = req.user;
+      let { id } = req.params;
+      id = Number(id);
 
-      const userData = await User.findOne({
-        where: {
-          userId
-        }
-      });
+      let avatarValue;
 
-      let firstnameValue;
-      let lastnameValue;
-      let bioValue;
-      let usernameValue;
+      if (avatar) avatarValue = avatar.url;
 
-      if (!firstname) firstnameValue = userData.firstname;
-      else firstnameValue = firstname;
-      if (!lastname) lastnameValue = userData.lastname;
-      else lastnameValue = lastname;
-      if (!bio) bioValue = userData.bio;
-      else bioValue = bio;
-      if (!username) usernameValue = userData.username;
-      else usernameValue = username;
+      const userDetails = {
+        firstName,
+        lastName,
+        userName,
+        bio,
+        imageUrl: avatarValue,
+      };
 
-      await userData.update({
-        firstname: firstnameValue,
-        lastname: lastnameValue,
-        username: usernameValue,
-        bio: bioValue,
-      }, {
-        where: {
-          firstname: firstnameValue,
-          lastname: lastnameValue,
-          username: usernameValue,
-          bio: bioValue,
-        }
-      });
+      const where = {
+        id,
+      };
 
-      return res.status(200).json({
-        firstname: firstnameValue,
-        lastname: lastnameValue,
-        username: usernameValue,
-        bio: bioValue,
+      const attributes = ['id', 'firstName', 'lastName', 'userName', 'bio', 'imageUrl'];
+
+      const userData = await User.findOne({ attributes, where });
+
+      if (id === userId) {
+        await userData.update(userDetails, { where });
+
+        return res.status(200).json({
+          status: 200,
+          user: userDetails,
+        });
+      }
+      return res.status(401).json({
+        status: 401,
+        error: 'You do not have permission to perform that operation',
       });
     } catch (error) {
-      return res.status(400).json({
-        status: 400,
-        error,
+      if (error.routine === '_bt_check_unique') {
+        return res.status(400).json({
+          status: 400,
+          error: 'User with that username already exists',
+        });
+      }
+      return res.status(500).json({
+        status: 500,
+        error: error.message,
       });
     }
   }

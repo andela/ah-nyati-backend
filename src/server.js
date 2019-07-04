@@ -1,3 +1,4 @@
+
 import express from 'express';
 import bodyParser from 'body-parser';
 import session from 'express-session';
@@ -106,27 +107,32 @@ app.use('*', (req, res, next) => {
 // will print stacktrace
 if (!isProduction) {
   app.use((err, req, res, next) => {
-    res.status(err.status || 500);
-
-    res.json({
-      errors: {
-        message: err.message,
-        error: err
-      }
-    });
+    if (err) {
+      res.status(err.status || 500);
+      return res.json({
+        errors: {
+          status: err.status,
+          error: err.message,
+        }
+      });
+    }
+    return next();
   });
 }
 
 // production error handler
 // no stacktraces leaked to user
 app.use((err, req, res, next) => {
-  res.status(err.status || 500);
-  res.json({
-    errors: {
-      message: err.message,
-      error: {}
-    }
-  });
+  if (err) {
+    res.status(err.status || 500);
+    res.json({
+      errors: {
+        message: err.message,
+        error: {}
+      }
+    });
+  }
+  return next();
 });
 
 // finally, let's start our server...

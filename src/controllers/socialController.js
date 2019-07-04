@@ -79,7 +79,6 @@ export default class socialController {
           bio,
           image
         }
-        
       });
     } catch (err) {
       return res.status(500).json({

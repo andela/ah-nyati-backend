@@ -9,5 +9,4 @@ router.use('/api/v1/auth', authRoute);
 router.use('/api/v1/auth', socialRoute);
 router.use('/api/v1', userRoute);
 
-
 export default router;

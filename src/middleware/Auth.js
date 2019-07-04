@@ -14,7 +14,7 @@ const auth = {
   authenticate(user) {
     return jwt.sign(
       {
-        id: user.id,
+        user,
       },
       secret,
       {
