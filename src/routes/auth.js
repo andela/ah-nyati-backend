@@ -18,6 +18,14 @@ router.post(
   UserController.createAccount
 );
 
+router.post(
+  '/auth/login',
+  emailValidator,
+  passwordValidator,
+  validate,
+  UserController.login
+);
+
 router.post('/auth/logout', UserController.logOut);
 
 

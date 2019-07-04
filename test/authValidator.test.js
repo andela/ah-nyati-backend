@@ -17,7 +17,7 @@ describe('Auth', () => {
   describe('POST /users', () => {
     it('should return 400 error if username is empty', (done) => {
       const { username, ...partialUserDetails } = testUser;
-      chai.request(app).post('/api/users')
+      chai.request(app).post('/api/v1/auth/signup')
         .send(partialUserDetails)
         .end((err, res) => {
           res.should.have.status(400);
@@ -36,7 +36,7 @@ describe('Auth', () => {
         password: 'haggsff354'
       };
 
-      chai.request(app).post('/api/users')
+      chai.request(app).post('/api/v1/auth/signup')
         .send(invalidUsername)
         .end((err, res) => {
           res.should.have.status(400);
@@ -55,7 +55,7 @@ describe('Auth', () => {
         password: 'haggsff354'
       };
 
-      chai.request(app).post('/api/users')
+      chai.request(app).post('/api/v1/auth/signup')
         .send(invalidUsername)
         .end((err, res) => {
           res.should.have.status(400);
@@ -74,7 +74,7 @@ describe('Auth', () => {
         password: 'haggsff354'
       };
 
-      chai.request(app).post('/api/users')
+      chai.request(app).post('/api/v1/auth/signup')
         .send(invalidUsername)
         .end((err, res) => {
           res.should.have.status(401);
@@ -88,7 +88,7 @@ describe('Auth', () => {
 
     it('should return 400 error if email is empty', (done) => {
       const { email, ...partialUserDetails } = testUser;
-      chai.request(app).post('/api/users')
+      chai.request(app).post('/api/v1/auth/signup')
         .send(partialUserDetails)
         .end((err, res) => {
           res.should.have.status(400);
@@ -107,7 +107,7 @@ describe('Auth', () => {
         password: 'haggsff354'
       };
 
-      chai.request(app).post('/api/users')
+      chai.request(app).post('/api/v1/auth/signup')
         .send(invalidEmail)
         .end((err, res) => {
           res.should.have.status(400);
@@ -126,7 +126,7 @@ describe('Auth', () => {
         password: 'haggsff354'
       };
 
-      chai.request(app).post('/api/users')
+      chai.request(app).post('/api/v1/auth/signup')
         .send(existingEmail)
         .end((err, res) => {
           res.should.have.status(401);
@@ -140,7 +140,7 @@ describe('Auth', () => {
 
     it('should return 400 error if password is empty', (done) => {
       const { password, ...partialUserDetails } = testUser;
-      chai.request(app).post('/api/users')
+      chai.request(app).post('/api/v1/auth/signup')
         .send(partialUserDetails)
         .end((err, res) => {
           res.should.have.status(400);
@@ -159,7 +159,7 @@ describe('Auth', () => {
         password: 'hdhhfhh.%fjkkd'
       };
 
-      chai.request(app).post('/api/users')
+      chai.request(app).post('/api/v1/auth/signup')
         .send(invalidPassword)
         .end((err, res) => {
           res.should.have.status(400);
@@ -178,7 +178,7 @@ describe('Auth', () => {
         password: 'hdh3fht'
       };
 
-      chai.request(app).post('/api/users')
+      chai.request(app).post('/api/v1/auth/signup')
         .send(invalidPassword)
         .end((err, res) => {
           res.should.have.status(400);
@@ -193,8 +193,19 @@ describe('Auth', () => {
 
   describe('POST /users/login', () => {
     it('should return 400 error if email is empty', (done) => {
+      const { username, ...partialUserDetails } = testUser;
+      chai.request(app).post('/api/v1/auth/login')
+        .send(partialUserDetails)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('message').eql('Login successful');
+          done();
+        });
+    });
+
+    it('should return 400 error if email is empty', (done) => {
       const { email, ...partialUserDetails } = testUser;
-      chai.request(app).post('/api/users/login')
+      chai.request(app).post('/api/v1/auth/login')
         .send(partialUserDetails)
         .end((err, res) => {
           res.should.have.status(400);
@@ -213,7 +224,7 @@ describe('Auth', () => {
         password: 'haggsff354'
       };
 
-      chai.request(app).post('/api/users/login')
+      chai.request(app).post('/api/v1/auth/login')
         .send(invalidEmail)
         .end((err, res) => {
           res.should.have.status(400);
@@ -227,7 +238,7 @@ describe('Auth', () => {
 
     it('should return 400 error if password is empty', (done) => {
       const { password, ...partialUserDetails } = testUser;
-      chai.request(app).post('/api/users/login')
+      chai.request(app).post('/api/v1/auth/login')
         .send(partialUserDetails)
         .end((err, res) => {
           res.should.have.status(400);
@@ -246,7 +257,7 @@ describe('Auth', () => {
         password: 'hdhhfhh.%fjkkd'
       };
 
-      chai.request(app).post('/api/users/login')
+      chai.request(app).post('/api/v1/auth/login')
         .send(invalidPassword)
         .end((err, res) => {
           res.should.have.status(400);
@@ -265,7 +276,7 @@ describe('Auth', () => {
         password: 'hdh3fht'
       };
 
-      chai.request(app).post('/api/users/login')
+      chai.request(app).post('/api/v1/auth/login')
         .send(invalidPassword)
         .end((err, res) => {
           res.should.have.status(400);

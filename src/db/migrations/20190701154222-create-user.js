@@ -48,7 +48,7 @@ module.exports = {
       required: false,
       allowNull: true
     },
-    encripted: {
+    verificationToken: {
       type: Sequelize.STRING,
       unique: true
     },

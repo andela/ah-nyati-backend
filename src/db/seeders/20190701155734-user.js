@@ -7,7 +7,7 @@ module.exports = {
     bio: 'local man is stuck in traffic',
     isVerified: true,
     password: 'password',
-    encripted: '',
+    verificationToken: '',
     imageUrl: 'image.png'
   },
   ], {}),

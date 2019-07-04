@@ -66,12 +66,28 @@ class UserController {
         data: [{ token, newUser }],
       });
     } catch (err) {
-      console.log(err);
       return res.status(500).json({
         status: 500,
         message: 'Internal server error',
       });
     }
+  }
+
+  /**
+   * @description Logs in a user
+   * @static
+   * @async
+   *
+   * @param {object} req - login request object
+   * @param {object} res - login response object
+   *
+   * @returns {object} login details
+   * @memberof UserController
+   */
+  static async login(req, res) {
+    return res.status(200).json({
+      message: 'Login successful',
+    });
   }
 
   /**
