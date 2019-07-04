@@ -5,7 +5,13 @@ import cors from 'cors';
 import errorhandler from 'errorhandler';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
+import passport from 'passport';
 import config from './db/config/config';
+import {
+  googleStrategy, facebookStrategy, twitterStrategy, SerializeSetUp
+} from './config/social_config';
+import Routes from './routes/index';
+
 
 const { isProduction, port } = config;
 
@@ -55,6 +61,26 @@ app.use(
     saveUninitialized: false
   })
 );
+
+
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
+
+passport.deserializeUser((user, done) => {
+  done(null, user);
+});
+SerializeSetUp();
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+app.use('/api', Routes);
+
+
+passport.use(googleStrategy);
+passport.use(facebookStrategy);
+passport.use(twitterStrategy);
 
 if (!isProduction) {
   app.use(errorhandler());

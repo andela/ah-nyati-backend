@@ -42,6 +42,11 @@ module.exports = {
       required: true,
       allowNull: false
     },
+    social: {
+      type: Sequelize.STRING,
+      required: false,
+      allowNull: true
+    },
     token: {
       type: Sequelize.STRING,
       required: true,

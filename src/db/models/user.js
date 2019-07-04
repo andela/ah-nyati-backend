@@ -23,6 +23,9 @@ module.exports = (sequelize, DataTypes) => {
     bio: {
       type: DataTypes.STRING
     },
+    social: {
+      type: DataTypes.STRING,
+    },
     image_url: {
       type: DataTypes.STRING,
       required: true

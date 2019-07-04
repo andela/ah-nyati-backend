@@ -10,7 +10,7 @@
     "coveralls-coverage": "coveralls < lcov.info",
     "coverage": "nyc npm test && npm run generate-lcov && npm run coveralls-coverage",
     "start": "npm run build && node lib server",
-    "start:dev": "nodemon --exec babel-node src server",
+    "start:dev": "nodemon --exec babel-node src/server",
     "migrate": "sequelize db:migrate",
     "undo:migrate": "sequelize db:migrate:undo:all",
     "seed": "sequelize db:seed:all"
@@ -19,6 +19,7 @@
   "license": "MIT",
   "dependencies": {
     "@babel/polyfill": "^7.4.3",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
@@ -28,15 +29,19 @@
     "errorhandler": "^1.5.0",
     "express": "^4.16.3",
     "express-jwt": "^5.3.1",
-    "express-session": "^1.15.6",
-    "jsonwebtoken": "^8.3.0",
+    "express-session": "^1.16.2",
+    "jsonwebtoken": "^8.5.1",
     "method-override": "^2.3.10",
     "methods": "^1.1.2",
     "mocha": "^6.1.4",
     "mongoose": "^5.2.2",
     "mongoose-unique-validator": "^2.0.1",
+    "nock": "^10.0.6",
     "passport": "^0.4.0",
+    "passport-facebook": "^3.0.0",
+    "passport-google-oauth20": "^2.0.0",
     "passport-local": "^1.0.0",
+    "passport-twitter": "^1.0.4",
     "pg": "^7.11.0",
     "pg-hstore": "^2.3.3",
     "request": "^2.87.0",
@@ -47,17 +52,18 @@
     "underscore": "^1.9.1"
   },
   "devDependencies": {
-    "coveralls": "^3.0.4",
-    "nyc": "^14.1.1",
-    "eslint": "^5.13.0",
-    "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-plugin-import": "^2.16.0",
     "@babel/cli": "^7.4.3",
     "@babel/core": "^7.4.3",
     "@babel/node": "^7.2.2",
     "@babel/preset-env": "^7.4.3",
     "@babel/register": "^7.4.0",
+    "coveralls": "^3.0.4",
+    "eslint": "^5.13.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.16.0",
+    "faker": "^4.1.0",
     "morgan": "^1.9.1",
-    "nodemon": "^1.19.1"
+    "nodemon": "^1.19.1",
+    "nyc": "^14.1.1"
   }
 }
