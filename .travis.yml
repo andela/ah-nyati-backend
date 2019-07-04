@@ -1,6 +1,4 @@
 --- 
-after_success: 
-  - "npm run coverage"
 app: 
   master: ah-nyati-backend
   staging: ah-nyati-backend-staging
@@ -25,5 +23,7 @@ node_js:
   - node
 script: 
   - "npm run test"
+after_success: 
+  - "npm run coverage"
 services: 
   - postgresql
