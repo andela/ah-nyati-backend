@@ -3,16 +3,16 @@ module.exports = (sequelize, DataTypes) => {
     title: DataTypes.STRING,
     slug: DataTypes.STRING,
     body: DataTypes.TEXT,
-    tag_list: DataTypes.STRING
+    tagList: DataTypes.STRING
   }, {});
   Article.associate = (models) => {
     Article.belongsTo(models.User, {
-      foreignKey: 'user_id',
+      foreignKey: 'userId',
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE'
     });
     Article.belongsTo(models.Category, {
-      foreignKey: 'cat_id',
+      foreignKey: 'catId',
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE'
     });
