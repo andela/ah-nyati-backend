@@ -1,4 +1,43 @@
 {
-    "name": "Aurthors Haven",
-    "description": "A Social platform for the creative at heart"
+    "name": "ah-nyati-backend",
+    "description": "A Social platform for the creative at heart",
+    "repository": "https://github.com/andela/ah-nyati-backend",
+    "scripts": {},
+    "env": {
+        
+        "DATABASE_DBNAME": {
+            "required": true
+        },
+        
+        "DATABASE_PASSWORD": {
+            "required": true
+        },
+        "DATABASE_USERNAME": {
+            "required": true
+        },
+        "GOOGLE_CLIENT_ID": {
+            "required": false
+        },
+        "GOOGLE_CLIENT_SECRET": {
+            "required": false
+        }
+    },
+    "formation": {
+        "web": {
+            "quantity": 1
+        }
+    },
+    "addons": [
+        {
+          "plan": "heroku-postgresql",
+          "options": {
+          "version": "9.5"
+        }
+      }
+    ],
+    "buildpacks": [
+        {
+            "url": "heroku/nodejs"
+        }
+    ]
 }
