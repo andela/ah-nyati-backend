@@ -1,19 +1,22 @@
-/* eslint-disable prefer-destructuring */
 import { User } from '../db/models';
 import { generateToken, hashPassword } from '../helpers/helpers';
 
-
 /**
- * @class social Login Controller
- */
-
-// eslint-disable-next-line require-jsdoc
+ *@description - class
+  * @param {object} req
+  * @param {object} res
+  * @returns {object} response
+  */
 export default class socialController {
-  // eslint-disable-next-line require-jsdoc
+  /**
+ *@description - class
+  * @param {object} req
+  * @param {object} res
+  * @returns {object} response
+  */
   static async socialUser(req, res) {
     try {
       const userData = req.authInfo;
-      console.log(userData);
       if (userData.emails === undefined) {
         return res.status(400).send('Email not found');
       }
@@ -25,14 +28,10 @@ export default class socialController {
 
       if (displayName) {
         firstname = displayName.split(' ')[0];
-        lastname = displayName.split(' ')[1];
+        lastname = displayName.split(' ')[0];
       } else {
         firstname = userData.name.familyName;
         lastname = userData.name.givenName;
-      }
-
-      if (!firstname || !lastname) {
-        return res.status(400).send('Firstname or Lastname not found');
       }
 
       const user = await User.findOrCreate({
@@ -46,6 +45,7 @@ export default class socialController {
           social: userData.provider
         }
       });
+
       if (!user) {
         return res.status(404).send('user not found');
       }

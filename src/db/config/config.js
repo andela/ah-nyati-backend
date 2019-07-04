@@ -24,6 +24,25 @@ module.exports = {
     host: process.env.DATABASE_HOST,
     dialect: 'postgres'
   },
+  googleConfig: {
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: process.env.GOOGLE_CALLBACK_URL
+  },
+  facebookConfig: {
+    clientID: process.env.FACEBOOK_CLIENT_ID,
+    clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
+    callbackURL: process.env.FACEBOOK_CALLBACK_URL,
+    profileFields: ['id', 'name', 'displayName', 'email', 'photos']
+  },
+  twitterConfig: {
+    consumerKey: process.env.TWITTER_CONSUMER_KEY,
+    consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
+    callbackURL: process.env.TWITTER_CALLBACK_URL,
+    includeEmail: true,
+    includeName: true
+  },
+
   isProduction: process.env.NODE_ENV === 'production',
   port: process.env.PORT || 3000,
 };
