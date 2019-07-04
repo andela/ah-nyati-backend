@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
     social: {
       type: DataTypes.STRING,
     },
-    image_url: {
+    imageUrl: {
       type: DataTypes.STRING,
       required: true
     },
