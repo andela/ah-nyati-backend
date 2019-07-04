@@ -9,12 +9,12 @@ module.exports = {
     firstname: {
       type: Sequelize.STRING,
       required: true,
-      allowNull: false
+      allowNull: true
     },
     lastname: {
       type: Sequelize.STRING,
       required: true,
-      allowNull: false
+      allowNull: true
     },
     username: {
       type: Sequelize.STRING,
@@ -33,25 +33,24 @@ module.exports = {
       required: true,
       allowNull: false
     },
-    is_verified: {
+    isVerified: {
       type: Sequelize.BOOLEAN,
-      required: true,
-      allowNull: false
+      required: false,
+      allowNull: true
     },
-    image_url: {
+    imageUrl: {
       type: Sequelize.STRING,
-      required: true,
-      allowNull: false
+      required: false,
+      allowNull: true
     },
     bio: {
       type: Sequelize.STRING,
-      required: true,
-      allowNull: false
+      required: false,
+      allowNull: true
     },
-    token: {
+    encripted: {
       type: Sequelize.STRING,
-      required: true,
-      allowNull: false
+      unique: true
     },
     createdAt: {
       allowNull: false,

@@ -24,6 +24,6 @@ module.exports = {
     host: process.env.DATABASE_HOST,
     dialect: 'postgres'
   },
-  isProduction: process.env.NODE_ENV === 'production',
+  // isProduction: process.env.NODE_ENV === 'production',
   port: process.env.PORT || 3000,
 };
