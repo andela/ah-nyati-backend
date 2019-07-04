@@ -23,7 +23,10 @@ node_js:
   - node
 script: 
   - "npm run test"
+<<<<<<< HEAD
 after_success: 
   - "npm run coverage"
+=======
+>>>>>>> 6c4254057d6dd965acd4da8e9d66d405ffb0c6ce
 services: 
   - postgresql
