@@ -6,12 +6,12 @@ module.exports = {
       primaryKey: true,
       type: Sequelize.INTEGER
     },
-    firstname: {
+    firstName: {
       type: Sequelize.STRING,
       required: true,
       allowNull: false
     },
-    lastname: {
+    lastName: {
       type: Sequelize.STRING,
       required: true,
       allowNull: false
@@ -27,12 +27,12 @@ module.exports = {
       required: true,
       allowNull: false
     },
-    is_verified: {
+    isVerified: {
       type: Sequelize.BOOLEAN,
       required: true,
       allowNull: false
     },
-    image_url: {
+    imageUrl: {
       type: Sequelize.STRING,
       required: true,
       allowNull: false
