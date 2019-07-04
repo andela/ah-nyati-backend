@@ -6,18 +6,18 @@ module.exports = {
     bio: 'local man is stuck in traffic',
     isVerified: true,
     password: 'password',
-    token: '',
+    verificationToken: '',
     imageUrl: 'image.png'
   },
   {
-    firstname: 'Ikenna',
-    lastname: 'Isaiah',
+    firstName: 'Ikenna',
+    lastName: 'Isaiah',
     email: 'cavdyofficials@gmail.com',
     bio: 'testing',
-    is_verified: true,
+    isVerified: true,
     password: 'password',
-    token: '',
-    image_url: 'image.png'
+    verificationToken: '',
+    imageUrl: 'image.png'
   },
   ], {}),
   down: queryInterface => queryInterface.bulkDelete('Users', null, {})
