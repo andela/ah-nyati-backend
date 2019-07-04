@@ -42,6 +42,11 @@ module.exports = {
     includeEmail: true,
     includeName: true
   },
+  githubConfig: {
+    clientID: process.env.GITHUB_CLIENT_ID,
+    clientSecret: process.env.GITHUB_CLIENT_SECRET,
+    callbackURL: process.env.GITHUB_CALLBACK_URL,
+  },
 
   isProduction: process.env.NODE_ENV === 'production',
   port: process.env.PORT || 3000,

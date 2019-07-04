@@ -8,7 +8,7 @@ import swaggerUi from 'swagger-ui-express';
 import passport from 'passport';
 import config from './db/config/config';
 import {
-  googleStrategy, facebookStrategy, twitterStrategy, SerializeSetUp
+  googleStrategy, facebookStrategy, twitterStrategy, gitHubStrategy, SerializeSetUp
 } from './config/social_config';
 import Routes from './routes/index';
 
@@ -81,6 +81,7 @@ app.use('/api', Routes);
 passport.use(googleStrategy);
 passport.use(facebookStrategy);
 passport.use(twitterStrategy);
+passport.use(gitHubStrategy);
 
 if (!isProduction) {
   app.use(errorhandler());
