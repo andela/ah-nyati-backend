@@ -19,7 +19,7 @@ describe('Testing Password Reset Controller', () => {
         const response = await chai.request(app)
           .post(`${passwordResetAuth}sendResetToken`)
           .send({
-            email: 'john.doe@andela.com'
+            email: 'john.doe2@andela.com'
           });
         expect(response).to.be.an('object');
         expect(response).to.have.status(200);
@@ -33,7 +33,7 @@ describe('Testing Password Reset Controller', () => {
         const response = await chai.request(app)
           .post(`${passwordResetAuth}sendResetToken`)
           .send({
-            email: 'john.doe@andela4.com'
+            email: 'john.doe2@andela4.com'
           });
         expect(response).to.be.an('object');
         expect(response).to.have.status(404);
@@ -47,7 +47,7 @@ describe('Testing Password Reset Controller', () => {
         const response = await chai.request(app)
           .post(`${passwordResetAuth}resendToken`)
           .send({
-            email: 'john.doe@andela.com'
+            email: 'john.doe2@andela.com'
           });
         expect(response).to.be.an('object');
         expect(response).to.have.status(200);
@@ -61,7 +61,7 @@ describe('Testing Password Reset Controller', () => {
         const response = await chai.request(app)
           .post(`${passwordResetAuth}resendToken`)
           .send({
-            email: 'john.doe@andela4.com'
+            email: 'john.doe2@andela4.com'
           });
         expect(response).to.be.an('object');
         expect(response).to.have.status(404);
@@ -74,7 +74,7 @@ describe('Testing Password Reset Controller', () => {
       async () => {
         const user = await User.findOne({
           where: {
-            email: 'john.doe@andela.com'
+            email: 'john.doe2@andela.com'
           }
         });
         const resetToken = user.verificationToken;
