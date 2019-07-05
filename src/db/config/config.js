@@ -26,4 +26,5 @@ module.exports = {
   },
   isProduction: process.env.NODE_ENV === 'production',
   port: process.env.PORT || 3000,
+  GENERATE_SECRET: process.env.GENERATE_SECRET
 };

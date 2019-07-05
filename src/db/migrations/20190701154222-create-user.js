@@ -42,7 +42,7 @@ module.exports = {
       required: true,
       allowNull: false
     },
-    token: {
+    verificationToken: {
       type: Sequelize.STRING,
       required: true,
       allowNull: false
