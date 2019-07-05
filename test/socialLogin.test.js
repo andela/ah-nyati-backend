@@ -2,7 +2,7 @@ import chai, { expect } from 'chai';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import socialController from '../src/controllers/socialController';
-import { randomSocialUser, randomTwitterUser } from './mockUser';
+import { randomSocialUser, randomTwitterUser } from './mockSocialUser';
 import { User } from '../src/db/models';
 
 chai.use(sinonChai);
