@@ -13,4 +13,11 @@ describe('server', () => {
         done();
       });
   });
+  it('Route not found', (done) => {
+    chai.request(app).get('/error')
+      .end((err, res) => {
+        res.should.have.status(404);
+        done();
+      });
+  });
 });
