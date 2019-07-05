@@ -9,6 +9,15 @@ module.exports = {
     password: 'password',
     verificationToken: '',
     imageUrl: 'image.png'
+  }, {
+    firstName: 'Cavdy',
+    lastName: 'Ghost',
+    email: 'cavdyofficials@gmail.com',
+    bio: '#ghost',
+    isVerified: true,
+    password: 'password',
+    verificationToken: '',
+    imageUrl: 'image.png'
   },
   ], {}),
   down: queryInterface => queryInterface.bulkDelete('Users', null, {})
