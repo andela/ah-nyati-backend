@@ -25,9 +25,11 @@ export default class socialController {
 
 
       let firstName, lastName;
+      let lName;
       const { displayName } = userData;
       if (displayName) {
-        [firstName, lastName] = displayName.split(' ');
+        [firstName, lName] = displayName.split(' ');
+        lastName = lName === undefined ? '' : lName;
       } else {
         firstName = userData.name.familyName;
         lastName = userData.name.givenName;

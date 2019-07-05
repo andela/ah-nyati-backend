@@ -8,12 +8,12 @@ module.exports = {
     },
     firstName: {
       type: Sequelize.STRING,
-      required: true,
+      required: false,
       allowNull: false
     },
     lastName: {
       type: Sequelize.STRING,
-      required: true,
+      required: false,
       allowNull: false
     },
     email: {
