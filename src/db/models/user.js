@@ -33,8 +33,12 @@ module.exports = (sequelize, DataTypes) => {
       required: false
     },
     verificationToken: {
+<<<<<<< HEAD
       type: DataTypes.STRING,
       required: false,
+=======
+      type: DataTypes.STRING
+>>>>>>> feature(user password reset):user password reset
     }
   }, {});
   User.associate = (models) => {

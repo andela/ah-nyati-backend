@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import '@babel/polyfill';
 import chaiHttp from 'chai-http';
 import chai, {
@@ -8,6 +9,13 @@ import dotenv from 'dotenv';
 import {
   User
 } from '../src/db/models';
+=======
+import chaiHttp from 'chai-http';
+import chai, { expect } from 'chai';
+import dotenv from 'dotenv';
+
+import { User } from '../src/db/models';
+>>>>>>> feature(user password reset):user password reset
 
 import app from '../src/server';
 

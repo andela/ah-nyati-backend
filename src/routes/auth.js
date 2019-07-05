@@ -14,5 +14,19 @@ router.post('/auth/resendToken',
 router.post('/auth/resetPassword',
   generateToken.verifyToken,
   AuthController.resetPassword);
+router.post(
+  '/sendResetToken',
+  generateToken.tokenGenerate,
+  AuthController.sendResetToken
+);
+router.post(
+  '/resendToken',
+  AuthController.resendToken
+);
+router.post(
+  '/resetPassword',
+  generateToken.verifyToken,
+  AuthController.resetPassword
+);
 
 export default router;
