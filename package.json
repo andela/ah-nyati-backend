@@ -5,8 +5,7 @@
   "main": "server.js",
   "scripts": {
     "build": "babel src -d lib",
-    "pretest": "export NODE_ENV=test && npm run undo:migrate && npm run migrate && npm run seed --exit",
-    "test": "export NODE_ENV=test && mocha --timeout 50000 --require @babel/register --exit",
+    "test": "mocha --timeout 50000 --require @babel/register --exit",
     "generate-lcov": "nyc report --reporter=text-lcov > lcov.info",
     "coveralls-coverage": "coveralls < lcov.info",
     "coverage": "nyc npm test && npm run generate-lcov && npm run coveralls-coverage",
@@ -22,6 +21,11 @@
     "@babel/polyfill": "^7.4.3",
     "bcrypt": "^3.0.6",
     "body-parser": "^1.18.3",
+    "@babel/cli": "^7.4.3",
+    "@babel/core": "^7.4.3",
+    "@babel/node": "^7.2.2",
+    "@babel/preset-env": "^7.4.3",
+    "@babel/register": "^7.4.0",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
     "cors": "^2.8.4",
@@ -57,11 +61,6 @@
     "eslint": "^5.13.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.16.0",
-    "@babel/cli": "^7.4.3",
-    "@babel/core": "^7.4.3",
-    "@babel/node": "^7.2.2",
-    "@babel/preset-env": "^7.4.3",
-    "@babel/register": "^7.4.0",
     "morgan": "^1.9.1",
     "nodemon": "^1.19.1"
   }

@@ -8,49 +8,43 @@ module.exports = {
     },
     firstName: {
       type: Sequelize.STRING,
-      required: true,
-      allowNull: true
+      required: false,
     },
     lastName: {
       type: Sequelize.STRING,
-      required: true,
-      allowNull: true
+      required: false,
     },
     userName: {
       type: Sequelize.STRING,
       required: true,
-      allowNull: false,
       unique: true
     },
     email: {
       type: Sequelize.STRING,
       required: true,
-      allowNull: false,
       unique: true
     },
     password: {
       type: Sequelize.STRING,
       required: true,
-      allowNull: false
     },
     isVerified: {
       type: Sequelize.BOOLEAN,
       required: false,
-      allowNull: true
+      defaultValue: false
+
     },
     imageUrl: {
       type: Sequelize.STRING,
       required: false,
-      allowNull: true
     },
     bio: {
       type: Sequelize.STRING,
       required: false,
-      allowNull: true
     },
     verificationToken: {
       type: Sequelize.STRING,
-      unique: true
+      required: false,
     },
     createdAt: {
       allowNull: false,

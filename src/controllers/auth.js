@@ -1,3 +1,6 @@
+// import auth from '../middleware/Auth';
+// import { Blacklist, User } from '../db/models';
+
 import passwordHash from 'password-hash';
 import { Blacklist, User } from '../db/models';
 import Auth from '../helpers/helpers';
@@ -58,14 +61,46 @@ class AuthController {
     }
   }
 
-  // eslint-disable-next-line valid-jsdoc
+/**
+ *
+ *
+ * @static
+ * @param {object} req
+ * @param {object} res
+ * @returns {object} res
+ * @memberof AuthController
+ */
+  static async login(req, res) {
+    const { email } = req.body;
+    try {
+      const user = await User.findOne({
+        where: { email },
+        attributes: { exclude: ['password'] }
+      });
+      const { id } = user;
+      const userToken = auth.authenticate(id);
+      if (user) {
+        return res.status(200).json({
+          status: 200,
+          message: 'User successfully Logged In',
+          data: userToken
+        });
+      }
+    } catch (error) {
+      return res.status(500).json({
+        status: 500,
+        message: error,
+      });
+    }
+  }
+
   /**
   *
   *@description Logout a user
   * @static
   * @param {object} req
   * @param {object} res
-  * @returns {object}
+  * @returns {object} res
   * @memberof AuthController
   */
   static async logOut(req, res) {
@@ -74,15 +109,15 @@ class AuthController {
       const createdToken = await Blacklist.create({
         token
       });
-      return res.status(201).json({
-        status: 201,
+      return res.status(200).json({
+        status: 200,
         message: 'User successfully Logged Out',
         data: createdToken
       });
     } catch (error) {
       return res.status(500).json({
         status: 500,
-        message: 'Internal server error',
+        data: error,
       });
     }
   }

@@ -27,4 +27,6 @@ module.exports = {
   secret: process.env.SECRET || 'secret',
   isProduction: process.env.NODE_ENV === 'production',
   port: process.env.PORT || 3000,
+  secret: process.env.SECRET,
+
 };
