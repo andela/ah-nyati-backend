@@ -1,7 +1,8 @@
 import passwordHash from 'password-hash';
 import sendEmail from '../helpers/mail/mailer';
 import mailTemplate from '../helpers/mail/mailTemplate';
-import { User } from '../db/models';
+import { Blacklist, User } from '../db/models';
+import auth from '../middleware/Auth';
 
 /**
  *
@@ -9,6 +10,82 @@ import { User } from '../db/models';
  * @class UserController
  */
 class AuthController {
+  /**
+   *
+   *
+   * @static
+   * @param {object} req
+   * @param {object} res
+   * @returns {object} res
+   * @memberof AuthController
+   */
+  static async login(req, res) {
+    const {
+      email,
+      password
+    } = req.body;
+    try {
+      const user = await User.findOne({
+        where: {
+          email
+        }
+      });
+
+      if (user !== null) {
+        const logUser = await User.findOne({
+          where: {
+            email,
+            password
+          }
+        });
+
+        const userToken = await auth.authenticate(logUser);
+        if (logUser !== null) {
+          return res.status(200).json({
+            status: 200,
+            message: 'User successfully Logged In',
+            data: userToken
+          });
+        }
+      }
+    } catch (error) {
+      return res.status(500).json({
+        status: 500,
+        message: error,
+      });
+    }
+  }
+
+  /**
+   *
+   *@description Logout a user
+   * @static
+   * @param {object} req
+   * @param {object} res
+   * @returns {object} res
+   * @memberof AuthController
+   */
+  static async logOut(req, res) {
+    const {
+      token
+    } = req.headers || req.body || req.query;
+    try {
+      const createdToken = await Blacklist.create({
+        token
+      });
+      return res.status(200).json({
+        status: 200,
+        message: 'User successfully Logged Out',
+        data: createdToken
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: 500,
+        data: error,
+      });
+    }
+  }
+
   /**
    *
    * @constructor
@@ -19,7 +96,9 @@ class AuthController {
    */
   static async sendResetToken(req, res) {
     try {
-      const { email } = req.body;
+      const {
+        email
+      } = req.body;
       const token = req.generate;
       const errors = {};
 
@@ -78,7 +157,9 @@ class AuthController {
    */
   static async resendToken(req, res) {
     try {
-      const { email } = req.body;
+      const {
+        email
+      } = req.body;
       const errors = {};
 
       // CHECK IF EMAIL EXIST
@@ -128,8 +209,12 @@ class AuthController {
    */
   static async resetPassword(req, res) {
     try {
-      const { resetToken } = req.query;
-      const { password } = req.body;
+      const {
+        resetToken
+      } = req.query;
+      const {
+        password
+      } = req.body;
       const hashPassword = passwordHash.generate(password);
 
       // find the token if it exist
