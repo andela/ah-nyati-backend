@@ -192,13 +192,27 @@ describe('Auth', () => {
   });
 
   describe('POST /users/login', () => {
-    it('should return 400 error if email is empty', (done) => {
+    it('should login a user', (done) => {
+      const validUser = { email: 'john.doe@andela.com', password: 'password23' };
+      chai.request(app).post('/api/v1/auth/login')
+        .send(validUser)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('message').eql('Login successful');
+          done();
+        });
+    });
+
+    it('should return 400 error if email or password is incorrect', (done) => {
       const { username, ...partialUserDetails } = testUser;
       chai.request(app).post('/api/v1/auth/login')
         .send(partialUserDetails)
         .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.have.property('message').eql('Login successful');
+          res.should.have.status(400);
+          res.body.should.have.property('errors');
+          res.body.should.be.an('object');
+          res.body.errors.signupDetails.should.be.an('array');
+          res.body.errors.signupDetails[0].should.eql('Email or password incorrect.');
           done();
         });
     });

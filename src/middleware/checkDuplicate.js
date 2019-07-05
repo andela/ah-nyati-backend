@@ -85,6 +85,53 @@ class CheckDuplicate {
       });
     }
   }
+
+  /**
+   * @description Checks whether input email and password exists in database
+   * @static
+   * @async
+   *
+   * @param {object} request - login request object
+   * @param {object} response - login response object
+   * @param {*} next - next function
+   *
+   * @returns {object} validatePassword
+   * @memberof CheckDuplicate
+   */
+  static async validatePassword(request, response, next) {
+    const { email, password } = request.body;
+    let correctUserDetails = [];
+
+
+    try {
+      correctUserDetails = await User.findAll({
+        where: {
+          email,
+          password
+        }
+      });
+
+      if (correctUserDetails.length < 1) {
+        const errorMsg = {
+          signupDetails: [
+            'Email or password incorrect.'
+          ],
+        };
+
+        return response.status(400).json({
+          message: 'Invalid request',
+          errors: errorMsg,
+        });
+      }
+
+      return next();
+    } catch (error) {
+      return response.status(500).json({
+        message: 'Internal server error',
+        errors: error,
+      });
+    }
+  }
 }
 
 export default CheckDuplicate;

@@ -6,7 +6,7 @@ import UserController from '../controllers/auth';
 
 const router = express.Router();
 const { usernameValidator, emailValidator, passwordValidator } = authValidator;
-const { checkExistingUser } = checkDuplicate;
+const { checkExistingUser, validatePassword } = checkDuplicate;
 
 router.post(
   '/auth/signup',
@@ -23,6 +23,7 @@ router.post(
   emailValidator,
   passwordValidator,
   validate,
+  validatePassword,
   UserController.login
 );
 
