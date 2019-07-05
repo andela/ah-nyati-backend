@@ -20,6 +20,24 @@
         },
         "GOOGLE_CLIENT_SECRET": {
             "required": false
+        },
+        "DATABASE_HOST": {
+            "required": true
+        },
+        "SENDGRID_API_KEY": {
+            "required": false
+        },
+        "GENERATE_SECRET": {
+            "required": false
+        },
+        "SECRET": {
+            "required": false
+        },
+        "DB_PORT": {
+            "required": false
+        },
+        "DATABASE_URL": {
+            "required": false
         }
     },
     "formation": {
