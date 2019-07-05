@@ -30,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       required: true
     },
-    token: {
+    verificationToken: {
       type: DataTypes.STRING
     }
   }, {});

@@ -41,7 +41,7 @@ export default class socialController {
           password,
           isVerified: false,
           bio: 'local man',
-          token: 'hgnvhmgknjgjgvhmbn',
+          verificationToken: 'hgnvhmgknjgjgvhmbn',
           email: userData.emails[0].value,
           imageUrl: userData.photos[0].value,
           social: userData.provider
