@@ -26,7 +26,6 @@ describe('User Controller', () => {
       .send(user)
       .end((err, res) => {
         res.should.have.status(200);
-        console.log(res.body)
         expect(res.body.message).equal('User successfully Logged In');
         expect(res.body).to.have.property('message');
         expect(res.body).to.have.property('data');
