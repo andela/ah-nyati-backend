@@ -2,23 +2,23 @@ import { Router } from 'express';
 import passport from 'passport';
 import socialLogin from '../controllers/socialController';
 
-const socialRouter = new Router();
+const socialRoute = new Router();
 
-socialRouter.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+socialRoute.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-socialRouter.get('/google/callback', passport.authenticate('google'), socialLogin.socialUser);
+socialRoute.get('/google/callback', passport.authenticate('google'), socialLogin.socialUser);
 
-socialRouter.get('/facebook', passport.authenticate('facebook', { scope: ['email'] }));
+socialRoute.get('/facebook', passport.authenticate('facebook', { scope: ['email'] }));
 
-socialRouter.get('/facebook/callback', passport.authenticate('facebook'), socialLogin.socialUser);
+socialRoute.get('/facebook/callback', passport.authenticate('facebook'), socialLogin.socialUser);
 
-socialRouter.get('/twitter', passport.authenticate('twitter', { scope: ['email'] }));
+socialRoute.get('/twitter', passport.authenticate('twitter', { scope: ['email'] }));
 
-socialRouter.get('/twitter/callback', passport.authenticate('twitter'), socialLogin.socialUser);
+socialRoute.get('/twitter/callback', passport.authenticate('twitter'), socialLogin.socialUser);
 
-socialRouter.get('/github', passport.authenticate('github', { scope: ['email'] }));
+socialRoute.get('/github', passport.authenticate('github', { scope: ['email'] }));
 
-socialRouter.get('/github/callback', passport.authenticate('github'), socialLogin.socialUser);
+socialRoute.get('/github/callback', passport.authenticate('github'), socialLogin.socialUser);
 
 
-export default socialRouter;
+export default socialRoute;
