@@ -8,6 +8,11 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       required: false
     },
+    userName: {
+      type: DataTypes.STRING,
+      required: true,
+      unique: true
+    },
     email: {
       type: DataTypes.STRING,
       required: true,
@@ -28,10 +33,11 @@ module.exports = (sequelize, DataTypes) => {
     },
     imageUrl: {
       type: DataTypes.STRING,
-      required: true
+      required: false
     },
     verificationToken: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      required: false,
     }
   }, {});
   User.associate = (models) => {

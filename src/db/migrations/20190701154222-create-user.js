@@ -16,31 +16,32 @@ module.exports = {
       required: false,
       allowNull: false
     },
+    userName: {
+      type: Sequelize.STRING,
+      required: true,
+      unique: true
+    },
     email: {
       type: Sequelize.STRING,
       required: true,
-      allowNull: false,
       unique: true
     },
     password: {
       type: Sequelize.STRING,
       required: true,
-      allowNull: false
     },
     isVerified: {
       type: Sequelize.BOOLEAN,
-      required: true,
-      allowNull: false
+      required: false,
+      defaultValue: false
     },
     imageUrl: {
       type: Sequelize.STRING,
-      required: true,
-      allowNull: false
+      required: false,
     },
     bio: {
       type: Sequelize.STRING,
-      required: true,
-      allowNull: false
+      required: false,
     },
     social: {
       type: Sequelize.STRING,
@@ -49,8 +50,7 @@ module.exports = {
     },
     verificationToken: {
       type: Sequelize.STRING,
-      required: true,
-      allowNull: false
+      required: false,
     },
     createdAt: {
       allowNull: false,

@@ -40,6 +40,7 @@ export default class socialController {
         defaults: {
           firstName,
           lastName,
+          userName: userData.emails[0].value,
           password,
           isVerified: false,
           bio: ' ',

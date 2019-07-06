@@ -52,7 +52,7 @@ describe('GET Social Login', () => {
     expect(response.json.calledOnce).to.eql(true);
   });
 
-  it('should save a new twitter user to the database', async () => {
+  it('should not save a new twitter user to the database', async () => {
     const request = {
       authInfo: randomTwitterUser
     };
