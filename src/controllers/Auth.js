@@ -22,8 +22,7 @@ class AuthController {
         where: { email },
         attributes: { exclude: ['password'] }
       });
-      const { id } = user;
-      const userToken = auth.authenticate(id);
+      const userToken = auth.authenticate(user);
       if (user) {
         return res.status(200).json({
           status: 200,

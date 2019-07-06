@@ -16,28 +16,46 @@
             "required": true
         },
         "GOOGLE_CLIENT_ID": {
-            "required": false
+            "required": true
         },
         "GOOGLE_CLIENT_SECRET": {
-            "required": false
+            "required": true
         },
         "DATABASE_HOST": {
             "required": true
         },
         "SENDGRID_API_KEY": {
-            "required": false
+            "required": true
         },
         "GENERATE_SECRET": {
-            "required": false
+            "required": true
         },
         "SECRET": {
-            "required": false
+            "required": true
         },
         "DB_PORT": {
-            "required": false
+            "required": true
         },
         "DATABASE_URL": {
-            "required": false
+            "required": true
+        },
+        "FACEBOOK_CLIENT_ID": {
+            "required": true
+        },
+        "FACEBOOK_CLIENT_SECRET": {
+            "required": true
+        },
+        "TWITTER_CONSUMER_KEY": {
+            "required": true
+        },
+        "TWITTER_CONSUMER_SECRET": {
+            "required": true
+        },
+        "GITHUB_CLIENT_ID": {
+            "required": true
+        },
+        "GITHUB_CLIENT_SECRET": {
+            "required": true
         }
     },
     "formation": {
