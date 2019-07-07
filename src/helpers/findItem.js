@@ -1,6 +1,7 @@
-import { Article } from '../db/models';
+import { Article, User } from '../db/models';
 
 /**
+ *
  *@description This class checks a table for the presence or absence of a row
  * @class FindItem
  */
@@ -25,6 +26,60 @@ class FindItem {
       return res.status(404).json({
         status: 404,
         error: 'Article not found',
+      });
+    }
+    return next();
+  }
+
+  /**
+   *@description This function checks if a user exists
+   * @param {object} req
+   * @param {object} res
+   * @param {function} next
+   * @returns {function} next
+   * @memberof FindItem
+   */
+  static async findUser(req, res, next) {
+    const { userId } = req.params;
+
+    const findUser = await User.findOne({
+      where: {
+        id: userId
+      }
+    });
+
+    if (!findUser) {
+      // RETURN ERROR IF THE USER DOES NOT EXIST
+      const errors = {};
+      errors.user = 'user does not exist';
+      return res.status(404).json({
+        status: 404,
+        data: errors,
+      });
+    }
+    req.userResponse = findUser;
+    return next();
+  }
+
+  /**
+   *@description This function checks if a user is trying to follow themselves
+   * @param {object} req
+   * @param {object} res
+   * @param {function} next
+   * @returns {function} next
+   * @memberof FindItem
+   */
+  static async checkIfFollowingSelf(req, res, next) {
+    const userToken = req.user;
+    const { userId } = req.params;
+
+    if (userToken === Number(userId)) {
+      // RETURN ERROR IF USER IS TRYING TO FOLLOW THEMSELVES
+      const errors = {};
+      errors.follow = 'you can not follow yourself';
+      return res.status(400).json({
+        status: 400,
+        data: errors,
       });
     }
     return next();

@@ -4,6 +4,10 @@ import config from '../db/config/config';
 
 const { secret } = config;
 
+/**
+ * @static
+ * @constructor {object} auth
+ */
 const auth = {
   /**
    * @static

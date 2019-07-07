@@ -1,0 +1,92 @@
+import '@babel/polyfill';
+import chaiHttp from 'chai-http';
+import chai, {
+  expect
+} from 'chai';
+import dotenv from 'dotenv';
+
+import app from '../src/server';
+
+dotenv.config();
+
+chai.use(chaiHttp);
+
+let token;
+
+describe('Testing Follow System Controller', () => {
+  describe('Testing follow and unfollow route controller', () => {
+    const followRoute = '/api/v1/user/';
+
+    // SIGN IN USER TO GET TOKEN
+    it('should login user successfully', (done) => {
+      const user = {
+        email: 'john.doe@andela.com',
+        password: 'password',
+      };
+      chai.request(app).post('/api/v1/auth/login')
+        .send(user)
+        .end((err, res) => {
+          token = res.body.token;
+          res.should.have.status(200);
+          res.body.data.should.be.an('object');
+          res.should.have.status(200);
+          res.body.message.should.be.a('string').eql('User Login successful');
+          done();
+        });
+    });
+
+    // TEST FOLLOW
+    it(
+      'user should follow user',
+      async () => {
+        const response = await chai.request(app)
+          .post(`${followRoute}follow/2`)
+          .set('token', token)
+          .send();
+        expect(response).to.be.an('object');
+        expect(response).to.have.status(200);
+        expect(response.body).to.have.property('data');
+      },
+    );
+
+    it(
+      'user should not follow themselves',
+      async () => {
+        const response = await chai.request(app)
+          .post(`${followRoute}follow/1`)
+          .set('token', token)
+          .send();
+        expect(response).to.be.an('object');
+        expect(response).to.have.status(400);
+        expect(response.body).to.have.property('data');
+      },
+    );
+
+    it(
+      'if user does not exist',
+      async () => {
+        const response = await chai.request(app)
+          .post(`${followRoute}follow/7`)
+          .set('token', token)
+          .send();
+        expect(response).to.be.an('object');
+        expect(response).to.have.status(404);
+        expect(response.body).to.have.property('data');
+      },
+    );
+
+    // UNFOLLOW TEST
+    it(
+      'user should unfollow user',
+      async () => {
+        const response = await chai.request(app)
+          .post(`${followRoute}follow/2`)
+          .set('token', token)
+          .send();
+        expect(response).to.be.an('object');
+        expect(response).to.have.status(200);
+        expect(response.body).to.have.property('data');
+      },
+    );
+  });
+});
