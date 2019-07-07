@@ -47,7 +47,7 @@ class TokenGenerator {
         if (err) {
           return res.status(400).json({
             status: 400,
-            message: 'token has expired',
+            message: 'invalid token',
           });
         }
         req.authorizedData = authorizedData;

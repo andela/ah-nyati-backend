@@ -12,6 +12,7 @@ module.exports = {
   }, {
     firstName: 'Cavdy',
     lastName: 'Ghost',
+    userName: 'Cavdy',
     email: 'cavdyofficials@gmail.com',
     bio: '#ghost',
     isVerified: true,

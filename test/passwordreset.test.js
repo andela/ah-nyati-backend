@@ -70,6 +70,20 @@ describe('Testing Password Reset Controller', () => {
     );
 
     it(
+      'should not resend password reset code if invalid',
+      async () => {
+        const response = await chai.request(app)
+          .post(`${passwordResetAuth}resendToken`)
+          .send({
+            email: 'john.doe@andela.com'
+          });
+        expect(response).to.be.an('object');
+        expect(response).to.have.status(400);
+        expect(response.body.message.token).to.equal('invalid request');
+      },
+    );
+
+    it(
       'should reset password',
       async () => {
         const user = await User.findOne({
@@ -99,7 +113,7 @@ describe('Testing Password Reset Controller', () => {
           });
         expect(response).to.be.an('object');
         expect(response).to.have.status(400);
-        expect(response.body.message).to.equal('token has expired');
+        expect(response.body.message).to.equal('invalid token');
       },
     );
   });

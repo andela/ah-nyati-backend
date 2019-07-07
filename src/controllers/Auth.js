@@ -1,8 +1,8 @@
 import passwordHash from 'password-hash';
-import sendEmail from '../helpers/mail/mailer';
-import mailTemplate from '../helpers/mail/mailTemplate';
-import { Blacklist, User } from '../db/models';
 import auth from '../middleware/Auth';
+import { Blacklist, User } from '../db/models';
+import sendEmail from '../helpers/mail/mailer';
+import resetTemplate from '../helpers/mail/mailTemplate/passwordResetTemplate';
 
 /**
  *
@@ -20,33 +20,20 @@ class AuthController {
    * @memberof AuthController
    */
   static async login(req, res) {
-    const {
-      email,
-      password
-    } = req.body;
+    const { email } = req.body;
     try {
       const user = await User.findOne({
-        where: {
-          email
-        }
+        where: { email },
+        attributes: { exclude: ['password'] }
       });
-
-      if (user !== null) {
-        const logUser = await User.findOne({
-          where: {
-            email,
-            password
-          }
+      const { id } = user;
+      const userToken = auth.authenticate(id);
+      if (user) {
+        return res.status(200).json({
+          status: 200,
+          message: 'User successfully Logged In',
+          data: userToken
         });
-
-        const userToken = await auth.authenticate(logUser);
-        if (logUser !== null) {
-          return res.status(200).json({
-            status: 200,
-            message: 'User successfully Logged In',
-            data: userToken
-          });
-        }
       }
     } catch (error) {
       return res.status(500).json({
@@ -66,9 +53,7 @@ class AuthController {
    * @memberof AuthController
    */
   static async logOut(req, res) {
-    const {
-      token
-    } = req.headers || req.body || req.query;
+    const { token } = req.headers || req.body || req.query;
     try {
       const createdToken = await Blacklist.create({
         token
@@ -118,9 +103,8 @@ class AuthController {
           }
         });
 
-        const html = mailTemplate(`${findUser.firstName} ${findUser.lastName}`, `
-          Your verification to is: ${token}
-        `);
+        const url = `${req.protocol}://${req.get('host')}/api/v1/auth/resetPassword?resetToken=${token}`;
+        const html = resetTemplate(findUser.userName, url);
 
         await sendEmail
           .sendEmail('do_not_reply@authorhaven.com',
@@ -170,18 +154,26 @@ class AuthController {
       });
 
       if (findUser !== null) {
-        const html = mailTemplate(`${findUser.firstName} ${findUser.lastName}`, `
-          Your verification to is: ${findUser.verificationToken}
-        `);
+        if (findUser.verificationToken !== '') {
+          const url = `${req.protocol}://${req.get('host')}/api/v1/auth/resetPassword?resetToken=${findUser.verificationToken}`;
+          const html = resetTemplate(findUser.userName, url);
 
-        await sendEmail
-          .sendEmail('do_not_reply@authorhaven.com',
-            email, 'Resend Password Reset', html);
+          await sendEmail
+            .sendEmail('do_not_reply@authorhaven.com',
+              email, 'Resend Password Reset', html);
 
-        // RETURN SUCCESS IF SUCCESS
-        return res.status(200).json({
-          status: 200,
-          message: 'reset code resent to your email',
+          // RETURN SUCCESS IF SUCCESS
+          return res.status(200).json({
+            status: 200,
+            message: 'reset code resent to your email',
+          });
+        }
+
+        // SET ERROR IF ERROR
+        errors.token = 'invalid request';
+        return res.status(400).json({
+          status: 400,
+          message: errors,
         });
       }
 
@@ -233,14 +225,6 @@ class AuthController {
             verificationToken: resetToken
           }
         });
-
-        const html = mailTemplate(`${findToken.firstName} ${findToken.lastName}`, `
-          You have successfully reset your password
-        `);
-
-        await sendEmail
-          .sendEmail('do_not_reply@authorhaven.com',
-            findToken.email, 'Password Reset Successful', html);
 
         // RETURN SUCCESS IF SUCCESS
         return res.status(200).json({
