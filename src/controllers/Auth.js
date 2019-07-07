@@ -7,7 +7,7 @@ import resetTemplate from '../helpers/mail/mailTemplate/passwordResetTemplate';
 /**
  *
  *
- * @class UserController
+ * @class AuthController
  */
 class AuthController {
   /**
@@ -110,14 +110,14 @@ class AuthController {
           .sendEmail('do_not_reply@authorhaven.com',
             email, 'Password Reset', html);
 
-        // RETURN SUCCESS IF SUCCESS
+        // RETURN SUCCESS IF SUCCESSFUL
         return res.status(200).json({
           status: 200,
           message: 'reset code successfully sent to email',
         });
       }
 
-      // SET ERROR IF ERROR
+      // SET ERROR IF EMAIL DOES NOT EXIST
       errors.email = 'email does not exist';
       return res.status(404).json({
         status: 404,
