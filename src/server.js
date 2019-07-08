@@ -7,12 +7,11 @@ import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import config from './db/config/config';
 import router from './routes/index';
+import triggerCronJob from './helpers/cronJobHelper';
 
 const { isProduction, port } = config;
-
 // Create global app object
 const app = express();
-
 const options = {
   definition: {
     openapi: '3.0.0',
@@ -33,6 +32,10 @@ const options = {
   apis: ['./routes/api/*.js'],
 };
 const swaggerSpec = swaggerJSDoc(options);
+
+// It triggers the cron job
+triggerCronJob();
+
 
 app.get('/api-docs.json', (req, res) => {
   res.setHeader('Content-Type', 'application/json');

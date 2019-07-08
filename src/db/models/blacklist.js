@@ -3,6 +3,10 @@ module.exports = (sequelize, DataTypes) => {
     token: {
       type: DataTypes.TEXT,
     },
+    isActive: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true
+    },
   }, {});
   Blacklist.associate = function(models) {
     // associations can be defined here

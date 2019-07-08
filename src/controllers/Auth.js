@@ -8,7 +8,7 @@ import { Blacklist, User } from '../db/models';
 class AuthController {
 /**
  *
- *
+ *@description logs in autheticated user
  * @static
  * @param {object} req
  * @param {object} res
@@ -46,18 +46,17 @@ class AuthController {
   * @param {object} req
   * @param {object} res
   * @returns {object} res
-  * @memberof AuthController
+  * @memberof UserController
   */
   static async logOut(req, res) {
     const { token } = req.headers || req.body || req.query;
     try {
-      const createdToken = await Blacklist.create({
+      await Blacklist.create({
         token
       });
       return res.status(200).json({
         status: 200,
         message: 'User successfully Logged Out',
-        data: createdToken
       });
     } catch (error) {
       return res.status(500).json({
