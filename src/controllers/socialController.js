@@ -9,10 +9,12 @@ import { generateToken, hashPassword } from '../helpers/helpers';
   */
 export default class socialController {
   /**
- *@description - class
+  * @description - Social Login/Signup
+  * @static
   * @param {object} req
   * @param {object} res
   * @returns {object} response
+  * @memberof socialController
   */
   static async socialUser(req, res) {
     try {
@@ -65,16 +67,19 @@ export default class socialController {
 
       const token = generateToken({
         id,
-        firstname,
-        lastname,
-        email,
-        bio,
-        image_url: image,
-      }, '1d');
+        email
+      }, '24h');
 
       return res.status(200).json({
         message: 'successful',
-        token
+        data: {
+          token,
+          firstname,
+          lastname,
+          bio,
+          image
+        }
+        
       });
     } catch (err) {
       return res.status(500).json({

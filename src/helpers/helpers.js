@@ -13,7 +13,7 @@ export const socialCallBack = (
   done(null, accessToken, profile);
 };
 
-export const generateToken = (payload, expiresIn = '7d') => jwt.sign(payload, process.env.SECRET, { expiresIn });
+export const generateToken = (payload, expiresIn = '24h') => jwt.sign(payload, process.env.SECRET, { expiresIn });
 
 export const hashPassword = (password) => {
   const salt = bcrypt.genSaltSync(10);
