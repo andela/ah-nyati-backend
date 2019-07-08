@@ -43,7 +43,7 @@ export default class socialController {
           lastName,
           userName: userData.emails[0].value,
           password,
-          isVerified: false,
+          isVerified: true,
           bio: '',
           verificationToken: '',
           email: userData.emails[0].value,
