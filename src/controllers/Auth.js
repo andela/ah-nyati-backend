@@ -4,15 +4,15 @@ import { Blacklist, User } from '../db/models';
 import template from '../helpers/mail/mailTemplate/signupEmailTemplate';
 import sendEmail from '../helpers/mail/mailer';
 import config from '../db/config/config';
+import resetTemplate from '../helpers/mail/mailTemplate/passwordResetTemplate';
 
 const { generateToken, verifyToken } = Auth;
 const { isTest } = config;
+
 /**
- *@description - AuthController class
-  * @param {object} req
-  * @param {object} res
-  * @returns {object} response
-  */
+ * @description Authentication Controller
+ * @class AuthController
+ */
 class AuthController {
   /**
   *
@@ -32,9 +32,9 @@ class AuthController {
       const { id, isVerified } = result;
       const token = await generateToken({ id, email, isVerified });
 
+      const url = `${req.protocol}://${req.get('host')}/api/v1/auth/verify/${token}`;
+      const message = template(userName, url);
       if (!isTest) {
-        const url = `${req.protocol}://${req.get('host')}/api/v1/auth/verify/${token}`;
-        const message = template(userName, url);
         const subject = 'Welcome to Authors Haven';
         await sendEmail
           .sendEmail(
@@ -166,6 +166,114 @@ class AuthController {
       return res.status(500).json({
         status: 500,
         data: error,
+      });
+    }
+  }
+
+  /**
+   *
+   * @description User should recieve a reset token email
+   * @constructor
+   * @static
+   * @param {object} req
+   * @param {object} res
+   * @returns {object} res
+   * @memberof AuthController
+   */
+  static async sendResetToken(req, res) {
+    try {
+      const user = req.userByEmail;
+
+      if (user.verificationToken === '') {
+        const token = req.generate;
+        await User.update({
+          verificationToken: token
+        }, {
+          where: {
+            email: user.email
+          }
+        });
+
+        const url = `${req.protocol}://${req.get('host')}/api/v1/auth/resetPassword?resetToken=${token}&email=${user.email}`;
+        const html = resetTemplate(user.userName, url);
+
+        await sendEmail
+          .sendEmail(
+            'do_not_reply@authorhaven.com',
+            user.email,
+            'Password Reset',
+            html
+          );
+
+        // RETURN SUCCESS IF SUCCESSFUL
+        return res.status(200).json({
+          status: 200,
+          message: 'reset code successfully sent to email',
+        });
+      }
+
+      const url = `${req.protocol}://${req.get('host')}/api/v1/auth/resetPassword?resetToken=${user.verificationToken}&email=${user.email}`;
+      const html = resetTemplate(user.userName, url);
+
+      if (!isTest) {
+        await sendEmail
+          .sendEmail(
+            'do_not_reply@authorhaven.com',
+            user.email,
+            'Resend Password Reset',
+            html
+          );
+      }
+
+      // RETURN SUCCESS IF SUCCESS
+      return res.status(200).json({
+        status: 200,
+        message: 'reset code resent to your email',
+      });
+    } catch (err) {
+      return res.status(500).json({
+        status: 500,
+        message: 'Internal server error',
+      });
+    }
+  }
+
+  /**
+   *
+   * @description User should be able to reset their password with the token
+   * @constructor
+   * @static
+   * @param {object} req
+   * @param {object} res
+   * @returns {object} res
+   * @memberof AuthController
+   */
+  static async resetPassword(req, res) {
+    try {
+      const { resetToken } = req.query;
+      const { password } = req.body;
+
+      // Hashing Password with bcryptjs
+      const salt = bcrypt.genSaltSync(10);
+      const hash = bcrypt.hashSync(password, salt);
+      await User.update({
+        password: hash,
+        verificationToken: ''
+      }, {
+        where: {
+          verificationToken: resetToken
+        }
+      });
+
+      // RETURN SUCCESS IF SUCCESS
+      return res.status(200).json({
+        status: 200,
+        message: 'password reset successful',
+      });
+    } catch (err) {
+      return res.status(500).json({
+        status: 500,
+        message: 'Internal server error',
       });
     }
   }

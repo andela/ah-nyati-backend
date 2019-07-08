@@ -4,6 +4,8 @@ import authValidator from '../middleware/authValidator';
 import validate from '../middleware/validate';
 import checkDuplicate from '../middleware/checkDuplicate';
 import ValidateToken from '../middleware/ValidateToken';
+import generateToken from '../middleware/tokenGenerator';
+import findItem from '../helpers/findItem';
 
 const router = express.Router();
 
@@ -37,6 +39,17 @@ router.post('/login', emailValidator, passwordValidator, validate, AuthControlle
 */
 router.post('/login', AuthController.login);
 router.post('/logout', ValidateToken.checkToken, AuthController.logOut);
+router.post(
+  '/sendResetToken',
+  findItem.findUserByEmail,
+  generateToken.passwordResetTokenGenerate,
+  AuthController.sendResetToken
+);
+router.post(
+  '/resetPassword',
+  generateToken.resetPasswordVerifyToken,
+  AuthController.resetPassword
+);
 
 /**
 * @swagger
