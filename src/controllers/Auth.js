@@ -40,6 +40,22 @@ class AuthController {
   }
 
   /**
+ *
+ *
+ * @static
+ * @param {object} req
+ * @param {object} res
+ * @returns {object} res
+ * @memberof AuthController
+ */
+  static async createAccount(req, res) {
+    return res.status(200).json({
+      status: 200,
+      message: 'User successfully signed up',
+    });
+  }
+
+  /**
   *
   *@description Logout a user
   * @static

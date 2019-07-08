@@ -8,30 +8,50 @@ chai.use(chaiHttp);
 chai.should();
 
 const testUser = {
+<<<<<<< HEAD
   userName: 'test-user',
+=======
+  username: 'test-user',
+>>>>>>> 1f9226441af39ca52432f639cf219d7f5fa4752f
   email: 'testuser@gmail.com',
   password: 'testpassword12',
 };
 
 describe('Auth', () => {
   describe('POST /users', () => {
+<<<<<<< HEAD
     it('should return 400 error if userName is empty', (done) => {
       const { userName, ...partialUserDetails } = testUser;
+=======
+    it('should return 400 error if username is empty', (done) => {
+      const { username, ...partialUserDetails } = testUser;
+>>>>>>> 1f9226441af39ca52432f639cf219d7f5fa4752f
       chai.request(app).post('/api/v1/auth/signup')
         .send(partialUserDetails)
         .end((err, res) => {
           res.should.have.status(400);
           res.body.should.have.property('errors');
           res.body.should.be.an('object');
+<<<<<<< HEAD
           res.body.errors.userName.should.be.an('array');
           res.body.errors.userName[0].should.eql('Username is required.');
+=======
+          res.body.errors.username.should.be.an('array');
+          res.body.errors.username[0].should.eql('Username is required.');
+>>>>>>> 1f9226441af39ca52432f639cf219d7f5fa4752f
           done();
         });
     });
 
+<<<<<<< HEAD
     it('should return 400 error if userName is invalid', (done) => {
       const invalidUsername = {
         userName: '$hdh.',
+=======
+    it('should return 400 error if username is invalid', (done) => {
+      const invalidUsername = {
+        username: '$hdh.',
+>>>>>>> 1f9226441af39ca52432f639cf219d7f5fa4752f
         email: 'test@gmail.com',
         password: 'haggsff354'
       };
