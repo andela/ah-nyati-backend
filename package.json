@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "build": "babel src -d lib",
-    "test": "mocha --require @babel/register --exit",
+    "test": "mocha --timeout 50000 --require @babel/register --exit",
     "generate-lcov": "nyc report --reporter=text-lcov > lcov.info",
     "coveralls-coverage": "coveralls < lcov.info",
     "coverage": "nyc npm test && npm run generate-lcov && npm run coveralls-coverage",
@@ -19,6 +19,7 @@
   "license": "MIT",
   "dependencies": {
     "@babel/polyfill": "^7.4.3",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "@babel/cli": "^7.4.3",
     "@babel/core": "^7.4.3",
@@ -41,6 +42,11 @@
     "mongoose": "^5.2.2",
     "mongoose-unique-validator": "^2.0.1",
     "node-cron": "^2.0.3",
+    "nock": "^10.0.6",
+    "passport-facebook": "^3.0.0",
+    "passport-github": "^1.1.0",
+    "passport-google-oauth20": "^2.0.0",
+    "passport-twitter": "^1.0.4",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "pg": "^7.11.0",
@@ -57,8 +63,11 @@
     "eslint": "^5.13.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.16.0",
+    "faker": "^4.1.0",
     "morgan": "^1.9.1",
     "nodemon": "^1.19.1",
-    "nyc": "^14.1.1"
+    "nyc": "^14.1.1",
+    "sinon": "^7.3.2",
+    "sinon-chai": "^3.3.0"
   }
 }

@@ -5,9 +5,14 @@ import cors from 'cors';
 import errorhandler from 'errorhandler';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
+import passport from 'passport';
 import config from './db/config/config';
 import router from './routes/index';
 import triggerCronJob from './helpers/cronJobHelper';
+import {
+  googleStrategy, facebookStrategy, twitterStrategy, gitHubStrategy, SerializeSetUp
+} from './config/social_config';
+
 
 const { isProduction, port } = config;
 // Create global app object
@@ -59,6 +64,22 @@ app.use(
     saveUninitialized: false
   })
 );
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
+
+passport.deserializeUser((user, done) => {
+  done(null, user);
+});
+SerializeSetUp();
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+passport.use(googleStrategy);
+passport.use(facebookStrategy);
+passport.use(twitterStrategy);
+passport.use(gitHubStrategy);
 
 if (!isProduction) {
   app.use(errorhandler());
