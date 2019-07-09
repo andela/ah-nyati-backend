@@ -8,28 +8,28 @@ chai.use(chaiHttp);
 const { expect } = chai;
 
 let token;
+let userId;
 
 describe('UserController', () => {
-  it('should login user successfully', (done) => {
-    const user = {
-      email: 'john.doe@andela.com',
-      password: 'password',
-    };
+  const existingUser = {
+    email: 'john.doe@andela.com',
+    password: 'password'
+  };
+  it(('should login a user'), (done) => {
     chai.request(app).post('/api/v1/auth/login')
-      .send(user)
+      .send(existingUser)
       .end((err, res) => {
-        token = res.body.data;
+        token  = res.body.token;
+        userId = res.body.data.id;
+        res.body.data.should.be.an('object');
         res.should.have.status(200);
-        expect(res.body.message).equal('User successfully Logged In');
-        expect(res.body).to.have.property('message');
-        expect(res.body).to.have.property('data');
-        expect(res.body).to.have.property('status');
+        res.body.message.should.be.a('string').eql('User Login successful');
         done();
       });
   });
 
   it('should request for token', (done) => {
-    chai.request(app).put('/api/v1/profiles/1')
+    chai.request(app).put(`/api/v1/profiles/${userId}`)
       .send({
         firstName: 'John',
         lastName: 'Doe',
@@ -60,7 +60,7 @@ describe('UserController', () => {
   });
 
   it('should enable user create and update profile', (done) => {
-    chai.request(app).put('/api/v1/profiles/1')
+    chai.request(app).put(`/api/v1/profiles/${userId}`)
       .send({
         firstName: 'John',
         lastName: 'Doe',
@@ -95,7 +95,7 @@ describe('UserController', () => {
   });
 
   it('should enable user create and update profile image', (done) => {
-    chai.request(app).put('/api/v1/profiles/1')
+    chai.request(app).put(`/api/v1/profiles/${userId}`)
       .attach('avatar', path.join(__dirname, 'img/test.png'), 'test.png')
       .set('token', token)
       .end((err, res) => {
@@ -105,7 +105,7 @@ describe('UserController', () => {
   });
 
   it('should request for a valid image', (done) => {
-    chai.request(app).put('/api/v1/profiles/1')
+    chai.request(app).put(`/api/v1/profiles/${userId}`)
       .attach('avatar', path.join(__dirname, 'img/test.srt'), 'test.png')
       .set('token', token)
       .end((err, res) => {
@@ -115,7 +115,7 @@ describe('UserController', () => {
   });
 
   it('should return the right error messages', (done) => {
-    chai.request(app).put('/api/v1/profiles/1')
+    chai.request(app).put(`/api/v1/profiles/${userId}`)
       .send({
         firstName: 'John1',
         lastName: 'Doe2',

@@ -55,7 +55,17 @@ module.exports = {
     clientSecret: process.env.GITHUB_CLIENT_SECRET,
     callbackURL: process.env.GITHUB_CALLBACK_URL,
   },
+  mailConfig: {
+    host: process.env.MAIL_HOST,
+    port: process.env.MAIL_PORT,
+    secure: process.env.MAIL_ENCRYPTION,
+    auth: {
+      user: process.env.MAIL_USERNAME,
+      pass: process.env.MAIL_PASSWORD,
+    }
+  },
   isProduction: process.env.NODE_ENV === 'production',
+  isTest: process.env.NODE_ENV === 'test',
   port: process.env.PORT || 3000,
   secret: process.env.SECRET,
   sendgrid: process.env.SENDGRID_API_KEY

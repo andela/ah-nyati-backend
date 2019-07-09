@@ -1,3 +1,8 @@
+const bcrypt = require('bcryptjs');
+
+const salt = bcrypt.genSaltSync(10);
+const hash = bcrypt.hashSync('password', salt);
+
 module.exports = {
   up: queryInterface => queryInterface.bulkInsert('Users', [{
     firstName: 'John',
@@ -6,7 +11,7 @@ module.exports = {
     email: 'john.doe@andela.com',
     bio: 'local man is stuck in traffic',
     isVerified: true,
-    password: 'password',
+    password: hash,
     verificationToken: '',
     imageUrl: 'image.png'
   }, {
