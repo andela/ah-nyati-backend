@@ -1,5 +1,7 @@
+import { Auth, hashPassword } from '../helpers/helpers';
 import { User } from '../db/models';
-import { generateToken, hashPassword } from '../helpers/helpers';
+
+const { generateToken } = Auth;
 
 /**
  *@description - class
