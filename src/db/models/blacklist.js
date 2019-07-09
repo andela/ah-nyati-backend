@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: true
     },
   }, {});
-  Blacklist.associate = function(models) {
+  Blacklist.associate = (models) => {
     // associations can be defined here
   };
   return Blacklist;

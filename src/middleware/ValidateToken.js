@@ -1,7 +1,5 @@
 import { Blacklist } from '../db/models';
 /**
- *
- *
  * @class ValidateToken
  */
 class ValidateToken {

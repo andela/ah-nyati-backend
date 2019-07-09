@@ -1,17 +1,14 @@
 import auth from '../middleware/Auth';
 import { Blacklist, User } from '../db/models';
 /**
- *
- *
  * @class AuthController
  */
 class AuthController {
 /**
- *
- *@description logs in autheticated user
  * @static
- * @param {object} req
- * @param {object} res
+ *@description logs in autheticated user
+ * @param {object} req the request body
+ * @param {object} res the response body
  * @returns {object} res
  * @memberof AuthController
  */
@@ -22,6 +19,13 @@ class AuthController {
         where: { email },
         attributes: { exclude: ['password'] }
       });
+
+      if (!user) {
+        return res.status(404).json({
+          status: 400,
+          error: 'User not found',
+        });
+      }
       const { id } = user;
       const userToken = auth.authenticate(id);
       if (user) {
@@ -31,22 +35,25 @@ class AuthController {
           data: userToken
         });
       }
+      return res.status(404).json({
+        status: 404,
+        message: 'User Not Found',
+      });
     } catch (error) {
       return res.status(500).json({
         status: 500,
-        message: error,
+        message: error.message,
       });
     }
   }
 
   /**
-  *
+  *@static
   *@description Logout a user
-  * @static
-  * @param {object} req
-  * @param {object} res
+  * @param {object} req the request body
+  * @param {object} res the response body
   * @returns {object} res
-  * @memberof UserController
+  * @memberof AuthController
   */
   static async logOut(req, res) {
     const { token } = req.headers || req.body || req.query;

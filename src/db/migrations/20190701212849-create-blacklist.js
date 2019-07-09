@@ -26,7 +26,5 @@ module.exports = {
       }
     });
   },
-  down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Blacklists');
-  }
+  down: (queryInterface, Sequelize) => queryInterface.dropTable('Blacklists'),
 };
