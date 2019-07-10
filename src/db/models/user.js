@@ -58,6 +58,10 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'follower',
       as: 'follower'
     });
+    User.hasMany(models.Comment, {
+      foreignKey: 'userId',
+      as: 'userComments'
+    });
   };
   return User;
 };

@@ -16,28 +16,85 @@
             "required": true
         },
         "GOOGLE_CLIENT_ID": {
-            "required": false
+            "required": true
         },
         "GOOGLE_CLIENT_SECRET": {
-            "required": false
+            "required": true
         },
         "DATABASE_HOST": {
             "required": true
         },
         "SENDGRID_API_KEY": {
-            "required": false
+            "required": true
         },
         "GENERATE_SECRET": {
-            "required": false
+            "required": true
         },
         "SECRET": {
-            "required": false
+            "required": true
         },
         "DB_PORT": {
-            "required": false
+            "required": true
         },
         "DATABASE_URL": {
-            "required": false
+            "required": true
+        },
+        "TWITTER_CONSUMER_SECRET": {
+            "required": true
+        },
+        "TWITTER_CONSUMER_KEY": {
+            "required": true
+        },
+        "TWITTER_CALLBACK_URL": {
+            "required": true
+        },
+        "MAIL_USERNAME": {
+            "required": true
+        },
+        "MAIL_PORT": {
+            "required": true
+        },
+        "MAIL_PASSWORD": {
+            "required": true
+        },
+        "MAIL_HOST": {
+            "required": true
+        },
+        "MAIL_ENCRYPTION": {
+            "required": true
+        },
+        "GOOGLE_CALLBACK_URL": {
+            "required": true
+        },
+        "GITHUB_CLIENT_SECRET": {
+            "required": true
+        },
+        "GITHUB_CLIENT_ID": {
+            "required": true
+        },
+        "GITHUB_CALLBACK_URL": {
+            "required": true
+        },
+        "FACEBOOK_CLIENT_SECRET": {
+            "required": true
+        },
+        "FACEBOOK_CLIENT_ID": {
+            "required": true
+        },
+        "FACEBOOK_CALLBACK_URL": {
+            "required": true
+        },
+        "CLOUDINARY_API_KEY": {
+            "required": true
+        },
+        "CLOUDINARY_SECRET": {
+            "required": true
+        },
+        "CLOUD_NAME": {
+            "required": true
+        },
+        "Password": {
+            "required": true
         }
     },
     "formation": {
