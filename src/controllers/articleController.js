@@ -1,7 +1,7 @@
-import {
-  Article, User
-} from '../db/models';
-
+import { Article, Tag, User } from '../db/models';
+import slugGen from '../helpers/slugGen';
+import urlExtractor from '../helpers/urlExtractor';
+import tagExtractor from '../helpers/tagExtractor';
 import searchHelper, { searchOutcome } from '../helpers/searchHelper';
 
 /**
@@ -109,5 +109,49 @@ class ArticleController {
       });
     }
   }
+
+  /**
+   * @description - Creates a new article
+   * @static
+   * @async
+   * @param {object} req - create artilce request object
+   * @param {object} res - create artilce response object
+   * @returns {object} new article
+   *
+   */
+  static async create(req, res) {
+    try {
+      const {
+        title, description, body, catId, tagList, isDraft
+      } = req.body;
+
+      const userId = req.user;
+      const images = req.files;
+      const imageUrl = urlExtractor(images);
+      const slug = slugGen(title);
+
+      const newArticleDetails = {
+        title, slug, description, body, catId, imageUrl, userId, isDraft
+      };
+
+      const newArticle = await Article.create(newArticleDetails);
+
+      const { id } = newArticle;
+      const newTagDetails = tagExtractor(id, tagList);
+
+      await Tag.bulkCreate(newTagDetails);
+
+      return res.status(201).json({
+        message: 'article successfully created',
+        article: newArticle
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: 'Internal server error',
+        error
+      });
+    }
+  }
 }
+
 export default ArticleController;
