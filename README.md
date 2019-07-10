@@ -1,14 +1,10 @@
 
-[![Coverage Status](https://coveralls.io/repos/github/andela/ah-nyati-backend/badge.svg?branch=staging)](https://coveralls.io/github/andela/ah-nyati-backend?branch=staging)
-
-
-
 Authors Haven - A Social platform for the creative at heart.
 =======
 
 ## Badges
-![Reviewed by Hound](https://img.shields.io/badge/Reviewed_by-Hound-yellow.svg)
-[![Build Status](https://travis-ci.com/andela/ah-nyati-backend.svg?branch=staging)](https://travis-ci.com/andela/ah-nyati-backend)
+[![Build Status](https://travis-ci.com/andela/ah-nyati-backend.svg?branch=staging)](https://travis-ci.com/andela/ah-nyati-backend) [![Coverage Status](https://coveralls.io/repos/github/andela/ah-nyati-backend/badge.svg?branch=staging)](https://coveralls.io/github/andela/ah-nyati-backend?branch=staging) ![Reviewed by Hound](https://img.shields.io/badge/Reviewed_by-Hound-yellow.svg)
+
 
 ## Getting Started
 Clone the Repo.
