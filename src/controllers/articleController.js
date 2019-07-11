@@ -278,6 +278,52 @@ class ArticleController {
       });
     }
   }
+
+  /**
+   * @description - Get all article
+   * @static
+   * @async
+   * @param {object} req - request
+   * @param {object} res - response
+   * @returns {object} article
+   *
+   */
+  static async getAllArticles(req, res) {
+    try {
+      const limit = 10;
+      const { next } = req.query;
+      const offset = next === undefined ? 0 : next;
+      const getAllArticles = await Article.findAll({
+        offset,
+        limit,
+        attributes: {
+          exclude: ['createdAt', 'updatedAt']
+        },
+        include: [
+          {
+            model: Category,
+            attributes: ['id', 'name']
+          },
+          {
+            model: User,
+            attributes: ['id', 'firstName', 'lastName', 'userName', 'bio', 'imageUrl']
+          }
+        ]
+      });
+
+      const article = {};
+      article.articles = getAllArticles;
+      return res.status(200).json({
+        status: 200,
+        message: article
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: 500,
+        message: error.message
+      });
+    }
+  }
 }
 
 export default ArticleController;

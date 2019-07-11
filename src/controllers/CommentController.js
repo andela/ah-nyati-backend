@@ -15,10 +15,22 @@ class CommentController {
   static async addCommentTocomment(req, res) {
     try {
       const articleId = res.locals.articleObject.id;
+<<<<<<< HEAD
 
       const { userName, bio, imageUrl } = res.locals.articleObject.User;
       const { commentBody } = req.body;
       const userId = req.user;
+=======
+    const { userName, bio, imageUrl } = res.locals.articleObject.User;
+    const { commentBody } = req.body;
+    const userId = req.user;
+    
+    const commentObject = {
+      userId,
+      articleId,
+      commentBody
+    };
+>>>>>>> feature(get single article):get single article
 
       const commentObject = {
         userId,
@@ -52,18 +64,30 @@ class CommentController {
         message: error.message,
       });
     }
+<<<<<<< HEAD
   };
 
   /**
    * @static
    * @description The get all comment method
+=======
+  }
+  
+  /**
+   * @static
+   * @description The all Article comment
+>>>>>>> feature(get single article):get single article
    * @param  {object} req The req object
    * @param  {object} res The res object
    * @returns {object} json res
    * @memberof CommentController
    */
   static async getAllArticleComments(req, res) {
+<<<<<<< HEAD
     const { article } = res.locals;
+=======
+    const article = res.locals.articleObject;
+>>>>>>> feature(get single article):get single article
     const articleId = article.id;
 
     try {
