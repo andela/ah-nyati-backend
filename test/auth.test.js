@@ -1,7 +1,10 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
+
+
 import app from '../src/server';
 import { User } from '../src/db/models';
+
 
 chai.should();
 chai.use(chaiHttp);
@@ -79,23 +82,44 @@ describe('Auth', () => {
           done();
         });
     });
-    it('should login user successfully', (done) => {
-      const user = {
-        email: 'john.doe@andela.com',
-        password: 'password',
-      };
+    const existingUser = {
+      email: 'main.jane@gmail.com',
+      password: 'password'
+    };
+    it(('should login a user'), (done) => {
       chai.request(app).post('/api/v1/auth/login')
-        .send(user)
+        .send(existingUser)
         .end((err, res) => {
-          token = res.body.data;
+          token = res.body.token;
+          res.body.data.should.be.an('object');
           res.should.have.status(200);
-          expect(res.body.message).equal('User successfully Logged In');
-          expect(res.body).to.have.property('message');
-          expect(res.body).to.have.property('data');
-          expect(res.body).to.have.property('status');
+          res.body.message.should.be.a('string').eql('User Login successful');
           done();
         });
     });
+    it(('It should return invalid email or password'), (done) => {
+      const newUser = { ...existingUser, email: 'pass..' };
+      chai.request(app).post('/api/v1/auth/login')
+        .send(newUser)
+        .end((err, res) => {
+          res.should.have.status(401);
+          res.body.error.should.be.a('boolean').eql(true);
+          res.body.message.should.be.a('string').eql('Invalid email or password');
+          done();
+        });
+    });
+    it(('It should return invalid email or password'), (done) => {
+      const newUser = { ...existingUser, password: 'fakeuser@gmail.com' };
+      chai.request(app).post('/api/v1/auth/login')
+        .send(newUser)
+        .end((err, res) => {
+          res.should.have.status(401);
+          res.body.error.should.be.a('boolean').eql(true);
+          res.body.message.should.be.a('string').eql('Invalid email or password');
+          done();
+        });
+    });
+
     it('should logout user successfully', (done) => {
       chai.request(app).post('/api/v1/auth/logout')
         .set('token', token)
