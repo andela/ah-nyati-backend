@@ -45,15 +45,6 @@ describe('Auth', () => {
           done();
         });
     });
-    it(('should throw a server error'), (done) => {
-      chai.request(app).post('/api/v1/auth/signup')
-        .send(app)
-        .end((err, res) => {
-          res.should.have.status(500);
-          res.body.message.should.be.a('string').eql('Internal server error');
-          done();
-        });
-    });
     it(('should verify a new user account'), (done) => {
       const defaultUser2 = {
         userName: 'jamie3',
@@ -98,7 +89,7 @@ describe('Auth', () => {
         });
     });
     it(('It should return invalid email or password'), (done) => {
-      const newUser = { ...existingUser, email: 'pass..' };
+      const newUser = { ...existingUser, password: 'passhuuuuu' };
       chai.request(app).post('/api/v1/auth/login')
         .send(newUser)
         .end((err, res) => {
@@ -109,7 +100,7 @@ describe('Auth', () => {
         });
     });
     it(('It should return invalid email or password'), (done) => {
-      const newUser = { ...existingUser, password: 'fakeuser@gmail.com' };
+      const newUser = { ...existingUser, email: 'fakeuser@gmail.com' };
       chai.request(app).post('/api/v1/auth/login')
         .send(newUser)
         .end((err, res) => {
