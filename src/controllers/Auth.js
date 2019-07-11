@@ -145,7 +145,7 @@ class AuthController {
 
 
   /**
-  *@static
+  *
   *@description Logout a user
   * @param {object} req the request body
   * @param {object} res the response body
