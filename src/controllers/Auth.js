@@ -30,17 +30,20 @@ class AuthController {
       const result = await User.create(values);
       const { id, isVerified } = result;
       const token = await generateToken({ id, email, isVerified });
-
-      const url = `${req.protocol}://${req.get('host')}/api/v1/auth/verify/${token}`;
-      const message = template(userName, url);
-      const subject = 'Welcome to Authors Haven';
-      await sendEmail
-        .sendEmail(
-          'do_not_reply@authorhaven.com',
-          email,
-          subject,
-          message
-        );
+      try {
+        const url = `${req.protocol}://${req.get('host')}/api/v1/auth/verify/${token}`;
+        const message = template(userName, url);
+        const subject = 'Welcome to Authors Haven';
+        await sendEmail
+          .sendEmail(
+            'do_not_reply@authorhaven.com',
+            email,
+            subject,
+            message
+          );
+      } catch (err) {
+        console.log(err);
+      }
 
       return res.status(201).json({
         status: 201,
