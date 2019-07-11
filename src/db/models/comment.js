@@ -27,7 +27,7 @@ const comment = (sequelize, DataTypes) => {
     // associations can be defined here
     Comment.belongsTo(models.User, {
       as: 'userComments',
-      foriegnKey: 'userId',
+      foreignKey: 'userId',
       onDelete: 'CASCADE'
     });
     Comment.belongsTo(models.Article, {

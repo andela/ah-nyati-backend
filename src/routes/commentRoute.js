@@ -22,4 +22,11 @@ router.post(
   CommentController.addCommentToArticle,
 );
 
+router.get(
+  '/:slug/comments',
+  verify,
+  FindItem.findArticle,
+  CommentController.getAllArticleComments,
+);
+
 export default router;
