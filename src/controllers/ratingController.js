@@ -16,7 +16,7 @@ class RatingController {
   static async rateArticle(req, res) {
     const value = Number(req.body.value);
     const id = req.user;
-    const {article} = res.locals;
+    const { article } = res.locals;
     const articleId = article.id
 
     try {
@@ -71,7 +71,7 @@ class RatingController {
  * @memberof RatingController
  */
 static async getAllArticlesRating(req, res){
-    const {article} = res.locals;
+    const { article } = res.locals;
     const articleId = article.id
     try{
       let offset = 0;

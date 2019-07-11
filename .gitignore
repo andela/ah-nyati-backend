@@ -43,3 +43,6 @@ lib
 
 .nyc_output/
 lcov.info
+
+# Ignore index.html
+src/test.html

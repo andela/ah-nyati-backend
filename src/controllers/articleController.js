@@ -1,11 +1,11 @@
-import { Article, Tag, User } from '../db/models';
+import { Article, Tag, User, Category } from '../db/models';
 import slugGen from '../helpers/slugGen';
 import urlExtractor from '../helpers/urlExtractor';
 import tagExtractor from '../helpers/tagExtractor';
 import searchHelper, { searchOutcome } from '../helpers/searchHelper';
 
 /**
- * Article controller class
+ * @description Article Controller
  * @class ArticleController
  */
 class ArticleController {
@@ -148,6 +148,62 @@ class ArticleController {
       });
     } catch (error) {
       return res.status(500).json({ 
+        status: 500,
+        message: error.message
+      });
+    }
+  }
+
+  /**
+   * @description - Get a single article
+   * @static
+   * @async
+   * @param {object} req - request
+   * @param {object} res - response
+   * @returns {object} article
+   *
+   */
+  static async getArticle(req, res) {
+    try {
+      const { slug } = req.params;
+
+      const getArticle = await Article.findOne({
+        where: {
+          slug
+        },
+        attributes: {
+          exclude: ['createdAt', 'updatedAt']
+        },
+        include: [
+          {
+            model: Category,
+            attributes: ['id', 'name']
+          },
+          {
+            model: User,
+            attributes: ['id', 'firstName', 'lastName', 'userName', 'bio', 'imageUrl']
+          }
+        ]
+      });
+
+      const getTags = await Tag.findAll({
+        where: {
+          articleId: getArticle.id
+        }
+      })
+
+      const allTags = [];
+      getTags.map(tag => allTags.push(tag.tagName))
+
+      const article = {};
+      article.article = getArticle;
+      article.tag = allTags;
+      return res.status(200).json({
+        status: 200,
+        message: [article]
+      });
+    } catch (error) {
+      return res.status(500).json({
         status: 500,
         message: error.message
       });

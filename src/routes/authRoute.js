@@ -1,5 +1,5 @@
 import express from 'express';
-import AuthController from '../controllers/Auth';
+import AuthController from '../controllers/authController';
 import authValidator from '../middleware/authValidator';
 import validate from '../middleware/validate';
 import checkDuplicate from '../middleware/checkDuplicate';
