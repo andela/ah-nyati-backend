@@ -18,10 +18,10 @@ const auth = {
       },
       secret,
       {
-        expiresIn: '24h'
-      }
+        expiresIn: '24h',
+      },
     );
-  }
+  },
 };
 
 export default auth;

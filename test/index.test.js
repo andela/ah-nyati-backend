@@ -7,15 +7,19 @@ chai.use(chaiHttp);
 const { expect } = chai;
 
 describe('server', () => {
-  it('should start the server successfully', (done) => {
-    chai.request(app).get('/')
+  it('should start the server successfully', done => {
+    chai
+      .request(app)
+      .get('/')
       .end((err, res) => {
         res.should.have.status(200);
         done();
       });
   });
-  it('Route not found', (done) => {
-    chai.request(app).get('/error')
+  it('Route not found', done => {
+    chai
+      .request(app)
+      .get('/error')
       .end((err, res) => {
         res.should.have.status(404);
         done();

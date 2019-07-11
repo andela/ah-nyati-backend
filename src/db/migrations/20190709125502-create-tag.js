@@ -30,5 +30,5 @@ module.exports = {
       defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
     }
   }),
-  down: (queryInterface, Sequelize) => queryInterface.dropTable('Tags')
+  down: queryInterface => queryInterface.dropTable('Tags')
 };

@@ -1,0 +1,4 @@
+src/db/config
+src/db/models
+src/db/migrations
+src/db/seeders
