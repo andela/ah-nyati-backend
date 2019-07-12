@@ -28,11 +28,10 @@ describe('server', () => {
 });
 describe('Swagger', () => {
   it('should return an object', (done) => {
-    chai.request(app).get('/api-docs.json')
+    chai.request(app).get('/api-docs')
       .end((err, res) => {
-        expect(res.body).to.have.property('openapi');
-        expect(res.body).to.have.property('info');
-        expect(res.body).to.have.property('securityDefinitions');
+        res.should.have.status(200);
+        res.body.should.be.an('object');
         done();
       });
   });

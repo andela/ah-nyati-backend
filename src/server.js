@@ -3,7 +3,6 @@ import bodyParser from 'body-parser';
 import session from 'express-session';
 import cors from 'cors';
 import errorhandler from 'errorhandler';
-import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import passport from 'passport';
 import config from './db/config/config';
@@ -12,40 +11,22 @@ import triggerCronJob from './helpers/cronJobHelper';
 import {
   googleStrategy, facebookStrategy, twitterStrategy, gitHubStrategy, SerializeSetUp
 } from './config/social_config';
+import swaggerSpec from '../swagger';
 
 
 const { isProduction, port } = config;
 // Create global app object
 const app = express();
-const options = {
-  definition: {
-    openapi: '3.0.0',
-    info: {
-      title: 'Authors Haven',
-      version: '1.0.0',
-      description: 'Endpoints for Authors Haven',
-    },
-    securityDefinitions: {
-      bearerAuth: {
-        type: 'apiKey',
-        name: 'Authorization',
-        scheme: 'bearer',
-        in: 'header',
-      },
-    },
-  },
-  apis: ['./routes/api/*.js'],
-};
-const swaggerSpec = swaggerJSDoc(options);
 
 // It triggers the cron job
 triggerCronJob();
 
 
-app.get('/api-docs.json', (req, res) => {
+app.get('/api/v1/doc', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   res.send(swaggerSpec);
 });
+
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
