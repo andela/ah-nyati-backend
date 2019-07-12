@@ -290,12 +290,17 @@ class ArticleController {
    */
   static async getAllArticles(req, res) {
     try {
-      const limit = 10;
-      const { next } = req.query;
-      const offset = next === undefined ? 0 : next;
-      const getAllArticles = await Article.findAll({
+      let offset = 0;
+      
+      const { currentPage, limit } = req.query; // page number
+      const defaultLimit = limit || 3; // number of records per page
+
+      offset = currentPage ? defaultLimit * (currentPage - 1) : 0;
+
+      const { count, rows: articles } = await Article.findAndCountAll({
         offset,
-        limit,
+        raw: true,
+        limit: defaultLimit,
         attributes: {
           exclude: ['createdAt', 'updatedAt']
         },
@@ -311,11 +316,20 @@ class ArticleController {
         ]
       });
 
-      const article = {};
-      article.articles = getAllArticles;
+      const pages = Math.ceil(count / limit) || 1;
+
       return res.status(200).json({
         status: 200,
-        message: article
+        message: 'All articles fetched successfully',
+        data: [ 
+          {
+            articles,
+            totalArticles: count,
+            currentPage,
+            limit,
+            totalPages: pages
+          }
+        ]
       });
     } catch (error) {
       return res.status(500).json({

@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.post('/articles/:slug/like',
   verify,
-  findItem.getArticle,
+  findItem.findArticle,
   LikeController.likeArticle);
 
 export default router;

@@ -17,7 +17,7 @@ class LikeController {
     const userId = req.user;
 
     try {
-      const article = res.locals.articleObject;
+      const { article } = res.locals;
       const articleId = article.id;
 
       const likedArticle = await Like.findOne({

@@ -23,7 +23,8 @@
   "nyc": {
     "exclude": [
       "src/helpers/mail/*.js",
-      "src/server.js"
+      "src/server.js",
+      "src/config/social_config.js"
     ]
   },
   "author": "Andela Simulations Programme",
