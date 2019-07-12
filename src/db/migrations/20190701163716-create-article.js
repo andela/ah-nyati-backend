@@ -7,16 +7,31 @@ module.exports = {
       type: Sequelize.INTEGER
     },
     title: {
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
+      required: true,
+      allowNull: false
     },
     slug: {
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
+      required: true,
+      allowNull: false
+    },
+    description: {
+      type: Sequelize.STRING,
+      defaultValue: ''
     },
     body: {
-      type: Sequelize.TEXT
+      type: Sequelize.TEXT,
+      required: true,
+      allowNull: false
     },
-    tagList: {
-      type: Sequelize.STRING
+    imageUrl: {
+      type: Sequelize.STRING,
+      defaultValue: ''
+    },
+    isDraft: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: true
     },
     catId: {
       type: Sequelize.INTEGER,

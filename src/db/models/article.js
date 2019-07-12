@@ -2,8 +2,10 @@ module.exports = (sequelize, DataTypes) => {
   const Article = sequelize.define('Article', {
     title: DataTypes.STRING,
     slug: DataTypes.STRING,
+    description: DataTypes.STRING,
     body: DataTypes.TEXT,
-    tagList: DataTypes.STRING
+    imageUrl: DataTypes.STRING,
+    isDraft: DataTypes.BOOLEAN
   }, {});
   Article.associate = (models) => {
     Article.belongsTo(models.User, {
@@ -22,6 +24,11 @@ module.exports = (sequelize, DataTypes) => {
       onUpdate: 'CASCADE'
     });
     Article.hasMany(models.Tag, {
+      foreignKey: 'articleId',
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE'
+    });
+    Article.hasMany(models.Comment, {
       foreignKey: 'articleId',
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE'

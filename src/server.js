@@ -1,4 +1,3 @@
-
 import express from 'express';
 import bodyParser from 'body-parser';
 import session from 'express-session';
@@ -24,7 +23,7 @@ const options = {
     info: {
       title: 'Authors Haven',
       version: '1.0.0',
-      description: 'Endpoints for Authors Haven'
+      description: 'Endpoints for Authors Haven',
     },
     securityDefinitions: {
       bearerAuth: {
@@ -50,7 +49,6 @@ app.get('/api-docs.json', (req, res) => {
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-
 app.use(cors());
 
 // Normal express config defaults
@@ -62,8 +60,8 @@ app.use(
     secret: 'authorshaven',
     cookie: { maxAge: 60000 },
     resave: false,
-    saveUninitialized: false
-  })
+    saveUninitialized: false,
+  }),
 );
 passport.serializeUser((user, done) => {
   done(null, user);
@@ -89,7 +87,7 @@ if (!isProduction) {
 app.get('/', (req, res) => {
   res.status(200).json({
     status: 200,
-    message: 'Welcome to Author\'s Haven',
+    message: "Welcome to Author's Haven",
   });
 });
 app.use(router);
@@ -137,6 +135,7 @@ app.use((err, req, res, next) => {
 
 // finally, let's start our server...
 const server = app.listen(port, () => {
+  // eslint-disable-next-line no-console
   console.log(`Listening on port ${server.address().port}`);
 });
 

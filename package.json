@@ -10,6 +10,9 @@
     "generate-lcov": "nyc report --reporter=text-lcov > lcov.info",
     "coveralls-coverage": "coveralls < lcov.info",
     "coverage": "nyc npm test && npm run generate-lcov && npm run coveralls-coverage",
+    "lint": "eslint src -c .eslintrc --ext js,jsx",
+    "prettier:fix": "prettier --write \"./**/*.js\"",
+    "prettier:check": "prettier --check \"./**/*.js\"",
     "start": "npm run build && node lib/server",
     "start:dev": "nodemon --exec babel-node src/server",
     "migrate": "sequelize db:migrate",
@@ -70,12 +73,15 @@
     "coveralls": "^3.0.4",
     "eslint": "^5.13.0",
     "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-config-prettier": "^6.0.0",
     "eslint-plugin-import": "^2.16.0",
     "faker": "^4.1.0",
+    "sinon": "^7.3.2",
+    "sinon-chai": "^3.3.0",
+    "eslint-plugin-prettier": "^3.1.0",
     "morgan": "^1.9.1",
     "nodemon": "^1.19.1",
     "nyc": "^14.1.1",
-    "sinon": "^7.3.2",
-    "sinon-chai": "^3.3.0"
+    "prettier": "^1.18.2"
   }
 }
