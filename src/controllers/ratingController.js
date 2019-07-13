@@ -52,5 +52,50 @@ class RatingController {
       });
     }
   }
+
+/**
+ *
+ * @returns { object } res
+ * @description - paginate article ratings
+ * @static
+ * @param {*} req
+ * @param {*} res
+ * @memberof RatingController
+ */
+static async getAllArticlesRating(req, res){
+    const {article} = res.locals;
+    const articleId = article.id
+    try{
+      let offset = 0;
+      const { currentPage, limit } = req.query; // page number
+      const defaultLimit = limit || 3; // number of records per page
+      const defaultPage = currentPage || 1;
+
+      const { count, rows: rating } = await Rating.findAndCountAll({
+        where: { articleId },
+        raw: true,
+        attributes: { exclude: ['id', 'updatedAt', 'articleId']},
+        limit: defaultLimit,
+        offset
+      });
+      
+      const pages = Math.ceil(count / limit) || 1;
+      offset = limit * (defaultPage - 1);
+
+      return res.status(200).json({
+        status: 200,
+        message: 'All Ratings fetched successfully',
+        article,
+        rating,
+        pages
+      });
+
+    } catch(err){
+      return res.status(500).json({
+        status: 500,
+        message: 'Internal server error'
+      })
+    }
+  }
 }
 export default RatingController;
