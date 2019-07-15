@@ -29,7 +29,7 @@ describe('UserController', () => {
   });
 
   it('should request for token', (done) => {
-    chai.request(app).put(`/api/v1/profiles/${userId}`)
+    chai.request(app).put('/api/v1/user/profiles/1')
       .send({
         firstName: 'John',
         lastName: 'Doe',
@@ -44,7 +44,7 @@ describe('UserController', () => {
   });
 
   it('should not accept invalid token', (done) => {
-    chai.request(app).put('/api/v1/profiles/1')
+    chai.request(app).put('/api/v1/user/profiles/1')
       .send({
         firstName: 'John',
         lastName: 'Doe',
@@ -60,7 +60,7 @@ describe('UserController', () => {
   });
 
   it('should enable user create and update profile', (done) => {
-    chai.request(app).put(`/api/v1/profiles/${userId}`)
+    chai.request(app).put('/api/v1/user/profiles/1')
       .send({
         firstName: 'John',
         lastName: 'Doe',
@@ -79,7 +79,7 @@ describe('UserController', () => {
   });
 
   it('should not perform operation for unauthorized user', (done) => {
-    chai.request(app).put('/api/v1/profiles/2')
+    chai.request(app).put('/api/v1/user/profiles/2')
       .send({
         firstName: 'John',
         lastName: 'Doe',
@@ -95,7 +95,7 @@ describe('UserController', () => {
   });
 
   it('should enable user create and update profile image', (done) => {
-    chai.request(app).put(`/api/v1/profiles/${userId}`)
+    chai.request(app).put('/api/v1/user/profiles/1')
       .attach('avatar', path.join(__dirname, 'img/test.png'), 'test.png')
       .set('token', token)
       .end((err, res) => {
@@ -105,7 +105,7 @@ describe('UserController', () => {
   });
 
   it('should request for a valid image', (done) => {
-    chai.request(app).put(`/api/v1/profiles/${userId}`)
+    chai.request(app).put('/api/v1/user/profiles/1')
       .attach('avatar', path.join(__dirname, 'img/test.srt'), 'test.png')
       .set('token', token)
       .end((err, res) => {
@@ -115,7 +115,7 @@ describe('UserController', () => {
   });
 
   it('should return the right error messages', (done) => {
-    chai.request(app).put(`/api/v1/profiles/${userId}`)
+    chai.request(app).put('/api/v1/user/profiles/1')
       .send({
         firstName: 'John1',
         lastName: 'Doe2',
@@ -134,7 +134,7 @@ describe('UserController', () => {
   });
 
   it('should enable user view another user\'s profile', (done) => {
-    chai.request(app).get('/api/v1/profiles/JohnDoe')
+    chai.request(app).get('/api/v1/user/profiles/JohnDoe')
       .set('token', token)
       .end((err, res) => {
         res.should.have.status(200);
@@ -147,7 +147,7 @@ describe('UserController', () => {
   });
 
   it('should enable user view another user\'s profile', (done) => {
-    chai.request(app).get('/api/v1/profiles/JohnDoes')
+    chai.request(app).get('/api/v1/user/profiles/JohnDoes')
       .set('token', token)
       .end((err, res) => {
         res.should.have.status(404);

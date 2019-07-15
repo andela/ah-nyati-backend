@@ -74,7 +74,7 @@ describe('Auth', () => {
         });
     });
     const existingUser = {
-      email: 'main.jane@gmail.com',
+      email: 'john.doe@andela.com',
       password: 'password'
     };
     it(('should login a user'), (done) => {

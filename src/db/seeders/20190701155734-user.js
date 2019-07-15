@@ -35,6 +35,7 @@ module.exports = {
     verificationToken: '',
     imageUrl: 'image.png'
   },
+
   ], {}),
   down: queryInterface => queryInterface.bulkDelete('Users', null, {})
 };
