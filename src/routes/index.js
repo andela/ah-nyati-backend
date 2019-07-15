@@ -16,7 +16,6 @@ router.use('/api/v1/user', userRoute);
 router.use('/api/v1/', articleRoute);
 router.use('/api/v1', userRoute);
 router.use('/api/v1/articles', commentRoute);
-router.use('/api/v1/article', commentRoute);
 router.use('/api/v1', ratingRoute);
 
 export default router;

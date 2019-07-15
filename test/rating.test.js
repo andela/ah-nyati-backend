@@ -95,4 +95,22 @@ describe('RatingController', () => {
           });
       });
   });
+  it('should get all ratings for a particular article', (done) => {
+    chai.request(app).post('/api/v1/auth/login')
+      .send(user)
+      .end((err, res) => {
+        testToken = res.body.token;
+        chai.request(app).get('/api/v1/articles/rating/article?page=3&limit=2')
+          .set('token', testToken)
+          .end((err, res) => {
+            res.should.have.status(200);
+            expect(res.body).to.have.property('article');
+            expect(res.body.rating[0]).to.have.property('value');
+            expect(res.body.rating[0]).to.have.property('createdAt');
+            expect(res.body.rating[0]).to.have.property('userId');
+            expect(res.body.message).equal('All Ratings fetched successfully');
+            done();
+          });
+      });
+  });
 });
