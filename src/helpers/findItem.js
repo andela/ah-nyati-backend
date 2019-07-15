@@ -129,6 +129,36 @@ static async getArticle (req, res, next) {
     }
     return next();
   }
+
+  /**
+   *@description This function checks if a user exists by email
+   * @param {object} req
+   * @param {object} res
+   * @param {function} next
+   * @returns {function} next
+   * @memberof FindItem
+   */
+  static async findUserByEmail(req, res, next) {
+    const { email } = req.body;
+
+    const findUserByEmail = await User.findOne({
+      where: {
+        email
+      }
+    });
+
+    if (!findUserByEmail) {
+      // SET ERROR IF EMAIL DOES NOT EXIST
+      const errors = {};
+      errors.email = 'email does not exist';
+      return res.status(404).json({
+        status: 404,
+        message: errors,
+      });
+    }
+    req.userByEmail = findUserByEmail;
+    return next();
+  }
 }
 
    export default FindItem;

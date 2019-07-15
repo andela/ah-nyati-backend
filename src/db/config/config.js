@@ -68,5 +68,6 @@ module.exports = {
   isTest: process.env.NODE_ENV === 'test',
   port: process.env.PORT || 3000,
   secret: process.env.SECRET,
+  GENERATE_SECRET: process.env.GENERATE_SECRET,
   sendgrid: process.env.SENDGRID_API_KEY
 };
