@@ -1,9 +1,14 @@
-import { Router } from 'express';
-import articleController from '../controllers/articleController';
+import express from 'express';
+import ArticleController from '../controllers/articleController';
 import validateSearchInput from '../middleware/searchInputValidator';
+import articleValidator from '../middleware/articleValidator';
+import validate from '../middleware/validate';
+import upload from '../helpers/profilePic';
+import verify from '../helpers/verifyToken';
 
-const articleRouter = new Router();
-
+const router = express.Router();
+const { create } = ArticleController;
+const { detailsValidator } = articleValidator;
 
 /**
  * @swagger
@@ -27,7 +32,7 @@ const articleRouter = new Router();
  *       200:
  *         description: search article
  */
-articleRouter.get('/articles', validateSearchInput, articleController.search);
+router.get('/articles', validateSearchInput, ArticleController.search);
+router.post('/articles/', verify, upload.array('images', 10), detailsValidator, validate, create);
 
-
-export default articleRouter;
+export default router;
