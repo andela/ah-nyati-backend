@@ -1,35 +1,81 @@
 import { Article, User } from '../db/models';
-
 /**
- *
- *@description This class checks a table for the presence or absence of a row
- * @class FindItem
- */
-class FindItem {
-  /**
-   *@description This function checks if an article exists
+*
+*@description This class checks a table for the presence or absence of a row
+* @class FindItem
+*/
+class FindItem{
+    /**
+     *@description This function checks if an article exists
+     * @param {object} req
+     * @param {object} res
+     * @param {function} next
+     * @returns {function} next
+     * @memberof FindItem
+     */
+    static async findArticle  (req, res, next) {
+      const { slug } = req.params;
+      try {
+      const article = await Article.findOne({
+        where: { slug },
+        raw: true,
+        attributes: {
+          exclude: ['updatedAt', 'userId', 'catId', 'isDraft']
+        }
+      });
+
+      if (!article) {
+        return res.status(404).json({
+          status: 404,
+          error: 'Article not found',
+        });
+      }
+      res.locals.article = article
+      return next();
+
+    } catch (error) {
+      return res.status(500).json({
+        status: 500,
+        message: 'Internal server error',
+      });
+    }
+    }
+
+    /**
+   * @static
+   * @description Method to fetch an article with the user
    * @param {object} req
    * @param {object} res
    * @param {function} next
-   * @returns {function} next
-   * @memberof FindItem
+   * @returns {object} object
    */
-  static async findArticle(req, res, next) {
-    const { slug } = req.params;
+static async getArticle (req, res, next) {
     const article = await Article.findOne({
-      attributes: ['id', 'slug', 'body'],
-      where: { slug },
+      include: [{
+        model: User,
+        attributes: [
+          'id',
+          'bio',
+          'userName',
+          'imageUrl'
+        ]
+      }],
+      attributes: ['id', 'body', 'createdAt', 'updatedAt'],
+      where: {
+        slug: req.params.slug
+      }
     });
-    res.locals.article = article;
-
+  
     if (!article) {
-      return res.status(404).json({
-        status: 404,
-        error: 'Article not found',
-      });
+      return res.status(404)
+        .json({
+          status: 404,
+          message: 'Article not found'
+        });
     }
-    return next();
-  }
+    res.locals.articleObject = article;
+    next();
+  };
 
   /**
    *@description This function checks if a user exists
@@ -86,4 +132,4 @@ class FindItem {
   }
 }
 
-export default FindItem;
+   export default FindItem;

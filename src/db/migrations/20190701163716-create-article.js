@@ -20,6 +20,10 @@ module.exports = {
       type: Sequelize.STRING,
       defaultValue: ''
     },
+    description: {
+      type: Sequelize.STRING,
+      defaultValue: ''
+    },
     body: {
       type: Sequelize.TEXT,
       required: true,

@@ -10,8 +10,9 @@ const { secret } = config;
  */
 const auth = {
   /**
+   *
    * @static
-   * @param {object} user
+   * @param {string} user
    * @description Generates token for user
    * @return {string} string
    */
