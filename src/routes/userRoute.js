@@ -11,6 +11,10 @@ router.get('/profiles/:userName',
   verify,
   UserController.getUserProfile);
 
+router.get('/profiles/',
+  verify,
+  UserController.getAllAuthorsProfile);
+
 router.put('/profiles/:id',
   verify, upload.single('avatar'),
   profileChecker,

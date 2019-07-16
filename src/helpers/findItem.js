@@ -220,6 +220,45 @@ class FindItem {
       return category;
     }
 
+  /**
+   *@description This method fetches all authors in the article table
+   * @param {object} req
+   * @param {object} res
+   * @param {function} next
+   * @returns {function} next
+   * @memberof FindItem
+   */
+  static async getAllAuthorsProfile(req, res) {
+    const authors = await Article.findAll({
+      attributes: ['views', 'read', 'readRatio'],
+      include: [
+        {
+          model: User,
+          attributes: ['firstName', 'lastName', 'userName',
+          'email', 'bio', 'imageUrl'],
+        },
+       
+      ]
+      
+    })
+    
+    if (authors.length === 0) {
+      return res.status(404).json({
+        status: 404,
+        message: 'No authors found',
+      });
+    }
+    const profile = {};
+      
+    authors.forEach((userProfile) => {
+    const user = {...(userProfile.toJSON()).User};
+    profile[user.email] = user;
+    });
+
+    return (Object.values(profile))
+  }
+
+
 }
 
 export default FindItem;
