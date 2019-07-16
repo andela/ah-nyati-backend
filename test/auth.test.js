@@ -34,7 +34,8 @@ describe('Auth', () => {
     const defaultUser = {
       userName: 'jamie',
       email: 'main.jane@gmail.com',
-      password: 'password'
+      password: 'password',
+      userRole: 'SUPERADMIN'
     };
     it(('should signup a user'), (done) => {
       chai.request(app).post('/api/v1/auth/signup')

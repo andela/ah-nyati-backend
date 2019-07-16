@@ -31,7 +31,6 @@ class ReportController {
         status: 201,
         message: `${reportType} successfully reported`
       });
-
     } catch (error) {
       return res.status(500).json({
         status: 500,

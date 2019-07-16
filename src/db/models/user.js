@@ -30,6 +30,9 @@ module.exports = (sequelize, DataTypes) => {
       bio: {
         type: DataTypes.STRING,
       },
+      role: {
+        type: DataTypes.ENUM(['superAdmin', 'admin', 'user']),
+      },
       imageUrl: {
         type: DataTypes.STRING,
         required: false,

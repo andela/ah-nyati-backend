@@ -9,12 +9,13 @@ import findItem from '../helpers/findItem';
 
 const router = express.Router();
 
-const { usernameValidator, emailValidator, passwordValidator } = authValidator;
+const { usernameValidator, roleValidator, emailValidator, passwordValidator } = authValidator;
 const { checkExistingUser } = checkDuplicate;
 
 router.post('/signup',
   usernameValidator,
   emailValidator,
+  roleValidator,
   passwordValidator,
   validate,
   checkExistingUser,

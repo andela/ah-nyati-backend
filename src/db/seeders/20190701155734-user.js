@@ -11,6 +11,7 @@ module.exports = {
     email: 'john.doe@andela.com',
     bio: 'local man is stuck in traffic',
     isVerified: true,
+    role: 'superAdmin',
     password: hash,
     verificationToken: '',
     imageUrl: 'image.png'
@@ -21,6 +22,7 @@ module.exports = {
     email: 'cavdyofficials@gmail.com',
     bio: '#ghost',
     isVerified: true,
+    role: 'admin',
     password: 'password',
     verificationToken: '',
     imageUrl: 'image.png'
@@ -31,6 +33,7 @@ module.exports = {
     email: 'john.doe2@andela.com',
     bio: 'local man is stuck in traffic',
     isVerified: true,
+    role: 'user',
     password: 'password',
     verificationToken: '',
     imageUrl: 'image.png'

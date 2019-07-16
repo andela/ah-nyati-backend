@@ -95,6 +95,17 @@ describe('Articles', () => {
         });
     });
 
+    it('should create article if isDraft is empty', (done) => {
+      const { isDraft, ...partialArticleDetails } = testArticle;
+      chai.request(app).post('/api/v1/articles')
+        .set('token', testToken)
+        .send(partialArticleDetails)
+        .end((err, res) => {
+          res.should.have.status(201);
+          done();
+        });
+    });
+
     it('should return 400 error if article body is empty', (done) => {
       const { body, ...partialArticleDetails } = testArticle;
       chai.request(app).post('/api/v1/articles')
