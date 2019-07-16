@@ -32,4 +32,33 @@ router.post(
   createArticle
 );
 
+/**
+ * @swagger
+ *
+ * /articles:
+ *   post:
+ *     description: filter article by author, tag, category
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: search Parameter
+ *         description: keyword to search article by.
+ *         in: query
+ *         type: string
+ *       - name: search word
+ *         description: string to be searched for.
+ *         in: query
+ *         required: true
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: search article
+ */
+router.get('/articles', validateSearchInput, ArticleController.search);
+
+router.post('/articles/', verify, upload.array('images', 10), detailsValidator, validate, createArticle);
+
+
+router.get('/articles/:slug', findItem.findArticle, getArticle);
+
 export default router;

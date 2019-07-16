@@ -155,7 +155,7 @@ class ArticleController {
   }
 
   /**
-   * @description - Get a single article
+   * @description - Get a single article with readtime
    * @static
    * @async
    * @param {object} req - request
@@ -186,6 +186,12 @@ class ArticleController {
         ]
       });
 
+      const { body } = getArticle.dataValues;
+
+      const wordCount = body.split(' ').filter(word => word !== ' ');
+     
+      const readTime = Math.round(wordCount.length / 200);
+
       const getTags = await Tag.findAll({
         where: {
           articleId: getArticle.id
@@ -198,9 +204,12 @@ class ArticleController {
       const article = {};
       article.article = getArticle;
       article.tag = allTags;
+      article.readTime = readTime;
+
       return res.status(200).json({
         status: 200,
-        message: [article]
+        message: `This article's read time is ${readTime} mins`,
+        data: [article]
       });
     } catch (error) {
       return res.status(500).json({
