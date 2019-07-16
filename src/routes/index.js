@@ -8,6 +8,7 @@ import commentRoute from './commentRoute';
 import ratingRoute from './ratingRoute';
 import bookmarkRoute from './bookmarkRoute'
 import tagRoute from './tagRoute';
+import reportRoute from './reportRoute';
 
 const router = express.Router();
 
@@ -21,5 +22,6 @@ router.use('/api/v1/articles', commentRoute);
 router.use('/api/v1', ratingRoute);
 router.use('/api/v1', bookmarkRoute);
 router.use('/api/v1', tagRoute);
+router.use('/api/v1', reportRoute);
 
 export default router;
