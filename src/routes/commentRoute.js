@@ -4,29 +4,38 @@ import express from 'express';
 import CommentController from '../controllers/CommentController';
 import verify from '../helpers/verifyToken';
 import CommentValidation from '../middleware/CommentValidation';
-import FindItem from '../helpers/findItem';
+import findItem from '../helpers/findItem';
 import validate from '../middleware/validate';
 
 
 const router = express.Router();
 
-const { validateComment } = CommentValidation;
+const { validateComment, validateCommentId } = CommentValidation;
 
 
 router.post(
   '/:slug/comments',
   verify,
-  FindItem.getArticle,
+  findItem.getArticleWithAuthor,
   validateComment,
   validate,
-  CommentController.addCommentToArticle,
+  CommentController.addCommentTocomment,
 );
 
 router.get(
   '/:slug/comments',
   verify,
-  FindItem.findArticle,
+  findItem.findArticle,
   CommentController.getAllArticleComments,
 );
+
+router.post(
+  '/comments/:id/like',
+  verify,
+  validateCommentId,
+  validate,
+  findItem.findComment,
+  CommentController.likeComment,
+  );
 
 export default router;

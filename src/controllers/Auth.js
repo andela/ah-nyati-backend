@@ -206,13 +206,15 @@ class AuthController {
         const url = `${req.protocol}://${req.get('host')}/api/v1/auth/resetPassword?resetToken=${token}&email=${user.email}`;
         const html = resetTemplate(user.userName, url);
 
-        await sendEmail
-          .sendEmail(
-            'do_not_reply@authorhaven.com',
-            user.email,
-            'Password Reset',
-            html
-          );
+        if (!isTest) {
+          await sendEmail
+            .sendEmail(
+              'do_not_reply@authorhaven.com',
+              user.email,
+              'Password Reset',
+              html
+            );
+        }
 
         // RETURN SUCCESS IF SUCCESSFUL
         return res.status(200).json({

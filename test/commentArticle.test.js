@@ -144,7 +144,7 @@ describe('CommentArticleController', () => {
     try {
       const comment = [
         {
-          commentBody: 'I love reading your article',
+          commentBody: 'I would like to dance in the rain',
           userId: 1,
           articleId: 1,
         },
@@ -172,6 +172,80 @@ describe('CommentArticleController', () => {
         expect(res.body.data[0].comments[0]).to.have.property('createdAt');
         expect(res.body.data[0].comments[0]).to.have.property('id');
         expect(res.body.data[0].comments).to.be.a('array');
+        done();
+      });
+  });
+  it('should get all comments for a particular article successfully', done => {
+    chai
+      .request(app)
+      .get('/api/v1/articles/article/comments')
+      .set('token', testToken)
+      .end((err, res) => {
+        
+        res.should.have.status(200);
+        expect(res.body.message).equal('All comments fetched successfully');
+        expect(res.body.data[0]).to.have.property('articleId');
+        expect(res.body.data[0]).to.have.property('comments');
+        expect(res.body).to.have.property('status');
+        expect(res.body.data[0].comments[0]).to.have.property('commentBody');
+        expect(res.body.data[0].comments[0]).to.have.property('createdAt');
+        expect(res.body.data[0].comments[0]).to.have.property('id');
+        expect(res.body.data[0].comments).to.be.a('array');
+        done();
+      });
+  });
+  it('should fail to like a comment when the comment does not exist', done => {
+    chai
+      .request(app)
+      .post('/api/v1/articles/comments/29999/like')
+      .set('token', testToken)
+      .end((err, res) => {
+        res.should.have.status(404);
+        expect(res.body.message).equal('Comment not found');
+        done();
+      });
+  });
+  it('should like a comment successfully', done => {
+    chai
+      .request(app)
+      .post('/api/v1/articles/comments/1/like')
+      .set('token', testToken)
+      .end((err, res) => {
+        res.should.have.status(201);
+        expect(res.body.message).equal('You just liked this comment');
+        expect(res.body).to.have.property('status');
+        expect(res.body).to.have.property('data');
+        expect(res.body).to.have.property('message');
+        done();
+      });
+  });
+  it('should fail to like a comment if comment Id is invalid', done => {
+    chai
+      .request(app)
+      .post('/api/v1/articles/comments/w/like')
+      .set('token', testToken)
+      .end((err, res) => {        
+        res.should.have.status(400);
+        expect(res.body.message.id).equal('Comment Id must be an integer');
+        expect(res.body).to.have.property('message');
+        expect(res.body.message).to.have.property('id');
+        expect(res.body.message.id).equal('Comment Id must be an integer');
+        expect(res.body.message).to.be.a('object');
+        expect(res.body.message.id).to.be.a('string');
+        done();
+      });
+  });
+  it('should fail to like a comment if the user already liked it', done => {
+    chai
+      .request(app)
+      .post('/api/v1/articles/comments/1/like')
+      .set('token', testToken)
+      .end((err, res) => {
+        res.should.have.status(200);
+        expect(res.body.message).equal('You just unliked this comment');
+        expect(res.body).to.have.property('status');
+        expect(res.body).to.have.property('data');
+        expect(res.body).to.have.property('message');
         done();
       });
   });
