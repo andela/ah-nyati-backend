@@ -6,6 +6,7 @@ import likeRoute from './likeRoute';
 import articleRoute from './articleRoute';
 import commentRoute from './commentRoute';
 import ratingRoute from './ratingRoute';
+import bookmarkRoute from './bookmarkRoute'
 
 const router = express.Router();
 
@@ -17,5 +18,6 @@ router.use('/api/v1/', articleRoute);
 router.use('/api/v1', userRoute);
 router.use('/api/v1/articles', commentRoute);
 router.use('/api/v1', ratingRoute);
+router.use('/api/v1', bookmarkRoute);
 
 export default router;
