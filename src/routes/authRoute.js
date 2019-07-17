@@ -23,21 +23,6 @@ router.post('/signup',
 router.get('/verify/:token', AuthController.verifyAccount);
 router.post('/login', emailValidator, passwordValidator, validate, AuthController.login);
 
-/**
-* @swagger
-*
-* /auth/google:
-*   get:
-*     tags:
-*       - auth
-*     description: Google Social Login
-*     produces:
-*       - application/json
-*     responses:
-*       201:
-*         description: Success
-*/
-router.post('/login', AuthController.login);
 router.post('/logout', ValidateToken.checkToken, AuthController.logOut);
 router.post(
   '/sendResetToken',
@@ -51,20 +36,5 @@ router.post(
   AuthController.resetPassword
 );
 
-/**
-* @swagger
-*
-* /auth/google:
-*   post:
-*     tags:
-*       - auth
-*     description: Google Social Login
-*     produces:
-*       - application/json
-*     responses:
-*       201:
-*         description: Success
-*/
-router.post('/logout', AuthController.logOut);
 
 export default router;
