@@ -69,10 +69,6 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'reporterId',
       as: 'userReports',
     });
-    User.hasMany(models.highlightComment, {
-      foreignKey: 'userId',
-      as: 'highlightComment'
-    });
     User.hasMany(models.Rating, {
       foreignKey: 'userId',
       as: 'userRatings'
@@ -88,6 +84,10 @@ module.exports = (sequelize, DataTypes) => {
     User.hasMany(models.Bookmark, {
       foreignKey: 'userId',
       as: 'userBookmarks'
+    });
+    User.hasMany(models.highlightComment, {
+      foreignKey: 'userId',
+      as: 'highlightComment'
     });
   };
   return User;
