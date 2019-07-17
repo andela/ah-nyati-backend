@@ -249,4 +249,66 @@ describe('CommentArticleController', () => {
         done();
       });
   });
+
+  it('should fetch a specific comment', (done) => {
+    chai.request(app).get('/api/v1/articles/comments/1')
+      .set('token', testToken)
+      .end((err, res) => {
+        res.should.have.status(200);
+        expect(res.body.data[0]).to.have.property('articleId');
+        expect(res.body.data[0]).to.have.property('comment');
+        done();
+      });
+  });
+
+  it('should indicate that a comment does not exist', (done) => {
+    chai.request(app).get('/api/v1/articles/comments/100')
+      .set('token', testToken)
+      .end((err, res) => {
+        res.should.have.status(404);
+        expect(res.body.message).to.equal('Comment not found');
+        done();
+      });
+  });
+
+  it('should return an empty edit history of a comment', (done) => {
+    chai.request(app).get('/api/v1/articles/comments/1/history')
+      .set('token', testToken)
+      .end((err, res) => {
+        res.should.have.status(200);
+        expect(res.body.message).to.equal('This comment has not been edited');
+        expect(res.body.data[0]).to.have.property('comment');
+        expect(res.body.data[0]).to.have.property('articleId');
+        expect(res.body.data[0]).to.have.property('editHistory');
+        expect(res.body.data[0]).to.have.property('updatedAt');
+        expect(res.body.data[0].editHistory.length).to.equal(0);
+        done();
+      });
+  });
+
+  it('should update a comment', (done) => {
+    chai.request(app).patch('/api/v1/articles/comments/1')
+    .send({commentBody: 'Hello! I am the edited comment'})
+      .set('token', testToken)
+      .end((err, res) => {
+        res.should.have.status(200);
+        expect(res.body.data[0]).to.have.property('articleId');
+        expect(res.body.data[0].comment.commentBody).to.equal('Hello! I am the edited comment');
+        expect(res.body.message).to.equal('Comment updated successfully');
+        done();
+      });
+  });
+
+  it('should fetch the edit history of a comment', (done) => {
+    chai.request(app).get('/api/v1/articles/comments/1/history')
+      .set('token', testToken)
+      .end((err, res) => {
+        res.should.have.status(200);
+        expect(res.body.data[0]).to.have.property('comment');
+        expect(res.body.data[0]).to.have.property('articleId');
+        expect(res.body.data[0]).to.have.property('editHistory');
+        expect(res.body.data[0]).to.have.property('updatedAt');
+        done();
+      });
+  });
 });

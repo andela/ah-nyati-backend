@@ -1,6 +1,6 @@
 import express from 'express';
 
-// middelwares
+// middelware
 import CommentController from '../controllers/CommentController';
 import verify from '../helpers/verifyToken';
 import CommentValidation from '../middleware/CommentValidation';
@@ -37,5 +37,25 @@ router.post(
   findItem.findComment,
   CommentController.likeComment,
   );
+router.get(
+  '/comments/:id',
+  verify,
+  findItem.findComment,
+  CommentController.getSingleComment,
+);
+
+router.patch(
+  '/comments/:id',
+  verify,
+  findItem.findComment,
+  CommentController.updateComment,
+);
+
+router.get(
+  '/comments/:id/history',
+  verify,
+  findItem.findComment,
+  CommentController.getCommentHistory,
+);
 
 export default router;

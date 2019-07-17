@@ -26,7 +26,7 @@ module.exports = {
           },
         },
         commentBody: {
-          type: Sequelize.STRING,
+          type: Sequelize.TEXT,
           required: true,
         },
         createdAt: {

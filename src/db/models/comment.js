@@ -1,7 +1,7 @@
 const comment = (sequelize, DataTypes) => {
   const Comment = sequelize.define('Comment', {
     commentBody: {
-      type: DataTypes.STRING
+      type: DataTypes.TEXT
     },
     userId: {
       type: DataTypes.INTEGER,
@@ -35,6 +35,10 @@ const comment = (sequelize, DataTypes) => {
       as: 'article',
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE'
+    });
+    Comment.hasMany(models.CommentHistory, {
+      foreignKey: 'commentId',
+      as: 'CommentsHistory'
     });
   };
   return Comment;

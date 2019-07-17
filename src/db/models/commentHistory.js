@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
         required: true,
       },
       commentBody: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         required: true,
       },
     }, {});

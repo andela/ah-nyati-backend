@@ -1,4 +1,4 @@
-import { Comment, CommentLike } from '../db/models';
+import { Comment, CommentHistory, CommentLike } from '../db/models';
 /**
  * @description This controller handles comment request
  * @class CommentController
@@ -150,6 +150,116 @@ class CommentController {
       });
     }
   }
+
+/**
+ *@description This function gets a specific comment
+ * @static
+ * @param {object} req
+ * @param {object} res
+ * @returns {object} res
+ * @memberof CommentController
+ */
+static async getSingleComment(req, res) {
+  try {
+    const { comment } = res.locals;
+    const { articleId } = comment;
+    return res.status(200).json({
+      status: 200,
+      message: 'Operation successful',
+      data: [{
+        articleId,
+        comment,
+      }],
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: 500,
+      message: error.message,
+    });
+  }
+}
+
+/**
+ * @description This function edits and updates a comment
+ * @static
+ * @param {object} req
+ * @param {object} res
+ * @returns {object} res
+ * @memberof CommentController
+ */
+static async updateComment(req, res) {
+  try {
+    const { comment } = res.locals;
+    const { articleId } = comment;
+    const { commentBody } = req.body;
+    const userId = req.user;
+
+    await CommentHistory.create({ userId, commentId: comment.id, commentBody: comment.commentBody }); 
+
+    await comment.update({commentBody},
+      { where: {
+        id: comment.id,
+      }
+    });
+    return res.status(200).json({
+      status: 200,
+      message: 'Comment updated successfully',
+      data: [{
+        articleId,
+        comment,
+      }]
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: 500,
+      message: error.message,
+    });
+  }
+}
+
+/**
+ * @description This function gets the edit history of a comment
+ * @static
+ * @param {object} req
+ * @param {object} res
+ * @returns {object} res
+ * @memberof CommentController
+ */
+static async getCommentHistory(req, res) {
+  try {
+    const { id } = req.params;
+    const { comment } = res.locals;
+    const { articleId } = comment;
+    let message;
+    
+    const editHistory = await CommentHistory.findAll({
+      where: { commentId: id },
+      attributes: {exclude: ['createdAt', 'updatedAt']},
+    });
+
+    if (editHistory.length === 0) {
+      message = 'This comment has not been edited'
+    } else {
+      message = 'Operation successful';
+    };
+    
+    return res.status(200).json({
+      status: 200,
+      message,
+      data: [{
+        comment: comment.commentBody,
+        articleId,
+        editHistory,
+        updatedAt: comment.updatedAt,
+      }]
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: 500,
+      message: error.message,
+    });
+  }
+}
 }
 
 export default CommentController;
