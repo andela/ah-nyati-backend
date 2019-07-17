@@ -54,6 +54,14 @@ class CommentController {
     }
   }
   
+  /**
+   * @static
+   * @description The get all comment method
+   * @param  {object} req The req object
+   * @param  {object} res The res object
+   * @returns {object} json res
+   * @memberof CommentController
+   */
   static async getAllArticleComments(req, res) {
       const { article } = res.locals;
       const articleId = article.id;
