@@ -47,6 +47,11 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE',
     });
+    Article.hasMany(models.Bookmark, {
+      foreignKey: 'articleId',
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE'
+    });
   };
   return Article;
 };
