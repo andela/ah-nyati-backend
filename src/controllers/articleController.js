@@ -186,11 +186,11 @@ class ArticleController {
         ]
       });
 
-      const { body } = getArticle.dataValues;
+      const { body, views, read  } = getArticle.dataValues;
 
       const wordCount = body.split(' ').filter(word => word !== ' ');
      
-      const readTime = Math.round(wordCount.length / 200);
+      const readTime = Math.round((wordCount.length / 200) + 1);
 
       const getTags = await Tag.findAll({
         where: {
@@ -205,6 +205,24 @@ class ArticleController {
       article.article = getArticle;
       article.tag = allTags;
       article.readTime = readTime;
+
+      const timeOfPageLoad = 4;
+      const timeOfPageUnload = 10;
+      const actualReadTime = timeOfPageUnload - timeOfPageLoad;
+
+      if(getArticle) {
+        let view = views;
+        let reads = read
+
+        getArticle.update({
+          views: view += 1
+        })
+        if(actualReadTime > readTime){
+          getArticle.update({
+            read: reads += 1
+          })
+        }
+      }
 
       return res.status(200).json({
         status: 200,

@@ -23,3 +23,5 @@ module.exports = (sequelize, DataTypes) => {
   };
   return CommentLike;
 };
+
+

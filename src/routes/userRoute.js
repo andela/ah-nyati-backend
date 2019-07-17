@@ -25,6 +25,7 @@ router.put('/profiles/:id',
   verify, upload.single('avatar'),
   profileChecker,
   UserController.updateProfile);
+  
 router.post(
   '/follow/:userId',
   verify,

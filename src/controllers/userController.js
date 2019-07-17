@@ -247,6 +247,41 @@ class UserController {
       });
     }
   }
-}  
+
+  /**
+   * @static
+   * @description this function gets a user's( an author) reading stat
+   * @param {object} req the request body
+   * @param {object} res the response body
+   * @returns {object} res
+   * @memberof UserController
+   */
+  static async getUserReadStat(req, res) {
+    const { user } = req;
+    try {
+      const result = await findItem.getUserReadStat(user);
+
+      if(!result) {
+          return res.status(404).json({
+            status: 404,
+            message: 'You have no articles'
+          })
+        }
+       
+      return res.status(200).json({
+        status: 200,
+        result
+      });
+      
+      
+
+    } catch (error) {
+      return res.status(500).json({
+        status: 500,
+        error: error.message
+      });
+    }
+  }
+}
 
 export default UserController;

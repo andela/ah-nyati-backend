@@ -258,6 +258,30 @@ class FindItem {
     return (Object.values(profile))
   }
 
+  /**
+   *@description this function gets a user's( an author) reading stat
+   * @param {object} user
+   * @returns {object} object
+   * @memberof FindItem
+   */
+  static async getUserReadStat(user) {
+    const result = await Article.findAll({
+      where: { userId: user },
+      attributes: {
+        exclude: ['id', 'body', 'description', 'updatedAt', 'imageUrl', 'isDraft', 'createdAt', 'userId', 'catId']
+      }
+    })
+     
+    const stat = {};
+      
+    result.forEach((article) => {
+      const articleStat = ({...(article.toJSON())});
+      stat[article.slug] = articleStat;
+    })
+
+    return (Object.values(stat))
+  }
+
 
 }
 
