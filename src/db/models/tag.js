@@ -5,5 +5,5 @@ module.exports = (sequelize, DataTypes) => {
       required: true
     },
   }, {});
-  return Tag;
+return Tag;
 };
