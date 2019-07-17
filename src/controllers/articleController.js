@@ -1,4 +1,4 @@
-import { Article, Tag, User, Category } from '../db/models';
+import { Article, Tag, User, Category, highlightComment } from '../db/models';
 import slugGen from '../helpers/slugGen';
 import urlExtractor from '../helpers/urlExtractor';
 import tagExtractor from '../helpers/tagExtractor';
@@ -155,7 +155,7 @@ class ArticleController {
   }
 
   /**
-   * @description - Get a single article
+   * @description - Get a single article with readtime
    * @static
    * @async
    * @param {object} req - request
@@ -186,6 +186,12 @@ class ArticleController {
         ]
       });
 
+      const { body } = getArticle.dataValues;
+
+      const wordCount = body.split(' ').filter(word => word !== ' ');
+     
+      const readTime = Math.round(wordCount.length / 200);
+
       const getTags = await Tag.findAll({
         where: {
           articleId: getArticle.id
@@ -198,14 +204,59 @@ class ArticleController {
       const article = {};
       article.article = getArticle;
       article.tag = allTags;
+      article.readTime = readTime;
+
       return res.status(200).json({
         status: 200,
-        message: [article]
+        message: `This article's read time is ${readTime} mins`,
+        data: [article]
       });
     } catch (error) {
       return res.status(500).json({
         status: 500,
         message: error.message
+      });
+    }
+  }
+
+  /**
+   * @description - Highlight and Comment an article
+   * @static
+   * @async
+   * @param {object} req - request
+   * @param {object} res - response
+   * @returns {object} highlighted comment
+   */
+  static async highlightAndComment(req, res) {
+    try {
+      const { highlightedWord, comment } = req.body;
+      const userId = req.user;
+      const article = res.locals.articleObject;
+      const articleId = article.id
+
+      const isHighlightedWordFound = article.body.includes(highlightedWord)
+      if (isHighlightedWordFound) {
+        await highlightComment.create({
+          highlightedWord,
+          comment,
+          userId,
+          articleId
+        })
+
+        return res.status(201).json({
+          status: 201,
+          message: `${highlightedWord} has been highlighted`
+        });
+      }
+
+      return res.status(400).json({
+        status: 400,
+        message: 'invalid highlighted word'
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: 500,
+        message: error.message,
       });
     }
   }

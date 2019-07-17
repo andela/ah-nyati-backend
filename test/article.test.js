@@ -1,8 +1,12 @@
-import chai from 'chai';
+import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 import path from 'path';
+import dotenv from 'dotenv';
+
 
 import app from '../src/server';
+
+dotenv.config();
 
 chai.use(chaiHttp);
 chai.should();
@@ -148,5 +152,48 @@ describe('Articles', () => {
           done();
         });
     });
+  });
+});
+
+describe('Article Controller', () => {
+  describe('Testing article controller', () => {
+    const article = '/api/v1/articles/';
+    it(
+      'should get article',
+      async () => {
+        const response = await chai.request(app)
+          .get(`${article}article`)
+          .send();
+        expect(response).to.be.an('object');
+        expect(response).to.have.status(200);
+        expect(response.body).to.have.property('data');
+        expect(response.body).to.have.property('message');
+        expect(response.body.data[0]).to.have.property('article');
+      },
+    );
+
+    it(
+      'should not get article when nothing found',
+      async () => {
+        const response = await chai.request(app)
+          .get(`${article}artic`)
+          .send();
+        expect(response).to.be.an('object');
+        expect(response).to.have.status(404);
+        expect(response.body).to.have.property('message');
+        expect(response.body.status).to.equal(404);
+      },
+    );
+
+    it(
+      'should return 404 when an incorrect route is tested',
+      async () => {
+        const response = await chai.request(app)
+          .get('/api/v1/article/artic')
+          .send();
+        expect(response).to.be.an('object');
+        expect(response).to.have.status(404);
+      },
+    );
   });
 });
