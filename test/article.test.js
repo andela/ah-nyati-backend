@@ -124,5 +124,18 @@ describe('Articles', () => {
           done();
         });
     });
+
+    it('should return 404 error if catId does not exist', (done) => {
+      const partialArticleDetails = { ...testArticle, catId: 90 };
+      chai.request(app).post('/api/v1/articles')
+        .set('token', testToken)
+        .send(partialArticleDetails)
+        .end((err, res) => {
+          res.should.have.status(404);
+          res.body.should.be.an('object');
+          res.body.should.have.property('message').equal('The category does not exist');
+          done();
+        });
+    });
   });
 });

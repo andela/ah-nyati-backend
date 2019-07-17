@@ -1,4 +1,4 @@
-import { Article, User, Comment } from '../db/models';
+import { Article, User, Comment, Category } from '../db/models';
 /**
  *
  *@description This class checks a table for the presence or absence of a row
@@ -204,6 +204,22 @@ class FindItem {
       res.locals.comment = comment;
       return next();
   }
+  
+    /**
+     *@description This function finds a category using id
+     * @param {integer} id - the id of the article to be found
+     * @returns {object} category
+     * @memberof FindItem
+     */
+    static async findCategoryById(id) {
+      const category = await Category.findOne({
+        where: {
+          id
+        }
+      });
+      return category;
+    }
+
 }
 
 export default FindItem;
