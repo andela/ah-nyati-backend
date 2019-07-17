@@ -50,6 +50,14 @@ class CommentController {
     }
   }
   
+  /**
+   * @static
+   * @description The get all comment method
+   * @param  {object} req The req object
+   * @param  {object} res The res object
+   * @returns {object} json res
+   * @memberof CommentController
+   */
   static async getAllArticleComments(req, res) {
       const { article } = res.locals;
       const articleId = article.id;
@@ -74,9 +82,12 @@ class CommentController {
       return res.status(200).json({
         status: 200,
         message: 'All comments fetched successfully',
-        article,
+        articleId,
         comments,
-        pages
+        TotalComments: count,
+        currentPage,
+        limit,
+        TotalPages: pages
       });
     } catch (error) {
       return res.status(500).json({

@@ -37,6 +37,18 @@ module.exports = {
       type: Sequelize.BOOLEAN,
       defaultValue: true
     },
+    views: {
+      defaultValue: 0,
+      type: Sequelize.INTEGER
+    },
+    read: {
+      defaultValue: 0,
+      type: Sequelize.INTEGER
+    },
+    readRatio: {
+      defaultValue: 0,
+      type: Sequelize.INTEGER
+    },
     catId: {
       type: Sequelize.INTEGER,
       onUpdate: 'CASCADE',

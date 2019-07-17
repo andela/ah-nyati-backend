@@ -1,12 +1,13 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../src/server';
+import { Comment } from '../src/db/models';
 
 chai.should();
 chai.use(chaiHttp);
 const { expect } = chai;
 
-let token;
+let testToken;
 
 describe('CommentArticleController', () => {
   it('should login user successfully', done => {
@@ -19,7 +20,7 @@ describe('CommentArticleController', () => {
       .post('/api/v1/auth/login')
       .send(user)
       .end((err, res) => {
-        token = res.body.token;
+        testToken = res.body.token;
         res.should.have.status(200);
         expect(res.body.message).equal('User Login successful');
         expect(res.body).to.have.property('message');
@@ -36,7 +37,7 @@ describe('CommentArticleController', () => {
       .request(app)
       .post('/api/v1/articles/article/comments')
       .send(comment)
-      .set('token', token)
+      .set('token', testToken)
       .end((err, res) => {
         res.should.have.status(201);
         expect(res.body.message).equal('Comment Added Successfully');
@@ -60,7 +61,7 @@ describe('CommentArticleController', () => {
       .request(app)
       .post('/api/v1/articles/articlenb/comments')
       .send(comment)
-      .set('token', token)
+      .set('token', testToken)
       .end((err, res) => {
         res.should.have.status(404);
         expect(res.body.message).equal('Article not found');
@@ -75,7 +76,7 @@ describe('CommentArticleController', () => {
       .request(app)
       .post('/api/v1/articles/article/comments')
       .send(comment)
-      .set('token', token)
+      .set('token', testToken)
       .end((err, res) => {
         res.should.have.status(400);
         expect(res.body.message).equal('Invalid request');
@@ -94,7 +95,7 @@ describe('CommentArticleController', () => {
       .request(app)
       .post('/api/v1/articles/article/comments')
       .send(comment)
-      .set('token', token)
+      .set('token', testToken)
       .end((err, res) => {
         res.should.have.status(400);
         expect(res.body.message).equal('Invalid request');
@@ -132,7 +133,7 @@ describe('CommentArticleController', () => {
       .request(app)
       .post('/api/v1/articles/article/comments')
       .send(comment)
-      .set('token', `${token}k`)
+      .set('token', `${testToken}k`)
       .end((err, res) => {
         res.should.have.status(401);
         expect(res.body.error).equal('Invalid token provided');
@@ -160,21 +161,17 @@ describe('CommentArticleController', () => {
     chai
       .request(app)
       .get('/api/v1/articles/article/comments?page=1&limit=1')
-      .set('token', token)
+      .set('token', testToken)
       .end((err, res) => {
         res.should.have.status(200);
         expect(res.body.message).equal('All comments fetched successfully');
-        expect(res.body).to.have.property('article');
+        expect(res.body).to.have.property('articleId');
         expect(res.body).to.have.property('comments');
-        expect(res.body).to.have.property('pages');
+        expect(res.body).to.have.property('TotalPages');
         expect(res.body).to.have.property('status');
-        expect(res.body.article).to.have.property('title');
-        expect(res.body.article).to.have.property('body');
-        expect(res.body.article.body).to.be.a('string');
         expect(res.body.comments[0]).to.have.property('commentBody');
         expect(res.body.comments[0]).to.have.property('createdAt');
         expect(res.body.comments[0]).to.have.property('id');
-        expect(res.body.article).to.be.a('object');
         expect(res.body.comments).to.be.a('array');
         done();
       });
