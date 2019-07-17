@@ -3,15 +3,15 @@ import bodyParser from 'body-parser';
 import session from 'express-session';
 import cors from 'cors';
 import errorhandler from 'errorhandler';
-import swaggerUi from 'swagger-ui-express';
+import swagger from 'swagger-ui-express';
 import passport from 'passport';
+import swaggerConfig from '../swagger.json';
 import config from './db/config/config';
 import router from './routes/index';
 import triggerCronJob from './helpers/cronJobHelper';
 import {
   googleStrategy, facebookStrategy, twitterStrategy, gitHubStrategy, SerializeSetUp
 } from './config/social_config';
-import swaggerSpec from '../swagger';
 
 
 const { isProduction, port } = config;
@@ -20,15 +20,6 @@ const app = express();
 
 // It triggers the cron job
 triggerCronJob();
-
-
-app.get('/api/v1/doc', (req, res) => {
-  res.setHeader('Content-Type', 'application/json');
-  res.send(swaggerSpec);
-});
-
-
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use(cors());
 
@@ -64,6 +55,7 @@ passport.use(gitHubStrategy);
 if (!isProduction) {
   app.use(errorhandler());
 }
+app.use('/api-docs', swagger.serve, swagger.setup(swaggerConfig));
 
 app.get('/', (req, res) => {
   res.status(200).json({

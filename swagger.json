@@ -1,0 +1,769 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Author's Haven",
+    "description": "Authors Haven - A Social platform for the creative at heart.",
+    "version": "1.0"
+  },
+  "host": "ah-nyati-backend-staging.herokuapp.com",
+  "basePath": "/api/v1",
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "SignUp and Signin users"
+    },
+    {
+      "name": "Users",
+      "description": "Users API end point"
+    },
+    {
+      "name": "Articles",
+      "description": "All endpoint about articles"
+    }
+  ],
+  "paths": {
+    "/auth/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "POST API endpoint for user login",
+        "produces": ["application/json"],
+        "consumes": ["application/x-www-form-urlencoded"],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "formData",
+            "description": "The email of the user",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "password",
+            "in": "formData",
+            "description": "The password for login in clear text",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid username/password supplied"
+          },
+          "409": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/auth/signup": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "POST API endpoint for signing up new user",
+        "produces": ["application/json"],
+        "consumes": ["application/x-www-form-urlencoded"],
+        "parameters": [
+          {
+            "name": "userName",
+            "in": "formData",
+            "description": "user  name",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "email",
+            "in": "formData",
+            "description": "email of the user",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "password",
+            "in": "formData",
+            "description": "users password",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "A link has been sent to your mailbox for verification"
+          },
+          "500": {
+            "description": "Internal server error"
+          },
+          "409": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Log current token out",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "User logged out successfully"
+          },
+          "400": {
+            "description": "User email does not exist"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/auth/resetPassword": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Post user email for password reset instructions",
+        "produces": ["application/json"],
+        "consumes": ["application/x-www-form-urlencoded"],
+        "parameters": [
+          {
+            "name": "resetToken",
+            "in": "query",
+            "description": "token to reset password",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "reset code successfully sent to email"
+          },
+          "400": {
+            "description": "User email does not exist"
+          }
+        }
+        
+      }
+    },
+    "/auth/sendResetToken": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Post user email for password reset instructions",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "formData",
+            "description": "send token for user to reset password",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Error in input"
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "403": {
+            "description": "Auth token not supplied"
+          }
+        }
+      }
+    },
+    "/profiles/{id}": {
+      "put": {
+        "tags": ["Users"],
+        "summary": "PUT API endpoint for user to create and update profile",
+        "produces": ["application/json"],
+        "consumes": ["application/x-www-form-urlencoded"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The id of the user",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "firstName",
+            "in": "formData",
+            "description": "The first name of the user",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "lastName",
+            "in": "formData",
+            "description": "The last name of the user",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "userName",
+            "in": "formData",
+            "description": "The user's alias",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "bio",
+            "in": "formData",
+            "description": "The user's bio",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "avatar",
+            "in": "formData",
+            "description": "The user's profile picture",
+            "required": false,
+            "type": "file"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "No user found"
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "403": {
+            "description": "Auth token not supplied"
+          },
+          "500": {
+            "description": "Auth token expired"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/follow/{userId}": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "POST API endpoint for user to follow another user and unfollow another user",
+        "produces": ["application/json"],
+        "consumes": ["application/x-www-form-urlencoded"],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "The userId of who to be followed",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "User not found"
+          },
+          "409": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/articles/{slug}/comments": {
+      "post": {
+        "tags": ["Articles"],
+        "summary": "POST API endpoint for creating comment on an article",
+        "produces": ["application/json"],
+        "consumes": ["application/x-www-form-urlencoded"],
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "description": "slug of the article to be commented on",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "commentBody",
+            "in": "formData",
+            "description": "body of the comment",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "successful operation"
+          },
+          "404": {
+            "description": "No user found"
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "403": {
+            "description": "Auth token not supplied"
+          },
+          "500": {
+            "description": "Auth token expired"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      },
+      "get": {
+        "tags": ["Articles"],
+        "summary": "GET API endpoint for getting all comment on an article",
+        "produces": ["application/json"],
+        "consumes": ["application/x-www-form-urlencoded"],
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "description": "slug of the article to view all comments",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "article not found"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "articles/comments/{id}/like": {
+      "post": {
+        "tags": ["Articles"],
+        "summary": "POST API endpoint for comment like",
+        "produces": ["application/json"],
+        "consumes": ["application/x-www-form-urlencoded"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of the comment to like",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "successful operation"
+          },
+          "404": {
+            "description": "No user found"
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "403": {
+            "description": "Auth token not supplied"
+          },
+          "500": {
+            "description": "Auth token expired"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/articles/{slug}/like": {
+      "post": {
+        "tags": ["Articles"],
+        "summary": "POST API endpoint for liking an article",
+        "produces": ["application/json"],
+        "consumes": ["application/x-www-form-urlencoded"],
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "description": "slug of the article to be liked",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "No user found"
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "403": {
+            "description": "Auth token not supplied"
+          },
+          "500": {
+            "description": "Auth token expired"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      },
+      "get": {
+        "tags": ["Articles"],
+        "summary": "GET API endpoint for getting all comment on an article",
+        "produces": ["application/json"],
+        "consumes": ["application/x-www-form-urlencoded"],
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "description": "slug of the article to view all comments",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "article not found"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/articles": {
+      "post": {
+        "tags": ["Articles"],
+        "summary": "POST API endpoint for creating comment on an article",
+        "produces": ["application/json"],
+        "consumes": ["application/x-www-form-urlencoded"],
+        "parameters": [
+          {
+            "name": "title",
+            "in": "formData",
+            "description": "Title of the article",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "description",
+            "in": "formData",
+            "description": "Description of the article",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "formData",
+            "description": "Body of the article",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "catId",
+            "in": "formData",
+            "description": "category Id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "tagList",
+            "in": "formData",
+            "description": "Tag list",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "imageUrl",
+            "in": "formData",
+            "description": "Image Url",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "isDraft",
+            "in": "formData",
+            "description": "Draft",
+            "required": false,
+            "type": "boolean"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "successful operation"
+          },
+          "404": {
+            "description": "No user found"
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "403": {
+            "description": "Auth token not supplied"
+          },
+          "500": {
+            "description": "Auth token expired"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      },
+      "get": {
+        "tags": ["Articles"],
+        "summary": "GET API endpoint for search all articles",
+        "produces": ["application/json"],
+        "consumes": ["application/x-www-form-urlencoded"],
+        "parameters": [
+          {
+            "name": "author",
+            "in": "path",
+            "description": "author of the article to view",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "article not found"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      },
+      "get": {
+        "tags": ["Articles"],
+        "summary": "GET API endpoint for search all articles",
+        "produces": ["application/json"],
+        "consumes": ["application/x-www-form-urlencoded"],
+        "parameters": [
+          {
+            "name": "title",
+            "in": "path",
+            "description": "author of the article to view",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "article not found"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      },
+      "get": {
+        "tags": ["Articles"],
+        "summary": "GET API endpoint for search all articles",
+        "produces": ["application/json"],
+        "consumes": ["application/x-www-form-urlencoded"],
+        "parameters": [
+          {
+            "name": "tag",
+            "in": "path",
+            "description": "author of the article to view",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "article not found"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      },
+      "get": {
+        "tags": ["Articles"],
+        "summary": "GET API endpoint for search all articles",
+        "produces": ["application/json"],
+        "consumes": ["application/x-www-form-urlencoded"],
+        "parameters": [
+          {
+            "name": "q",
+            "in": "path",
+            "description": "author of the article to view",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "article not found"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      },
+      "get": {
+        "tags": ["Articles"],
+        "summary": "GET API endpoint for search all articles",
+        "produces": ["application/json"],
+        "consumes": ["application/x-www-form-urlencoded"],
+        "parameters": [
+          {
+            "name": "category",
+            "in": "path",
+            "description": "author of the article to view",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "article not found"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/articles/rate/{slug}": {
+      "post": {
+        "tags": ["Articles"],
+        "summary": "POST API endpoint for rating an article",
+        "produces": ["application/json"],
+        "consumes": ["application/x-www-form-urlencoded"],
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "description": "slug of the article to be rated",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "value",
+            "in": "formData",
+            "description": "body of the rate",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Article rating has been rating has been updated successfully"
+          },
+          "200": {
+            "description": "Article rating successful"
+          },
+          "500": {
+            "description": "Internal server error"
+          },
+          "403": {
+            "description": "Auth token not supplied"
+          },
+          "500": {
+            "description": "Auth token expired"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/articles/rating/{slug}": {
+      "get": {
+        "tags": ["Articles"],
+        "summary": "GET API endpoint for getting all ratings on an article paginated",
+        "produces": ["application/json"],
+        "consumes": ["application/x-www-form-urlencoded"],
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "description": "slug of the article to view all ratings",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "All Ratings fetch successfully"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    }
+  },
+  "securityDefinitions": {
+    "JWT": {
+      "type": "apiKey",
+      "name": "token",
+      "in": "header"
+    }
+  }
+}
