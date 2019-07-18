@@ -55,7 +55,10 @@ export default class socialController {
       });
 
       if (!user) {
-        return res.status(404).send('user not found');
+        return res.status(404).json({
+          status: 404,
+          message: 'User not found'
+        });
       }
 
       const {
@@ -74,18 +77,20 @@ export default class socialController {
 
       return res.status(200).json({
         message: 'successful',
-        data: {
-          token,
-          firstname,
-          lastname,
-          bio,
-          image
-        }
+        data: [
+          {
+            token,
+            firstname,
+            lastname,
+            bio,
+            image
+          }
+        ]
       });
-    } catch (err) {
+    } catch (error) {
       return res.status(500).json({
-        status: 'error',
-        message: err.message
+        status: 500,
+        message: error.message
       });
     }
   }

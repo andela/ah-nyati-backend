@@ -21,7 +21,7 @@ describe('UserController', () => {
       .end((err, res) => {
         token  = res.body.token;
         userId = res.body.data.id;
-        res.body.data.should.be.an('object');
+        res.body.data.should.be.an('array');
         res.should.have.status(200);
         res.body.message.should.be.a('string').eql('User Login successful');
         done();
@@ -38,7 +38,7 @@ describe('UserController', () => {
       })
       .end((err, res) => {
         res.should.have.status(401);
-        expect(res.body.error).equal('token is not provided!');
+        expect(res.body.message).equal('Token is not provided!');
         done();
       });
   });
@@ -54,7 +54,7 @@ describe('UserController', () => {
       .set('token', 'hello')
       .end((err, res) => {
         res.should.have.status(401);
-        expect(res.body.error).equal('Invalid token provided');
+        expect(res.body.message).equal('Invalid token provided');
         done();
       });
   });
@@ -70,10 +70,10 @@ describe('UserController', () => {
       .set('token', token)
       .end((err, res) => {
         res.should.have.status(200);
-        expect(res.body.user.firstName).equal('John');
-        expect(res.body.user.lastName).equal('Doe');
-        expect(res.body.user.bio).equal('This is a test bio');
-        expect(res.body.user.userName).equal('JohnDoe');
+        expect(res.body.data[0].firstName).equal('John');
+        expect(res.body.data[0].lastName).equal('Doe');
+        expect(res.body.data[0].bio).equal('This is a test bio');
+        expect(res.body.data[0].userName).equal('JohnDoe');
         done();
       });
   });
@@ -89,7 +89,7 @@ describe('UserController', () => {
       .set('token', token)
       .end((err, res) => {
         res.should.have.status(401);
-        expect(res.body.error).equal('You do not have permission to perform that operation');
+        expect(res.body.message).equal('You do not have permission to perform that operation');
         done();
       });
   });
@@ -125,10 +125,9 @@ describe('UserController', () => {
       .set('token', token)
       .end((err, res) => {
         res.should.have.status(400);
-        expect(res.body.errors[0]).equal('First name can only contain letters');
-        expect(res.body.errors[1]).equal('Last name can only contain letters');
-        expect(res.body.errors[2]).equal('Input a valid email address');
-        expect(res.body.errors[3]).equal('Bio cannot exceed 150 characters');
+        expect(res.body.message.firstName).equal('First name can only contain letters');
+        expect(res.body.message.lastName).equal('Last name can only contain letters');
+        expect(res.body.message.bio).equal('Bio cannot exceed 150 characters');
         done();
       });
   });
@@ -138,10 +137,10 @@ describe('UserController', () => {
       .set('token', token)
       .end((err, res) => {
         res.should.have.status(200);
-        expect(res.body.users.firstName).equal('John');
-        expect(res.body.users.lastName).equal('Doe');
-        expect(res.body.users.bio).equal('This is a test bio');
-        expect(res.body.users.userName).equal('JohnDoe');
+        expect(res.body.data[0].firstName).equal('John');
+        expect(res.body.data[0].lastName).equal('Doe');
+        expect(res.body.data[0].bio).equal('This is a test bio');
+        expect(res.body.data[0].userName).equal('JohnDoe');
         done();
       });
   });
@@ -151,7 +150,7 @@ describe('UserController', () => {
       .set('token', token)
       .end((err, res) => {
         res.should.have.status(404);
-        expect(res.body.error).equal('User not found');
+        expect(res.body.message).equal('User not found');
         done();
       });
   });

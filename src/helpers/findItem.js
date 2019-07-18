@@ -27,7 +27,7 @@ class FindItem{
       if (!article) {
         return res.status(404).json({
           status: 404,
-          error: 'Article not found',
+          message: 'Article not found',
         });
       }
       res.locals.article = article
@@ -35,7 +35,7 @@ class FindItem{
     } catch (error) {
       return res.status(500).json({
         status: 500,
-        message: 'Internal server error',
+        message: error.message,
       });
     }
     }
@@ -95,11 +95,9 @@ static async getArticle (req, res, next) {
 
     if (!findUser) {
       // RETURN ERROR IF THE USER DOES NOT EXIST
-      const errors = {};
-      errors.user = 'user does not exist';
       return res.status(404).json({
         status: 404,
-        data: errors,
+        message: 'User does not exist',
       });
     }
     req.userResponse = findUser;
@@ -120,11 +118,9 @@ static async getArticle (req, res, next) {
 
     if (userToken === Number(userId)) {
       // RETURN ERROR IF USER IS TRYING TO FOLLOW THEMSELVES
-      const errors = {};
-      errors.follow = 'you can not follow yourself';
       return res.status(400).json({
         status: 400,
-        data: errors,
+        message: 'You cannot follow yourself',
       });
     }
     return next();
@@ -149,11 +145,9 @@ static async getArticle (req, res, next) {
 
     if (!findUserByEmail) {
       // SET ERROR IF EMAIL DOES NOT EXIST
-      const errors = {};
-      errors.email = 'email does not exist';
       return res.status(404).json({
         status: 404,
-        message: errors,
+        message: 'Email does not exist',
       });
     }
     req.userByEmail = findUserByEmail;

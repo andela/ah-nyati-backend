@@ -105,7 +105,7 @@ class ArticleController {
     } catch (error) {
       return res.status(500).json({
         status: 500,
-        error: error.message
+        message: error.message
       });
     }
   }
@@ -142,13 +142,14 @@ class ArticleController {
       await Tag.bulkCreate(newTagDetails);
 
       return res.status(201).json({
-        message: 'article successfully created',
-        article: newArticle
+        status: 201,
+        message: 'Article successfully created',
+        data: [ newArticle ]
       });
     } catch (error) {
-      return res.status(500).json({
-        message: 'Internal server error',
-        error
+      return res.status(500).json({ 
+        status: 500,
+        message: error.message
       });
     }
   }

@@ -61,7 +61,7 @@ describe('GET Social Login', () => {
     expect(response.status).to.have.been.calledWith(500);
     expect(response.json.calledOnce).to.eql(true);
     expect(response.json).to.have.been.calledWith({
-      status: 'error',
+      status: 500,
       message: 'This is an error'
     });
   });

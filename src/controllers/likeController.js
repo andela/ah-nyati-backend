@@ -31,8 +31,8 @@ class LikeController {
         await likedArticle.destroy();
         return res.status(200).json({
           status: 200,
-          data: article,
           message: 'You just unliked this article',
+          data: [ article ],
         });
       }
 
@@ -40,13 +40,13 @@ class LikeController {
 
       return res.status(201).json({
         status: 201,
-        data: article,
         message: 'You just liked this article',
+        data: [ article ],
       });
     } catch (error) {
       return res.status(500).json({
         status: 500,
-        error: error.message,
+        message: error.message,
       });
     }
   }

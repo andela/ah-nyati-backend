@@ -23,9 +23,9 @@ describe('LikeController', () => {
           .set('token', testToken)
           .end((err, res) => {
             res.should.have.status(201);
-            expect(res.body.data).to.have.property('id');
-            expect(res.body.data).to.have.property('slug');
-            expect(res.body.data).to.have.property('body');
+            expect(res.body.data[0]).to.have.property('id');
+            expect(res.body.data[0]).to.have.property('slug');
+            expect(res.body.data[0]).to.have.property('body');
             expect(res.body.message).to.equal('You just liked this article');
             done();
           });
@@ -41,9 +41,9 @@ describe('LikeController', () => {
           .set('token', testToken)
           .end((err, res) => {
             res.should.have.status(200);
-            expect(res.body.data).to.have.property('id');
-            expect(res.body.data).to.have.property('slug');
-            expect(res.body.data).to.have.property('body');
+            expect(res.body.data[0]).to.have.property('id');
+            expect(res.body.data[0]).to.have.property('slug');
+            expect(res.body.data[0]).to.have.property('body');
             expect(res.body.message).to.equal('You just unliked this article');
             done();
           });
@@ -59,7 +59,7 @@ describe('LikeController', () => {
           .set('token', testToken)
           .end((err, res) => {
             res.should.have.status(404);
-            expect(res.body.error).equal('Article not found');
+            expect(res.body.message).equal('Article not found');
             done();
           });
       });

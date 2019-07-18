@@ -16,7 +16,7 @@ const verifyToken = async (req, res, next) => {
   if (!token) {
     return res.status(401).json({
       status: 401,
-      error: 'token is not provided!',
+      message: 'Token is not provided!',
     });
   }
 
@@ -27,7 +27,7 @@ const verifyToken = async (req, res, next) => {
   } catch (error) {
     return res.status(401).json({
       status: 401,
-      error: 'Invalid token provided',
+      message: 'Invalid token provided',
     });
   }
 };

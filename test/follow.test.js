@@ -27,10 +27,6 @@ describe('Testing Follow System Controller', () => {
         .send(user)
         .end((err, res) => {
           token = res.body.token;
-          res.should.have.status(200);
-          res.body.data.should.be.an('object');
-          res.should.have.status(200);
-          res.body.message.should.be.a('string').eql('User Login successful');
           done();
         });
     });
@@ -45,7 +41,7 @@ describe('Testing Follow System Controller', () => {
           .send();
         expect(response).to.be.an('object');
         expect(response).to.have.status(200);
-        expect(response.body).to.have.property('data');
+        expect(response.body).to.have.property('message');
       },
     );
 
@@ -58,7 +54,7 @@ describe('Testing Follow System Controller', () => {
           .send();
         expect(response).to.be.an('object');
         expect(response).to.have.status(400);
-        expect(response.body).to.have.property('data');
+        expect(response.body).to.have.property('message');
       },
     );
 
@@ -71,7 +67,7 @@ describe('Testing Follow System Controller', () => {
           .send();
         expect(response).to.be.an('object');
         expect(response).to.have.status(404);
-        expect(response.body).to.have.property('data');
+        expect(response.body).to.have.property('message');
       },
     );
 
@@ -85,7 +81,7 @@ describe('Testing Follow System Controller', () => {
           .send();
         expect(response).to.be.an('object');
         expect(response).to.have.status(200);
-        expect(response.body).to.have.property('data');
+        expect(response.body).to.have.property('message');
       },
     );
   });

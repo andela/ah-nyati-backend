@@ -26,18 +26,19 @@ class UserController {
       if (!userData) {
         return res.status(404).json({
           status: 404,
-          error: 'User not found',
+          message: 'User not found',
         });
       }
 
       return res.status(200).json({
         status: 200,
-        users: userData,
+        message: 'Operation successful',
+        data: [ userData ],
       });
     } catch (error) {
       return res.status(500).json({
         status: 500,
-        error: error.message
+        message: error.message
       });
     }
   }
@@ -86,23 +87,24 @@ class UserController {
 
         return res.status(200).json({
           status: 200,
-          user: userDetails,
+          message: 'Profile updated successfully',
+          data: [userDetails],
         });
       }
       return res.status(401).json({
         status: 401,
-        error: 'You do not have permission to perform that operation',
+        message: 'You do not have permission to perform that operation',
       });
     } catch (error) {
       if (error.routine === '_bt_check_unique') {
         return res.status(400).json({
           status: 400,
-          error: 'User with that username already exists',
+          message: 'User with that username already exists',
         });
       }
       return res.status(500).json({
         status: 500,
-        error: error.message,
+        message: error.message,
       });
     }
   }
@@ -136,7 +138,7 @@ class UserController {
         });
         return res.status(200).json({
           status: 200,
-          data: `you just followed ${user.userName}`,
+          message: `You just followed ${user.userName}`,
         });
       }
 
@@ -149,12 +151,12 @@ class UserController {
       });
       return res.status(200).json({
         status: 200,
-        data: `you just unfollowed ${user.userName}`,
+        message: `You just unfollowed ${user.userName}`,
       });
     } catch (error) {
       return res.status(500).json({
         status: 500,
-        data: error,
+        message: error.message,
       });
     }
   }

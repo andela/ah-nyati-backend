@@ -30,8 +30,12 @@ class RatingController {
         return res.status(200).json({
           status: 200,
           message: `Article rating has been updated as ${value} star`,
-          article,
-          rating: previousRating.value
+          data: [ 
+            {
+              articleId,
+              rating: previousRating.value
+            }
+          ]
         });
       }
       const rating = await Rating.create({
@@ -42,13 +46,17 @@ class RatingController {
       return res.status(200).json({
         status: 200,
         message: `Article has been rated as ${value} star`,
-        article,
-        rating: rating.value,
+        data: [
+          {
+            articleId,
+            rating: rating.value,
+          }
+        ]
       });
-    } catch (err) {
+    } catch (error) {
       return res.status(500).json({
         status: 500,
-        message: 'Internal server error'
+        message: error.message
       });
     }
   }
@@ -58,8 +66,8 @@ class RatingController {
  * @returns { object } res
  * @description - paginate article ratings
  * @static
- * @param {*} req
- * @param {*} res
+ * @param {object} req
+ * @param {object} res
  * @memberof RatingController
  */
 static async getAllArticlesRating(req, res){
@@ -85,15 +93,22 @@ static async getAllArticlesRating(req, res){
       return res.status(200).json({
         status: 200,
         message: 'All Ratings fetched successfully',
-        article,
-        rating,
-        pages
+        data: [ 
+          {
+            articleId,
+            rating,
+            totalRating: count,
+            currentPage,
+            limit,
+            totalPages: pages
+          }
+        ]
       });
 
-    } catch(err){
+    } catch(error){
       return res.status(500).json({
         status: 500,
-        message: 'Internal server error'
+        message: error.message
       })
     }
   }

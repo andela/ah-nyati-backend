@@ -49,19 +49,19 @@ describe('Articles', () => {
         .attach('images', path.join(__dirname, 'img/test.jpg'), 'test.png')
         .end((err, res) => {
           res.should.have.status(201);
-          res.body.should.have.property('article');
-          res.body.article.should.be.an('object');
-          res.body.article.should.have.property('imageUrl');
-          res.body.article.imageUrl.should.be.an('string');
-          res.body.article.should.have.property('slug');
-          res.body.article.slug.should.be.an('string');
-          res.body.article.should.have.property('isDraft');
-          res.body.article.isDraft.should.be.an('boolean');
-          res.body.article.slug.slice(0, 29).should.be.eql('the-rise-of-the-shadow-knight');
-          res.body.article.title.should.be.an('string').eql('The Rise of The Shadow Knight');
-          res.body.article.body.should.be.an('string').eql('Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.');
-          res.body.article.userId.should.be.an('number').eql(1);
-          res.body.article.catId.should.be.an('number').eql(1);
+          res.body.should.have.property('data');
+          res.body.data.should.be.an('array');
+          res.body.data[0].should.have.property('imageUrl');
+          res.body.data[0].imageUrl.should.be.an('string');
+          res.body.data[0].should.have.property('slug');
+          res.body.data[0].slug.should.be.an('string');
+          res.body.data[0].should.have.property('isDraft');
+          res.body.data[0].isDraft.should.be.an('boolean');
+          res.body.data[0].slug.slice(0, 29).should.be.eql('the-rise-of-the-shadow-knight');
+          res.body.data[0].title.should.be.an('string').eql('The Rise of The Shadow Knight');
+          res.body.data[0].body.should.be.an('string').eql('Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.');
+          res.body.data[0].userId.should.be.an('number').eql(1);
+          res.body.data[0].catId.should.be.an('number').eql(1);
           done();
         });
     });
@@ -73,10 +73,10 @@ describe('Articles', () => {
         .send(partialArticleDetails)
         .end((err, res) => {
           res.should.have.status(400);
-          res.body.should.have.property('errors');
+          res.body.should.have.property('message');
           res.body.should.be.an('object');
-          res.body.errors.title.should.be.an('array');
-          res.body.errors.title[0].should.eql('Title is required.');
+          res.body.message.title.should.be.an('string');
+          res.body.message.title.should.eql('Title is required.');
           done();
         });
     });
@@ -87,10 +87,10 @@ describe('Articles', () => {
         .send(invalidArticle)
         .end((err, res) => {
           res.should.have.status(400);
-          res.body.should.have.property('errors');
+          res.body.should.have.property('message');
           res.body.should.be.an('object');
-          res.body.errors.isDraft.should.be.an('array');
-          res.body.errors.isDraft[0].should.eql('isDraft must be true or false');
+          res.body.message.isDraft.should.be.an('string');
+          res.body.message.isDraft.should.eql('isDraft must be true or false');
           done();
         });
     });
@@ -102,10 +102,10 @@ describe('Articles', () => {
         .send(partialArticleDetails)
         .end((err, res) => {
           res.should.have.status(400);
-          res.body.should.have.property('errors');
+          res.body.should.have.property('message');
           res.body.should.be.an('object');
-          res.body.errors.body.should.be.an('array');
-          res.body.errors.body[0].should.eql('Article body is required.');
+          res.body.message.body.should.be.an('string');
+          res.body.message.body.should.eql('Article body is required.');
           done();
         });
     });
@@ -117,10 +117,10 @@ describe('Articles', () => {
         .send(partialArticleDetails)
         .end((err, res) => {
           res.should.have.status(400);
-          res.body.should.have.property('errors');
+          res.body.should.have.property('message');
           res.body.should.be.an('object');
-          res.body.errors.catId.should.be.an('array');
-          res.body.errors.catId[0].should.eql('Category id is required.');
+          res.body.message.catId.should.be.an('string');
+          res.body.message.catId.should.eql('Category id is required.');
           done();
         });
     });

@@ -31,16 +31,20 @@ class CommentController {
     const { id, createdAt, updatedAt } = comment;
       return res.status(201).json({
         status: 201,
-        message: 'Comment Added Successfully',
-        id,
-        commentBody,
-        createdAt,
-        updatedAt,
-        author: {
-          userName,
-          bio,
-          imageUrl
-        }
+        message: 'Comment added successfully',
+        data: [
+          {
+            id,
+            commentBody,
+            createdAt,
+            updatedAt,
+            author: {
+              userName,
+              bio,
+              imageUrl
+            }
+          }
+        ]
       });
     } catch (error) {
       return res.status(500).json({
@@ -67,16 +71,22 @@ class CommentController {
         limit: defaultLimit,
         offset
       });
-      
       const pages = Math.ceil(count / limit) || 1;
       offset = limit * (defaultPage - 1);
 
       return res.status(200).json({
         status: 200,
         message: 'All comments fetched successfully',
-        article,
-        comments,
-        pages
+        data: [ 
+          {
+            articleId,
+            comments,
+            totalComments: count,
+            currentPage,
+            limit,
+            totalPages: pages
+          }
+        ]
       });
     } catch (error) {
       return res.status(500).json({

@@ -49,10 +49,10 @@ class AuthController {
         message: 'A link has been sent to your mailbox for verification',
         token
       });
-    } catch (err) {
+    } catch (error) {
       return res.status(500).json({
         status: 500,
-        message: 'Internal server error'
+        message: error.message
       });
     }
   }
@@ -78,24 +78,24 @@ class AuthController {
             token
           };
           return res.status(200).json({
-            status: '200',
+            status: 200,
             message: 'Your account has been verified',
-            data: [verifiedUser]
+            token: verifiedUser.token
           });
         }
         return res.status(400).json({
-          status: '400',
+          status: 400,
           message: 'Invalid user credential'
         });
       }
       return res.status(400).json({
-        status: '400',
+        status: 400,
         message: 'Invalid user credential'
       });
-    } catch (err) {
+    } catch (error) {
       return res.status(400).json({
-        status: '400',
-        message: 'Invalid user credential'
+        status: 400,
+        message: error.message
       });
     }
   }
@@ -132,14 +132,23 @@ class AuthController {
             status: 200,
             message: 'User Login successful',
             token,
-            data: user
+            data: [ user ]
           });
         }
-        return res.status(401).json({ error: true, message: 'Invalid email or password' });
+        return res.status(401).json({
+          status: 401,
+          message: 'Invalid email or password'
+        });
       }
-      return res.status(401).json({ error: true, message: 'Invalid email or password' });
-    } catch (err) {
-      return res.status(500).json({ error: true, message: 'Internal Server error' });
+      return res.status(401).json({
+        status: 401,
+        message: 'Invalid email or password'
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: 500,
+        message: error.message
+      });
     }
   }
 
@@ -160,12 +169,12 @@ class AuthController {
       });
       return res.status(200).json({
         status: 200,
-        message: 'User successfully Logged Out',
+        message: 'User successfully logged out',
       });
     } catch (error) {
       return res.status(500).json({
         status: 500,
-        data: error,
+        message: error.message,
       });
     }
   }
@@ -228,12 +237,12 @@ class AuthController {
       // RETURN SUCCESS IF SUCCESS
       return res.status(200).json({
         status: 200,
-        message: 'reset code resent to your email',
+        message: 'A reset code has been resent to your email',
       });
-    } catch (err) {
+    } catch (error) {
       return res.status(500).json({
         status: 500,
-        message: 'Internal server error',
+        message: error.message,
       });
     }
   }
@@ -268,12 +277,12 @@ class AuthController {
       // RETURN SUCCESS IF SUCCESS
       return res.status(200).json({
         status: 200,
-        message: 'password reset successful',
+        message: 'Password reset successful',
       });
-    } catch (err) {
+    } catch (error) {
       return res.status(500).json({
         status: 500,
-        message: 'Internal server error',
+        message: error.message,
       });
     }
   }
