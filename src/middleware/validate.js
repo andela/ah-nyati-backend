@@ -8,15 +8,15 @@ import { validationResult } from 'express-validator';
    * @returns {object} validation error object
    */
 const validate = (req, res, next) => {
-  const errorFormatter = ({ msg }) => [`${msg}`];
+  const errorFormatter = ({ msg }) => `${msg}`;
   const validationError = validationResult(req).formatWith(errorFormatter);
 
   if (!validationError.isEmpty()) {
     const errorMsg = validationError.mapped();
 
     return res.status(400).json({
-      message: 'Invalid request',
-      errors: errorMsg,
+      status: 400,
+      message: errorMsg,
     });
   }
   return next();

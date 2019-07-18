@@ -7,27 +7,23 @@ import randomstring from 'randomstring';
    * @returns {string} newly generated slug
    */
 const slugGen = (text) => {
-  try {
-    const slugifyOptions = {
-      replacement: '-',
-      remove: /[*+~.()'"!:@]/g,
-      lower: true
-    };
+  const slugifyOptions = {
+    replacement: '-',
+    remove: /[*+~.()'"!:@]/g,
+    lower: true
+  };
 
-    const randomstringOptions = {
-      length: 8,
-      charset: 'hex',
-      capitalization: 'lowercase',
-    };
+  const randomstringOptions = {
+    length: 8,
+    charset: 'hex',
+    capitalization: 'lowercase',
+  };
 
-    const slugTail = randomstring.generate(randomstringOptions);
-    const slugTitle = slugify(text, slugifyOptions);
-    const slug = slugTitle.concat('-', slugTail);
+  const slugTail = randomstring.generate(randomstringOptions);
+  const slugTitle = slugify(text, slugifyOptions);
+  const slug = slugTitle.concat('-', slugTail);
 
-    return slug;
-  } catch (error) {
-    return error;
-  }
+  return slug;
 };
 
 export default slugGen;

@@ -18,14 +18,14 @@ class ValidateToken {
     if (!token) {
       return res.status(400).json({
         status: 400,
-        error: 'Token is required',
+        message: 'Token is required',
       });
     }
     const result = await Blacklist.findOne({ where: { token } });
     if (result) {
       return res.status(409).json({
         status: 409,
-        message: 'User already Logged Out',
+        message: 'User already logged out',
       });
     }
 

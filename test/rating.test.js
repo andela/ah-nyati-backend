@@ -24,8 +24,8 @@ describe('RatingController', () => {
           .set('token', testToken)
           .end((err, res) => {
             res.should.have.status(200);
-            expect(res.body.rating).equal(5);
-            expect(res.body).to.have.property('article');
+            expect(res.body.data[0].rating).equal(5);
+            expect(res.body.data[0]).to.have.property('articleId');
             expect(res.body.message).equal('Article has been rated as 5 star');
             done();
           });
@@ -42,8 +42,8 @@ describe('RatingController', () => {
           .set('token', testToken)
           .end((err, res) => {
             res.should.have.status(200);
-            expect(res.body.rating).equal(4);
-            expect(res.body).to.have.property('article');
+            expect(res.body.data[0].rating).equal(4);
+            expect(res.body.data[0]).to.have.property('articleId');
             expect(res.body.message).equal('Article rating has been updated as 4 star');
             done();
           });
@@ -59,7 +59,7 @@ describe('RatingController', () => {
           .set('token', testToken)
           .end((err, res) => {
             res.should.have.status(404);
-            expect(res.body.error).equal('Article not found');
+            expect(res.body.message).equal('Article not found');
             done();
           });
       });
@@ -74,7 +74,7 @@ describe('RatingController', () => {
           .set('token', testToken)
           .end((err, res) => {
             res.should.have.status(400);
-            expect(res.body.errors[0]).equal('Value can only be between 0 and 5');
+            expect(res.body.message.value).equal('Value can only be between 0 and 5');
             done();
           });
       });
@@ -89,8 +89,22 @@ describe('RatingController', () => {
           .set('token', testToken)
           .end((err, res) => {
             res.should.have.status(400);
-            expect(res.body.errors[0]).equal('Value can only be numeric');
-            expect(res.body.errors[1]).equal('Value can only be between 0 and 5');
+            expect(res.body.message.value).equal('Value can only be numeric');
+            done();
+          });
+      });
+  });
+  it('should only allow integers from 0 to 5', (done) => {
+    chai.request(app).post('/api/v1/auth/login')
+      .send(user)
+      .end((err, res) => {
+        testToken = res.body.token;
+        chai.request(app).post('/api/v1/articles/rate/article')
+          .send({ value: 6 })
+          .set('token', testToken)
+          .end((err, res) => {
+            res.should.have.status(400);
+            expect(res.body.message.value).equal('Value can only be between 0 and 5');
             done();
           });
       });
@@ -100,14 +114,18 @@ describe('RatingController', () => {
       .send(user)
       .end((err, res) => {
         testToken = res.body.token;
-        chai.request(app).get('/api/v1/articles/rating/article?page=3&limit=2')
+        chai.request(app).get('/api/v1/articles/rating/article?currentPage=3&limit=2')
           .set('token', testToken)
           .end((err, res) => {
             res.should.have.status(200);
-            expect(res.body).to.have.property('article');
-            expect(res.body.rating[0]).to.have.property('value');
-            expect(res.body.rating[0]).to.have.property('createdAt');
-            expect(res.body.rating[0]).to.have.property('userId');
+            expect(res.body.data[0]).to.have.property('articleId');
+            expect(res.body.data[0]).to.have.property('totalRating');
+            expect(res.body.data[0]).to.have.property('currentPage');
+            expect(res.body.data[0]).to.have.property('limit');
+            expect(res.body.data[0]).to.have.property('totalPages');
+            expect(res.body.data[0].rating[0]).to.have.property('value');
+            expect(res.body.data[0].rating[0]).to.have.property('createdAt');
+            expect(res.body.data[0].rating[0]).to.have.property('userId');
             expect(res.body.message).equal('All Ratings fetched successfully');
             done();
           });

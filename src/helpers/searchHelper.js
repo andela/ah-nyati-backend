@@ -170,10 +170,14 @@ export const searchOutcome = (result, res, articleCount) => {
   const articles = result.map(article => article);
 
   return res.status(200).json({
-    status: 'success',
-    message: 'Article Retrieved',
-    articles,
-    articleCount
+    status: 200,
+    message: 'Article retrieved',
+    data: [
+      {
+        articles,
+        articleCount
+      }
+    ]
   });
 };
 

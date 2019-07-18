@@ -35,50 +35,42 @@ class CheckDuplicate {
 
       if (existingEmail.length > 0 && existingUsername.length > 0) {
         const errorMsg = {
-          username: [
-            'Username already exists.'
-          ],
-          email: [
-            'Email already exists.'
-          ],
+          username: 'Username already exists.',
+          email: 'Email already exists.',
         };
 
-        return res.status(401).json({
-          message: 'Invalid request',
-          errors: errorMsg,
+        return res.status(409).json({
+          status: 409,
+          message: errorMsg,
         });
       }
 
       if (existingEmail.length > 0) {
         const errorMsg = {
-          email: [
-            'Email already exists.'
-          ],
+          email: 'Email already exists.',
         };
 
-        return res.status(401).json({
-          message: 'Invalid request',
-          errors: errorMsg,
+        return res.status(409).json({
+          status: 409,
+          message: errorMsg,
         });
       }
 
       if (existingUsername.length > 0) {
         const errorMsg = {
-          username: [
-            'Username already exists.'
-          ],
+          username: 'Username already exists.',
         };
 
-        return res.status(401).json({
-          message: 'Invalid request',
-          errors: errorMsg,
+        return res.status(409).json({
+          status: 409,
+          message: errorMsg,
         });
       }
       return next();
     } catch (error) {
       return res.status(500).json({
-        message: 'Internal server error',
-        errors: error,
+        status: 500,
+        message: error.message
       });
     }
   }

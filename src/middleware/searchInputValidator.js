@@ -8,7 +8,7 @@
         if (author.length < 3) {
           return res.status(400).json({
             status: 400,
-            error: 'Your search input must be greater than 3 letters'
+            message: 'Your search input must be greater than 3 letters'
           });
         }
     } else if (Title) {
@@ -16,7 +16,7 @@
         if (Title.length < 3) {
           return res.status(400).json({
             status: 400,
-            error: 'Your search input must be greater than 3 letters'
+            message: 'Your search input must be greater than 3 letters'
           });
         }
     } else if (category) {
@@ -24,7 +24,7 @@
         if (category.length < 3) {
           return res.status(400).json({
             status: 400,
-            error: 'Your search input must be greater than 3 letters'
+            message: 'Your search input must be greater than 3 letters'
           });
         }
     } else if (tagName) {
@@ -32,7 +32,7 @@
         if (tagName.length < 3) {
           return res.status(400).json({
             status: 400,
-            error: 'Your search input must be greater than 3 letters'
+            message: 'Your search input must be greater than 3 letters'
           });
         }
     }
@@ -41,7 +41,7 @@
         if (q.length < 3) {
           return res.status(400).json({
             status: 400,
-            error: 'Your search input must be greater than 3 letters'
+            message: 'Your search input must be greater than 3 letters'
           });
         }
     }

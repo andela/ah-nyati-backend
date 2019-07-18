@@ -32,7 +32,7 @@ export const findAndDeactivateAllExpiredToken = async (res) => {
   } catch (error) {
     return res.status(500).json({
       status: 500,
-      message: 'problem deleteting expired token',
+      message: error.message,
     });
   }
 };

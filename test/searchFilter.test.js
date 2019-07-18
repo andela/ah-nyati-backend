@@ -12,11 +12,11 @@ describe('Get Articles controller', () => {
       .get('/api/v1/articles?tag=lagos')
       .end((err, res) => {
         res.should.have.status(200);
-        expect(res.body.message).equal('Article Retrieved');
+        expect(res.body.message).equal('Article retrieved');
         expect(res.body).to.have.property('message');
         expect(res.body).to.have.property('status');
-        expect(res.body).to.have.property('articles');
-        expect(res.body).to.have.property('articleCount');
+        expect(res.body.data[0]).to.have.property('articles');
+        expect(res.body.data[0]).to.have.property('articleCount');
         done();
       });
   });
@@ -26,9 +26,9 @@ describe('Get Articles controller', () => {
       .get('/api/v1/articles?tag=Jo')
       .end((err, res) => {
         res.should.have.status(400);
-        expect(res.body.error).equal('Your search input must be greater than 3 letters');
+        expect(res.body.message).equal('Your search input must be greater than 3 letters');
         expect(res.body).to.have.property('status');
-        expect(res.body).to.have.property('error');
+        expect(res.body).to.have.property('message');
         done();
       });
   });
@@ -50,11 +50,11 @@ describe('Get Articles controller', () => {
       .get('/api/v1/articles?author=JohnDoe')
       .end((err, res) => {
         res.should.have.status(200);
-        expect(res.body.message).equal('Article Retrieved');
+        expect(res.body.message).equal('Article retrieved');
         expect(res.body).to.have.property('message');
         expect(res.body).to.have.property('status');
-        expect(res.body).to.have.property('articles');
-        expect(res.body).to.have.property('articleCount');
+        expect(res.body.data[0]).to.have.property('articles');
+        expect(res.body.data[0]).to.have.property('articleCount');
         done();
       });
   });
@@ -64,9 +64,9 @@ describe('Get Articles controller', () => {
       .get('/api/v1/articles?author=Jo')
       .end((err, res) => {
         res.should.have.status(400);
-        expect(res.body.error).equal('Your search input must be greater than 3 letters');
+        expect(res.body.message).equal('Your search input must be greater than 3 letters');
         expect(res.body).to.have.property('status');
-        expect(res.body).to.have.property('error');
+        expect(res.body).to.have.property('message');
         done();
       });
   });
@@ -88,11 +88,11 @@ describe('Get Articles controller', () => {
       .get('/api/v1/articles?category=Education')
       .end((err, res) => {
         res.should.have.status(200);
-        expect(res.body.message).equal('Article Retrieved');
+        expect(res.body.message).equal('Article retrieved');
         expect(res.body).to.have.property('message');
         expect(res.body).to.have.property('status');
-        expect(res.body).to.have.property('articles');
-        expect(res.body).to.have.property('articleCount');
+        expect(res.body.data[0]).to.have.property('articles');
+        expect(res.body.data[0]).to.have.property('articleCount');
         done();
       });
   });
@@ -102,9 +102,9 @@ describe('Get Articles controller', () => {
       .get('/api/v1/articles?category=Jo')
       .end((err, res) => {
         res.should.have.status(400);
-        expect(res.body.error).equal('Your search input must be greater than 3 letters');
+        expect(res.body.message).equal('Your search input must be greater than 3 letters');
         expect(res.body).to.have.property('status');
-        expect(res.body).to.have.property('error');
+        expect(res.body).to.have.property('message');
         done();
       });
   });
@@ -126,11 +126,11 @@ describe('Get Articles controller', () => {
       .get('/api/v1/articles?title=Article')
       .end((err, res) => {
         res.should.have.status(200);
-        expect(res.body.message).equal('Article Retrieved');
+        expect(res.body.message).equal('Article retrieved');
         expect(res.body).to.have.property('message');
         expect(res.body).to.have.property('status');
-        expect(res.body).to.have.property('articles');
-        expect(res.body).to.have.property('articleCount');
+        expect(res.body.data[0]).to.have.property('articles');
+        expect(res.body.data[0]).to.have.property('articleCount');
         done();
       });
   });
@@ -140,9 +140,9 @@ describe('Get Articles controller', () => {
       .get('/api/v1/articles?title=Jo')
       .end((err, res) => {
         res.should.have.status(400);
-        expect(res.body.error).equal('Your search input must be greater than 3 letters');
+        expect(res.body.message).equal('Your search input must be greater than 3 letters');
         expect(res.body).to.have.property('status');
-        expect(res.body).to.have.property('error');
+        expect(res.body).to.have.property('message');
         done();
       });
   });
@@ -164,11 +164,11 @@ describe('Get Articles controller', () => {
       .get('/api/v1/articles?q=Article')
       .end((err, res) => {
         res.should.have.status(200);
-        expect(res.body.message).equal('Article Retrieved');
+        expect(res.body.message).equal('Article retrieved');
         expect(res.body).to.have.property('message');
         expect(res.body).to.have.property('status');
-        expect(res.body).to.have.property('articles');
-        expect(res.body).to.have.property('articleCount');
+        expect(res.body.data[0]).to.have.property('articles');
+        expect(res.body.data[0]).to.have.property('articleCount');
         done();
       });
   });
@@ -177,9 +177,9 @@ describe('Get Articles controller', () => {
       .get('/api/v1/articles?q=Jo')
       .end((err, res) => {
         res.should.have.status(400);
-        expect(res.body.error).equal('Your search input must be greater than 3 letters');
+        expect(res.body.message).equal('Your search input must be greater than 3 letters');
         expect(res.body).to.have.property('status');
-        expect(res.body).to.have.property('error');
+        expect(res.body).to.have.property('message');
         done();
       });
   });
@@ -200,11 +200,11 @@ describe('Get Articles controller', () => {
       .get('/api/v1/articles')
       .end((err, res) => {
         res.should.have.status(200);
-        expect(res.body.message).equal('Article Retrieved');
+        expect(res.body.message).equal('Article retrieved');
         expect(res.body).to.have.property('message');
         expect(res.body).to.have.property('status');
-        expect(res.body).to.have.property('articles');
-        expect(res.body).to.have.property('articleCount');
+        expect(res.body.data[0]).to.have.property('articles');
+        expect(res.body.data[0]).to.have.property('articleCount');
         done();
       });
   });

@@ -39,16 +39,16 @@ describe('CommentArticleController', () => {
       .set('token', token)
       .end((err, res) => {
         res.should.have.status(201);
-        expect(res.body.message).equal('Comment Added Successfully');
-        expect(res.body).to.have.property('createdAt');
-        expect(res.body).to.have.property('updatedAt');
+        expect(res.body.message).equal('Comment added successfully');
+        expect(res.body.data[0]).to.have.property('createdAt');
+        expect(res.body.data[0]).to.have.property('updatedAt');
         expect(res.body).to.have.property('status');
-        expect(res.body).to.have.property('author');
-        expect(res.body).to.have.property('updatedAt');
-        expect(res.body.author).to.have.property('userName');
-        expect(res.body.author).to.have.property('bio');
-        expect(res.body.author).to.have.property('imageUrl');
-        expect(res.body.author).to.be.a('object');
+        expect(res.body.data[0]).to.have.property('author');
+        expect(res.body.data[0]).to.have.property('updatedAt');
+        expect(res.body.data[0].author).to.have.property('userName');
+        expect(res.body.data[0].author).to.have.property('bio');
+        expect(res.body.data[0].author).to.have.property('imageUrl');
+        expect(res.body.data[0].author).to.be.a('object');
         done();
       });
   });
@@ -78,13 +78,10 @@ describe('CommentArticleController', () => {
       .set('token', token)
       .end((err, res) => {
         res.should.have.status(400);
-        expect(res.body.message).equal('Invalid request');
-        expect(res.body.message).to.be.a('string');
-        expect(res.body.errors).to.be.a('object');
-        expect(res.body.errors.commentBody).to.be.a('array');
-        expect(res.body.errors.commentBody[0]).equal(
-          'Comment body is required.'
-        );
+        expect(res.body.status).equal(400);
+        expect(res.body.message).to.be.an('object');
+        expect(res.body.message.commentBody).to.be.a('string');
+        expect(res.body.message.commentBody).equal('Comment body is required.');
         done();
       });
   });
@@ -97,11 +94,11 @@ describe('CommentArticleController', () => {
       .set('token', token)
       .end((err, res) => {
         res.should.have.status(400);
-        expect(res.body.message).equal('Invalid request');
-        expect(res.body.message).to.be.a('string');
-        expect(res.body.errors).to.be.a('object');
-        expect(res.body.errors.commentBody).to.be.a('array');
-        expect(res.body.errors.commentBody[0]).equal(
+        expect(res.body.status).equal(400);
+        expect(res.body.message).to.be.a('object');
+        expect(res.body.message).to.be.a('object');
+        expect(res.body.message.commentBody).to.be.a('string');
+        expect(res.body.message.commentBody).equal(
           'Comment body is required.'
         );
         done();
@@ -118,9 +115,9 @@ describe('CommentArticleController', () => {
       .set('token', '')
       .end((err, res) => {
         res.should.have.status(401);
-        expect(res.body.error).equal('token is not provided!');
+        expect(res.body.message).equal('Token is not provided!');
         expect(res.body).to.have.property('status');
-        expect(res.body).to.have.property('error');
+        expect(res.body).to.have.property('message');
         done();
       });
   });
@@ -135,9 +132,9 @@ describe('CommentArticleController', () => {
       .set('token', `${token}k`)
       .end((err, res) => {
         res.should.have.status(401);
-        expect(res.body.error).equal('Invalid token provided');
+        expect(res.body.message).equal('Invalid token provided');
         expect(res.body).to.have.property('status');
-        expect(res.body).to.have.property('error');
+        expect(res.body).to.have.property('message');
         done();
       });
   });
@@ -159,23 +156,21 @@ describe('CommentArticleController', () => {
   it('should get all comments for a particular article successfully', done => {
     chai
       .request(app)
-      .get('/api/v1/articles/article/comments?page=1&limit=1')
+      .get('/api/v1/articles/article/comments?currentPage=1&limit=1')
       .set('token', token)
       .end((err, res) => {
         res.should.have.status(200);
         expect(res.body.message).equal('All comments fetched successfully');
-        expect(res.body).to.have.property('article');
-        expect(res.body).to.have.property('comments');
-        expect(res.body).to.have.property('pages');
+        expect(res.body.data[0]).to.have.property('articleId');
+        expect(res.body.data[0]).to.have.property('comments');
+        expect(res.body.data[0]).to.have.property('totalPages');
+        expect(res.body.data[0]).to.have.property('currentPage');
+        expect(res.body.data[0]).to.have.property('limit');
         expect(res.body).to.have.property('status');
-        expect(res.body.article).to.have.property('title');
-        expect(res.body.article).to.have.property('body');
-        expect(res.body.article.body).to.be.a('string');
-        expect(res.body.comments[0]).to.have.property('commentBody');
-        expect(res.body.comments[0]).to.have.property('createdAt');
-        expect(res.body.comments[0]).to.have.property('id');
-        expect(res.body.article).to.be.a('object');
-        expect(res.body.comments).to.be.a('array');
+        expect(res.body.data[0].comments[0]).to.have.property('commentBody');
+        expect(res.body.data[0].comments[0]).to.have.property('createdAt');
+        expect(res.body.data[0].comments[0]).to.have.property('id');
+        expect(res.body.data[0].comments).to.be.a('array');
         done();
       });
   });

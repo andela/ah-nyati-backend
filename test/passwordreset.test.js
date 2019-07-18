@@ -37,7 +37,7 @@ describe('Testing Password Reset Controller', () => {
           });
         expect(response).to.be.an('object');
         expect(response).to.have.status(404);
-        expect(response.body.message.email).to.equal('email does not exist');
+        expect(response.body.message).to.equal('Email does not exist');
       },
     );
 
@@ -51,7 +51,7 @@ describe('Testing Password Reset Controller', () => {
           });
         expect(response).to.be.an('object');
         expect(response).to.have.status(200);
-        expect(response.body.message).to.equal('reset code resent to your email');
+        expect(response.body.message).to.equal('A reset code has been resent to your email');
       },
     );
 
@@ -71,7 +71,7 @@ describe('Testing Password Reset Controller', () => {
           });
         expect(response).to.be.an('object');
         expect(response).to.have.status(200);
-        expect(response.body.message).to.equal('password reset successful');
+        expect(response.body.message).to.equal('Password reset successful');
       },
     );
 
