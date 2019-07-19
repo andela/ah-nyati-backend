@@ -8,6 +8,9 @@ module.exports = (sequelize, DataTypes) => {
       body: DataTypes.TEXT,
       imageUrl: DataTypes.STRING,
       isDraft: DataTypes.BOOLEAN,
+      views: DataTypes.INTEGER,
+      read: DataTypes.INTEGER,
+      readRatio: DataTypes.INTEGER
     },
     {}
   );

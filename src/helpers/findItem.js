@@ -1,27 +1,27 @@
-import { Article, User } from '../db/models';
+import { Article, User, Comment } from '../db/models';
 /**
-*
-*@description This class checks a table for the presence or absence of a row
-* @class FindItem
-*/
-class FindItem{
-    /**
-     *@description This function checks if an article exists
-     * @param {object} req
-     * @param {object} res
-     * @param {function} next
-     * @returns {function} next
-     * @memberof FindItem
-     */
-    static async findArticle  (req, res, next) {
-      const { slug } = req.params;
-      try {
+ *
+ *@description This class checks a table for the presence or absence of a row
+ * @class FindItem
+ */
+class FindItem {
+  /**
+   *@description This function checks if an article exists
+   * @param {object} req
+   * @param {object} res
+   * @param {function} next
+   * @returns {function} next
+   * @memberof FindItem
+   */
+  static async findArticle(req, res, next) {
+    const { slug } = req.params;
+    try {
       const article = await Article.findOne({
         where: { slug },
         raw: true,
         attributes: {
-          exclude: ['updatedAt', 'userId', 'catId', 'isDraft']
-        }
+          exclude: ['updatedAt', 'userId', 'catId', 'isDraft'],
+        },
       });
 
       if (!article) {
@@ -30,7 +30,7 @@ class FindItem{
           message: 'Article not found',
         });
       }
-      res.locals.article = article
+      res.locals.article = article;
       return next();
     } catch (error) {
       return res.status(500).json({
@@ -38,9 +38,9 @@ class FindItem{
         message: error.message,
       });
     }
-    }
+  }
 
-    /**
+  /**
    * @static
    * @description Method to fetch an article with the user
    * @param {object} req
@@ -48,33 +48,29 @@ class FindItem{
    * @param {function} next
    * @returns {object} object
    */
-static async getArticle (req, res, next) {
+  static async getArticleWithAuthor(req, res, next) {
     const article = await Article.findOne({
-      include: [{
-        model: User,
-        attributes: [
-          'id',
-          'bio',
-          'userName',
-          'imageUrl'
-        ]
-      }],
+      include: [
+        {
+          model: User,
+          attributes: ['id', 'bio', 'userName', 'imageUrl'],
+        },
+      ],
       attributes: ['id', 'body', 'createdAt', 'updatedAt'],
       where: {
-        slug: req.params.slug
-      }
+        slug: req.params.slug,
+      },
     });
-  
+
     if (!article) {
-      return res.status(404)
-        .json({
-          status: 404,
-          message: 'Article not found'
-        });
+      return res.status(404).json({
+        status: 404,
+        message: 'Article not found',
+      });
     }
     res.locals.articleObject = article;
     next();
-  };
+  }
 
   /**
    *@description This function checks if a user exists
@@ -89,8 +85,8 @@ static async getArticle (req, res, next) {
 
     const findUser = await User.findOne({
       where: {
-        id: userId
-      }
+        id: userId,
+      },
     });
 
     if (!findUser) {
@@ -139,8 +135,8 @@ static async getArticle (req, res, next) {
 
     const findUserByEmail = await User.findOne({
       where: {
-        email
-      }
+        email,
+      },
     });
 
     if (!findUserByEmail) {
@@ -153,6 +149,31 @@ static async getArticle (req, res, next) {
     req.userByEmail = findUserByEmail;
     return next();
   }
+
+  /**
+   *@description This function checks if a comment exist
+   * @param {object} req
+   * @param {object} res
+   * @param {function} next
+   * @returns {function} next
+   * @memberof FindItem
+   */
+  static async findComment(req, res, next) {
+    const { id } = req.params;
+      const comment = await Comment.findOne({
+        where: { id },
+        raw: true,       
+      });
+
+      if (!comment) {
+        return res.status(404).json({
+          status: 404,
+          message: 'Comment not found',
+        });
+      }
+      res.locals.comment = comment;
+      return next();
+  }
 }
 
-   export default FindItem;
+export default FindItem;
