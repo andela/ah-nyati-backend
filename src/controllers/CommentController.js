@@ -1,4 +1,7 @@
 import { Comment, CommentHistory, CommentLike } from '../db/models';
+import notification from '../helpers/notification';
+import findItem from '../helpers/findItem';
+
 /**
  * @description This controller handles comment request
  * @class CommentController
@@ -15,18 +18,24 @@ class CommentController {
   static async addCommentTocomment(req, res) {
     try {
       const articleId = res.locals.articleObject.id;
-
+      
       const { userName, bio, imageUrl } = res.locals.articleObject.User;
       const { commentBody } = req.body;
       const userId = req.user;
-
+      
       const commentObject = {
         userId,
         articleId,
-        commentBody,
+        commentBody
       };
 
       const comment = await Comment.create(commentObject);
+        
+      // SEND ARTICLE AUTHOR NOTIFICATION ON COMMENT
+      const loggedInUser = await findItem.getUser(userId);
+      const authorId = res.locals.articleObject.User.id;
+      const articleTitle = res.locals.article.title;
+      notification(authorId, `${loggedInUser.firstName} ${loggedInUser.lastName} commented on ${articleTitle}`);
 
       const { id, createdAt, updatedAt } = comment;
       return res.status(201).json({
@@ -52,8 +61,8 @@ class CommentController {
         message: error.message,
       });
     }
-  };
-
+  }
+  
   /**
    * @static
    * @description The get all comment method

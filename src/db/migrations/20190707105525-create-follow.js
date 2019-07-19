@@ -30,6 +30,10 @@ module.exports = {
       onUpdate: 'cascade',
       onDelete: 'cascade'
     },
+    recieveNotification: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: true
+    },
     createdAt: {
       allowNull: false,
       type: Sequelize.DATE

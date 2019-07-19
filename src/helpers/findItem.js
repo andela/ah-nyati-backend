@@ -1,10 +1,10 @@
-import { Article, User, Comment, Category } from '../db/models';
+import { Article, User, Follow, Comment, Category, notification } from '../db/models';
 /**
- *
- *@description This class checks a table for the presence or absence of a row
- * @class FindItem
- */
-class FindItem {
+*
+*@description This class checks a table for the presence or absence of a row
+* @class FindItem
+*/
+class FindItem{
   /**
    *@description This function checks if an article exists
    * @param {object} req
@@ -20,7 +20,7 @@ class FindItem {
         where: { slug },
         raw: true,
         attributes: {
-          exclude: ['updatedAt', 'userId', 'catId', 'isDraft'],
+          exclude: ['updatedAt', 'catId', 'isDraft'],
         },
       });
 
@@ -205,23 +205,64 @@ class FindItem {
       return next();
   }
   
-    /**
-     *@description This function finds a category using id
-     * @param {integer} id - the id of the article to be found
-     * @returns {object} category
-     * @memberof FindItem
-     */
-    static async findCategoryById(id) {
-      const category = await Category.findOne({
-        where: {
-          id
-        }
-      });
-      return category;
-    }
+  /**
+   *@description This function finds a category using id
+    * @param {integer} id - the id of the article to be found
+    * @returns {object} category
+    * @memberof FindItem
+    */
+  static async findCategoryById(id) {
+    const category = await Category.findOne({
+      where: {
+        id
+      }
+    });
+    return category;
+  }
 
   /**
-   *@description This method fetches all authors in the article table
+   *@description This function returns user details
+   * @param {string} userId
+   * @returns {function} user
+   * @memberof FindItem
+   */
+  static async getUser(userId) {
+    const findUser = await User.findOne({
+      where: {
+        id: userId
+      },
+      raw: true,
+      attributes: ['firstName', 'lastName', 'userName', 'email', 'emailNotification']
+    });
+    return findUser;
+  }
+
+  /**
+   *@description This function returns user followers
+   * @param {string} userId
+   * @returns {function} user followers
+   * @memberof FindItem
+   */
+  static async getUserFollowers(userId) {
+    const userFollowers = await Follow.findAll({
+      where: {
+        followee: userId
+      },
+      raw: true,
+      attributes: ['follower', 'recieveNotification'],
+      include: [
+        {
+          model: User,
+          as: 'followers',
+          attributes: ['id', 'firstName', 'lastName']
+        }
+      ]
+    });
+    return userFollowers;
+  }
+
+  /**
+   *@description This function checks if a user has notification
    * @param {object} req
    * @param {object} res
    * @param {function} next
@@ -282,9 +323,8 @@ class FindItem {
     return (Object.values(stat))
   }
 
-
   /**
-   *@description This method checks if there is articles in the table 
+   *@description This method checks if there is articles in the table
    * @param {object} req
    * @param {object} res
    * @param {function} next
@@ -300,6 +340,37 @@ class FindItem {
         message: 'no article found'
       });
     }
+    return next();
+  }
+
+  /** 
+   *@description This function get user notifications
+   * @param {object} req
+   * @param {object} res
+   * @param {function} next
+   * @returns {function} next
+   * @memberof FindItem
+   */
+  static async getUserNotification(req, res, next) {
+    const userId = req.user;
+
+    const userNotification = await notification.findAll({
+      where: {
+        userId
+      },
+      attributes: {
+        exclude: ['createdAt', 'updatedAt']
+      },
+    });
+
+    if (userNotification.length === 0) {
+      // RETURN ERROR IF THE USER DOES NOT HAVE NOTIFICATION
+      return res.status(404).json({
+        status: 404,
+        message: 'No notification',
+      });
+    }
+    req.userNotification = userNotification;
     return next();
   }
 }

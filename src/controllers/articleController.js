@@ -3,6 +3,8 @@ import slugGen from '../helpers/slugGen';
 import urlExtractor from '../helpers/urlExtractor';
 import tagExtractor from '../helpers/tagExtractor';
 import searchHelper, { searchOutcome } from '../helpers/searchHelper';
+import notification from '../helpers/notification';
+import findItem from '../helpers/findItem';
 
 /**
  * @description Article Controller
@@ -140,6 +142,19 @@ class ArticleController {
       const newTagDetails = tagExtractor(id, tagList);
 
       await Tag.bulkCreate(newTagDetails);
+
+      
+
+      // SEND ARTICLE TO USER FOLLOWERS
+      const loggedInUser = await findItem.getUser(userId);
+      const userFollowers = await findItem.getUserFollowers(userId);
+      userFollowers
+        .map(user => {
+          // CHECK IF USER OPT IN TO RECIEVE NOTIFICATION FROM USER
+          if (user.recieveNotification) {
+            notification(user.follower, `${loggedInUser.firstName} ${loggedInUser.lastName} created a new article ${title}`)
+          }
+        });
 
       return res.status(201).json({
         status: 201,

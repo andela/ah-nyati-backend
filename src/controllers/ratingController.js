@@ -1,4 +1,6 @@
 import { Rating } from '../db/models';
+import notification from '../helpers/notification';
+import findItem from '../helpers/findItem';
 
 /**
   * @description - Atrticle ratings
@@ -43,6 +45,13 @@ class RatingController {
         articleId,
         value
       });
+
+      // SEND ARTICLE AUTHOR NOTIFICATION WHEN ARTICLE IS RATED
+      const loggedInUser = await findItem.getUser(id);
+      const authorId = article.userId;
+      const articleTitle = article.title;
+      notification(authorId, `${loggedInUser.firstName} ${loggedInUser.lastName} rated your article ${articleTitle} with a ${value} star rating`)
+
       return res.status(200).json({
         status: 200,
         message: `Article has been rated as ${value} star`,

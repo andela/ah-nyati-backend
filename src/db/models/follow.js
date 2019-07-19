@@ -4,6 +4,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       required: true
     },
+    recieveNotification: {
+      type: DataTypes.BOOLEAN,
+      required: true
+    },
   }, {});
   Follow.associate = (models) => {
     // associations can be defined here

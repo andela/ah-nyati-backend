@@ -1,4 +1,6 @@
 import { Like } from '../db/models';
+import notification from '../helpers/notification';
+import findItem from '../helpers/findItem';
 
 /**
  *@description This class handles all like requests
@@ -36,7 +38,16 @@ class LikeController {
         });
       }
 
-      await Like.create({ userId, articleId: article.id });
+      await Like.create({ userId, articleId });
+
+      // SEND ARTICLE AUTHOR NOTIFICATION ON LIKE
+      const loggedInUser = await findItem.getUser(userId);
+      const authorId = article.userId;
+      const articleTitle = article.title;
+      notification(
+        authorId,
+        `${loggedInUser.firstName} ${loggedInUser.lastName} like your article ${articleTitle}`
+      )
 
       return res.status(201).json({
         status: 201,

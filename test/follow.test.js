@@ -72,6 +72,19 @@ describe('Testing Follow System Controller', () => {
     );
 
     it(
+      'user can opt out from recieving notification from a follower',
+      async () => {
+        const response = await chai.request(app)
+          .post(`${followRoute}notification/2`)
+          .set('token', token)
+          .send();
+        expect(response).to.be.an('object');
+        expect(response).to.have.status(200);
+        expect(response.body).to.have.property('message');
+      },
+    );
+
+    it(
       'user should not follow themselves',
       async () => {
         const response = await chai.request(app)

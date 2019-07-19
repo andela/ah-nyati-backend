@@ -1,4 +1,5 @@
-import { User, Follow, UserArchive } from '../db/models';
+import { User, Follow, notification, UserArchive  } from '../db/models';
+import notificationHelper from '../helpers/notification';
 import findItem from '../helpers/findItem';
 
 /**
@@ -55,7 +56,7 @@ class UserController {
   static async updateProfile(req, res) {
     try {
       const {
-        firstName, lastName, userName, bio,
+        firstName, lastName, userName, bio, emailNotification
       } = req.body;
 
       const avatar = req.file;
@@ -73,6 +74,7 @@ class UserController {
         userName,
         bio,
         imageUrl: avatarValue,
+        emailNotification
       };
 
       const where = {
@@ -135,8 +137,14 @@ class UserController {
       if (!checkIfFollowing) {
         await Follow.create({
           follower: loggedInUserID,
-          followee: user.id
+          followee: user.id,
+          recieveNotification: true
         });
+        
+        // SEND USER NOTIFICATION
+        const loggedInUserDetails = await findItem.getUser(loggedInUserID);
+        notificationHelper(user.id, `${loggedInUserDetails.userName} followed you`);
+
         return res.status(200).json({
           status: 200,
           message: `You just followed ${user.userName}`,
@@ -250,6 +258,31 @@ class UserController {
   }
 
   /**
+  * @description Get user notification
+  * @static
+  * @param {object} req
+  * @param {object} res
+  * @returns {object} res
+  * @memberof UserController
+  */
+  static async getUserNotification(req, res) {
+    try {
+      const { userNotification } = req;
+      
+      return res.status(200).json({
+        status: 200,
+        message: 'User Notification',
+        data: userNotification,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: 500,
+        message: error.message,
+      });
+    }
+  }
+
+  /**
    * @static
    * @description this function gets a user's( an author) reading stat
    * @param {object} req the request body
@@ -344,8 +377,80 @@ class UserController {
   }
 
   /**
+  *@description Update user notification if read
+  * @static
+  * @param {object} req
+  * @param {object} res
+  * @returns {object} res
+  * @memberof UserController
+  */
+  static async updateUserNotification(req, res) {
+    try {
+    const { notifyId } = req.params;
+    
+    await notification.update(
+      {
+        isRead: true
+      },
+      {
+        where: {
+          id: notifyId
+        }
+      }
+    )
+    
+    return res.status(200).json({
+      status: 200,
+      message: 'Notification successfully read'
+    });
+    } catch (error) {
+      return res.status(500).json({
+        status: 500,
+        message: error.message,
+      });
+    }
+  }
+
+  /**
+  *@description Disable notification of a particular user
+  * @static
+  * @param {object} req
+  * @param {object} res
+  * @returns {object} res
+  * @memberof UserController
+  */
+  static async disableUserNotification(req, res) {
+    try {
+      const { userId } = req.params;
+      const loggedInUserId = req.user;
+    
+      await Follow.update(
+        {
+          recieveNotification: false
+        },
+        {
+          where: {
+            followee: loggedInUserId,
+            follower: userId
+          }
+        }
+      )
+    
+    return res.status(200).json({
+      status: 200,
+      message: 'You have successfully opt out from receiving notifications'
+    });
+    } catch (error) {
+      return res.status(500).json({
+        status: 500,
+        message: error.message,
+      });
+    }
+  }
+
+  /**
   *
-  *@description Get user followers
+  *@description Get user followees
   * @static
   * @param {object} req
   * @param {object} res

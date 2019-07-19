@@ -17,6 +17,7 @@ router.post(
   '/:slug/comments',
   verify,
   findItem.getArticleWithAuthor,
+  findItem.findArticle,
   validateComment,
   validate,
   CommentController.addCommentTocomment,

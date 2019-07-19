@@ -52,6 +52,10 @@ module.exports = {
         type: Sequelize.STRING,
         required: false,
       },
+      emailNotification: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: true
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
