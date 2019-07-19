@@ -114,7 +114,7 @@ describe('RatingController', () => {
       .send(user)
       .end((err, res) => {
         testToken = res.body.token;
-        chai.request(app).get('/api/v1/articles/rating/article?currentPage=3&limit=2')
+        chai.request(app).get('/api/v1/articles/rating/article?currentPage=1&limit=1')
           .set('token', testToken)
           .end((err, res) => {
             res.should.have.status(200);

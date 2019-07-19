@@ -75,9 +75,12 @@ static async getAllArticlesRating(req, res){
     const articleId = article.id
     try{
       let offset = 0;
+
       const { currentPage, limit } = req.query; // page number
       const defaultLimit = limit || 3; // number of records per page
-      const defaultPage = currentPage || 1;
+
+      offset = currentPage ? defaultLimit * (currentPage - 1) : 0;
+
 
       const { count, rows: rating } = await Rating.findAndCountAll({
         where: { articleId },
@@ -88,7 +91,6 @@ static async getAllArticlesRating(req, res){
       });
       
       const pages = Math.ceil(count / limit) || 1;
-      offset = limit * (defaultPage - 1);
 
       return res.status(200).json({
         status: 200,
