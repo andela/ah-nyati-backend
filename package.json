@@ -18,7 +18,8 @@
     "migrate": "sequelize db:migrate",
     "undo:migrate": "sequelize db:migrate:undo:all",
     "seed": "sequelize db:seed:all"
-  },"nyc": {
+  },
+  "nyc": {
     "exclude": [
       "src/helpers/mail/*.js",
       "src/server.js"

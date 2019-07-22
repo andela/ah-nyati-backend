@@ -3,7 +3,25 @@ module.exports = (sequelize, DataTypes) => {
     value: {
       type: DataTypes.INTEGER,
       required: true,
-    }
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      onDelete: 'CASCADE',
+      references: {
+        model: 'Users',
+        key: 'id',
+        as: 'userId'
+      }
+    },
+    articleId: {
+      type: DataTypes.INTEGER,
+      onDelete: 'CASCADE',
+      references: {
+        model: 'Articles',
+        key: 'id',
+        as: 'articleId'
+      }
+    },
   }, {});
   Rating.associate = (models) => {
     Rating.belongsTo(models.Article, {
