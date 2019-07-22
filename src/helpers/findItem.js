@@ -150,8 +150,8 @@ class FindItem {
     return next();
   }
 
-  /**
-   *@description This function checks if a comment exist
+/**
+   *@description This function checks if a comment exists
    * @param {object} req
    * @param {object} res
    * @param {function} next
@@ -162,7 +162,7 @@ class FindItem {
     const { id } = req.params;
       const comment = await Comment.findOne({
         where: { id },
-        raw: true,       
+        attributes: ['id', 'commentBody', 'createdAt', 'updatedAt', 'articleId'],     
       });
 
       if (!comment) {
