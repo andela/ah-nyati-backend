@@ -40,7 +40,37 @@ class FindItem {
     }
   }
 
-  /**
+    /**
+     *@description This function finds an article using id
+     * @param {integer} id - the id of the article to be found
+     * @returns {object} article
+     * @memberof FindItem
+     */
+    static async findArticleById(id) {
+      const article = await Article.findOne({
+        where: {
+          id
+        }
+      });
+      return article;
+    }
+
+    /**
+     *@description This function finds a comment using id
+     * @param {integer} id - the id of the comment to find
+     * @returns {object} comment
+     * @memberof FindItem
+     */
+    static async findCommentById(id) {
+      const comment = await Comment.findOne({
+        where: {
+          id
+        }
+      });
+      return comment;
+    }
+
+    /**
    * @static
    * @description Method to fetch an article with the user
    * @param {object} req
