@@ -119,7 +119,7 @@ class ArticleController {
    * @returns {object} new article
    *
    */
-  static async create(req, res) {
+  static async createArticle(req, res) {
     try {
       const {
         title, description, body, catId, tagList, isDraft
