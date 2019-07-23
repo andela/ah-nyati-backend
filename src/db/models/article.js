@@ -45,6 +45,11 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE',
     });
+    Article.hasMany(models.highlightComment, {
+      foreignKey: 'articleId',
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE'
+    });
     Article.hasMany(models.Rating, {
       foreignKey: 'articleId',
       onDelete: 'CASCADE',
