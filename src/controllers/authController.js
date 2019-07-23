@@ -25,12 +25,14 @@ class AuthController {
   */
   static async createAccount(req, res) {
     try {
-      const { userName, email, password } = req.body;
+      const { userName, email, password, userRole } = req.body;
       const hashedpassword = hashPassword(password);
-      const values = { userName, email, password: hashedpassword };
+
+      const role = userRole || 'user';
+      const values = { userName, email, password: hashedpassword, role };
       const result = await User.create(values);
       const { id, isVerified } = result;
-      const token = await generateToken({ id, email, isVerified });
+      const token = await generateToken({ id, email, isVerified, role });
 
       const url = `${req.protocol}://${req.get('host')}/api/v1/auth/verify/${token}`;
       const message = template(userName, url);
@@ -115,8 +117,8 @@ class AuthController {
       const result = await User.findOne({ where: { email } });
       if (result) {
         if (bcrypt.compareSync(password, result.password)) {
-          const { id, isVerified } = result;
-          const token = await generateToken({ id, email, isVerified });
+          const { id, isVerified, role } = result;
+          const token = await generateToken({ id, email, isVerified, role });
 
           const user = {
             id: result.id,

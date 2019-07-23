@@ -1,4 +1,4 @@
-import { body, check } from 'express-validator';
+import { body, check, sanitizeBody } from 'express-validator';
 
 const authValidator = {
   passwordValidator: [
@@ -19,6 +19,27 @@ const authValidator = {
       .isEmail()
       .normalizeEmail()
       .withMessage('Invalid email address.'),
+  ],
+  roleValidator: [
+    sanitizeBody('userRole')
+      .customSanitizer(value => {
+      if (value) {
+        return value.toLowerCase();
+      }
+    }),
+    body('userRole')
+      .trim()
+      .exists({ checkNull: false, checkFalsy: false })
+      .isIn(['superadmin', 'admin', 'user', ''])
+      .withMessage('Invalid userRole.'),
+    sanitizeBody('userRole')
+      .customSanitizer(value => {
+      if (value === 'superadmin') {
+        const role = value.replace('a', 'A');
+        return role;
+      }
+      return value;
+    }),
   ],
   usernameValidator: [
     body('userName')

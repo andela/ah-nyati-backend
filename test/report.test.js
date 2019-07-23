@@ -114,5 +114,19 @@ describe('Reports', () => {
           done();
         });
     });
+  
+    it('should return 404 error if comment does not exist', (done) => {
+      const invalidReport = { ...testReport, reportType: 'comment', typeId: 40 };
+      chai.request(app).post('/api/v1/reports')
+        .set('token', testToken)
+        .send(invalidReport)
+        .end((err, res) => {
+          res.should.have.status(404);
+          res.body.should.have.property('message');
+          res.body.message.should.be.an('string');
+          res.body.message.should.equal('comment not found');
+          done();
+        });
+    });
   });
 });

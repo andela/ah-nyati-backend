@@ -34,6 +34,12 @@ module.exports = {
         required: false,
         defaultValue: false,
       },
+      role: {
+        type: Sequelize.ENUM(['superAdmin', 'admin', 'user']),
+        required: true,
+        allowNull: false,
+        defaultValue: 'user',
+      },
       imageUrl: {
         type: Sequelize.STRING,
         required: false,
