@@ -100,12 +100,10 @@ class AuthController {
     }
   }
 
-
   /**
  *
  *@description logs in autheticated user
  * @static
- *@description logs in autheticated user
  * @param {object} req the request body
  * @param {object} res the response body
  * @returns {object} res
