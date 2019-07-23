@@ -1,5 +1,5 @@
 import { User, Follow } from '../db/models';
-
+import findItem  from '../helpers/findItem';
 /**
  * @description This class handles user requests
  * @class UserController
@@ -157,6 +157,33 @@ class UserController {
       return res.status(500).json({
         status: 500,
         message: error.message,
+      });
+    }
+  }
+
+  /**
+   * @static
+   * @description this function gets all users(authors) with atleast one article in the article table
+   * @param {object} req the request body
+   * @param {object} res the response body
+   * @returns {object} res
+   * @memberof UserController
+   */
+  static async getAllAuthorsProfile(req, res) {
+    try {
+
+    const authors = await findItem.getAllAuthorsProfile();
+    
+    return res.status(200).json({
+      status: 200,
+      message: 'Retrieved Successfully',
+      data: authors
+    });
+
+    } catch (error) {
+      return res.status(500).json({
+        status: 500,
+        message: error.message
       });
     }
   }

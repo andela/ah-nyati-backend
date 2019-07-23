@@ -154,4 +154,29 @@ describe('UserController', () => {
         done();
       });
   });
+
+  it('should enable user view all authors profile', (done) => {
+    chai.request(app).get('/api/v1/user/profiles')
+      .set('token', token)
+      .end((err, res) => {
+        res.should.have.status(200);
+        expect(res.body).to.have.property('status');
+        expect(res.body).to.have.property('message');
+        expect(res.body).to.have.property('data');
+        expect(res.body.status).to.equal(200);
+        done();
+      });
+  });
+
+  it('should not get all authors profile when token is not present', (done) => {
+    chai.request(app).get('/api/v1/user/profiles')
+      .end((err, res) => {
+        res.should.have.status(401);
+        expect(res.body).to.have.property('status');
+        expect(res.body).to.have.property('message');
+        expect(res.body.status).to.equal(401);
+        done();
+      });
+    })
+
 });
