@@ -1,4 +1,4 @@
-import { User, Follow } from '../db/models';
+import { User, Follow, UserArchive } from '../db/models';
 import findItem  from '../helpers/findItem';
 /**
  * @description This class handles user requests
@@ -187,6 +187,66 @@ class UserController {
       });
     }
   }
-}
+
+  /**
+    * @description - method for changing a user's access level
+    * @static
+    * @async 
+    * @param {object} req -  request object
+    * @param {object} res - response object
+    * @returns {object} - response object
+    * @memberof UserController
+    */
+  static async changeAccessLevel(req, res) {
+    try {
+      const { userRole } = req.body;
+      const { userId } = req.params;
+
+      await User.update({ role: userRole }, { where: { id: userId } });
+
+      return res.status(200).json({
+        status: 200,
+        message: 'User access level successfully changed',
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: 500,
+        message: error.message
+      });
+    }
+  }
+
+  /**
+    * @description - method for deleting a user
+    * @static
+    * @async 
+    * @param {object} req -  request object
+    * @param {object} res - response object
+    * @returns {object} - response object
+    * @memberof UserController
+    */
+  static async deleteUser(req, res) {
+    try {
+      const { userId } = req.params;
+      const { dataValues: userDetails } = req.userResponse;
+      const { id: oldId, createdAt: oldCreatedAt, updatedAt: oldUpdatedAt, ...otherDetails } = userDetails;
+      const archiveDetails = { oldId, oldCreatedAt, oldUpdatedAt, ...otherDetails };
+      
+      await UserArchive.create(archiveDetails);
+
+      await User.destroy({ where: { id: userId } });
+
+      return res.status(200).json({
+        status: 200,
+        message: 'User successfully deleted',
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: 500,
+        message: error
+      });
+    }
+  }
+}  
 
 export default UserController;

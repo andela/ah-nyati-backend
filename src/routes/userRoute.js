@@ -4,8 +4,14 @@ import verify from '../helpers/verifyToken';
 import upload from '../helpers/profilePic';
 import profileChecker from '../middleware/validators/profileValidator';
 import findItem from '../helpers/findItem';
+import validate from '../middleware/validate';
+import authorize from '../middleware/authorize';
+import userValidator from '../middleware/userValidator';
+import roles from '../helpers/helperData/roles';
 
 const router = express.Router();
+const { superAdmin } = roles;
+const { idParamValidator, roleValidator } = userValidator;
 
 router.get('/profiles/:userName',
   verify,
@@ -25,6 +31,23 @@ router.post(
   findItem.findUser,
   findItem.checkIfFollowingSelf,
   UserController.followSystem
+);
+router.put('/access/:userId',
+  verify,
+  authorize(superAdmin),
+  roleValidator,
+  idParamValidator,
+  validate,
+  findItem.findUser,
+  UserController.changeAccessLevel
+);
+router.delete('/:userId',
+  verify,
+  authorize(superAdmin),
+  idParamValidator,
+  validate,
+  findItem.findUser,
+  UserController.deleteUser
 );
 
 export default router;
