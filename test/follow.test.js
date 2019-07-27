@@ -46,6 +46,32 @@ describe('Testing Follow System Controller', () => {
     );
 
     it(
+      'user should get followers',
+      async () => {
+        const response = await chai.request(app)
+          .get(`${followRoute}followers/1`)
+          .set('token', token)
+          .send();
+        expect(response).to.be.an('object');
+        expect(response).to.have.status(200);
+        expect(response.body).to.have.property('message');
+      },
+    );
+
+    it(
+      'user should get followees',
+      async () => {
+        const response = await chai.request(app)
+          .get(`${followRoute}followees/1`)
+          .set('token', token)
+          .send();
+        expect(response).to.be.an('object');
+        expect(response).to.have.status(200);
+        expect(response.body).to.have.property('message');
+      },
+    );
+
+    it(
       'user should not follow themselves',
       async () => {
         const response = await chai.request(app)

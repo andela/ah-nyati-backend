@@ -23,7 +23,7 @@ module.exports = {
     bio: '#ghost',
     isVerified: true,
     role: 'admin',
-    password: 'password',
+    password: hash,
     verificationToken: '',
     imageUrl: 'image.png'
   }, {

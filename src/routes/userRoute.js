@@ -50,5 +50,15 @@ router.delete('/:userId',
   findItem.findUser,
   UserController.deleteUser
 );
+router.get(
+  '/followers/:userId',
+  verify,
+  UserController.getUserFollowers
+);
+router.get(
+  '/followees/:userId',
+  verify,
+  UserController.getUserFollowee
+);
 
 export default router;
