@@ -1,5 +1,6 @@
 import { User, Follow, UserArchive } from '../db/models';
-import findItem  from '../helpers/findItem';
+import findItem from '../helpers/findItem';
+
 /**
  * @description This class handles user requests
  * @class UserController
@@ -197,7 +198,7 @@ class UserController {
     * @returns {object} - response object
     * @memberof UserController
     */
-  static async changeAccessLevel(req, res) {
+   static async changeAccessLevel(req, res) {
     try {
       const { userRole } = req.body;
       const { userId } = req.params;
@@ -261,12 +262,12 @@ class UserController {
     try {
       const result = await findItem.getUserReadStat(user);
 
-      if(!result) {
-          return res.status(404).json({
-            status: 404,
-            message: 'You have no articles'
-          })
-        }
+      if (!result) {
+        return res.status(404).json({
+          status: 404,
+          message: 'You have no articles'
+        })
+      }
        
       return res.status(200).json({
         status: 200,
@@ -279,6 +280,125 @@ class UserController {
       return res.status(500).json({
         status: 500,
         error: error.message
+      })
+    }
+  }
+          
+  /**
+  *@description Get user followers
+  * @static
+  * @param {object} req
+  * @param {object} res
+  * @returns {object} res
+  * @memberof UserController
+  */
+  static async getUserFollowers(req, res) {
+    try {
+      let offset = 0;
+
+      const { userId } = req.params;
+      const { currentPage, limit } = req.query; // page number
+      const defaultLimit = limit || 10; // number of records per page
+
+      offset = currentPage ? defaultLimit * (currentPage - 1) : 0;
+
+
+      const { count, rows: followers } = await Follow.findAndCountAll({
+        where: {
+          followee: userId
+        },
+        raw: true,
+        attributes: ['follower'],
+        include: [
+          {
+            model: User,
+            as: 'followers',
+            attributes: ['id', 'firstName', 'lastName', 'userName', 'imageUrl']
+          }
+        ],
+        limit: defaultLimit,
+        offset
+      });
+      
+      const pages = Math.ceil(count / limit) || 1;
+
+      return res.status(200).json({
+        status: 200,
+        message: 'All followers fetched successfully',
+        data: [ 
+          {
+            followers,
+            totalRating: count,
+            currentPage,
+            limit,
+            totalPages: pages
+          }
+        ]
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: 500,
+        message: error.message,
+      });
+    }
+  }
+
+  /**
+  *
+  *@description Get user followers
+  * @static
+  * @param {object} req
+  * @param {object} res
+  * @returns {object} res
+  * @memberof UserController
+  */
+  static async getUserFollowee(req, res) {
+    try {
+      let offset = 0;
+
+      const { userId } = req.params;
+      const { currentPage, limit } = req.query; // page number
+      const defaultLimit = limit || 10; // number of records per page
+
+      offset = currentPage ? defaultLimit * (currentPage - 1) : 0;
+
+
+      const { count, rows: followees } = await Follow.findAndCountAll({
+        where: {
+          follower: userId
+        },
+        raw: true,
+        attributes: ['followee'],
+        include: [
+          {
+            model: User,
+            as: 'following',
+            attributes: ['id', 'firstName', 'lastName', 'userName', 'imageUrl']
+          }
+        ],
+        limit: defaultLimit,
+        offset
+      });
+      
+      const pages = Math.ceil(count / limit) || 1;
+
+      return res.status(200).json({
+        status: 200,
+        message: 'All followees fetched successfully',
+        data: [ 
+          {
+            followees,
+            totalRating: count,
+            currentPage,
+            limit,
+            totalPages: pages
+          }
+        ]
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: 500,
+        message: error.message,
       });
     }
   }

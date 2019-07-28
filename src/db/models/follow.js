@@ -8,7 +8,14 @@ module.exports = (sequelize, DataTypes) => {
   Follow.associate = (models) => {
     // associations can be defined here
     Follow.belongsTo(models.User, {
-      foreignKey: 'id',
+      foreignKey: 'followee',
+      as: 'following',
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE'
+    });
+    Follow.belongsTo(models.User, {
+      foreignKey: 'follower',
+      as: 'followers',
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE'
     });
