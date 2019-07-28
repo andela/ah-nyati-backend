@@ -12,12 +12,12 @@ import checkCategoryExists from '../middleware/checkCategoryExists';
 import roles from '../helpers/helperData/roles';
 
 const router = express.Router();
-const { createArticle, getArticle, highlightAndComment } = ArticleController;
+const { createArticle, getArticle, getAllArticles, highlightAndComment } = ArticleController;
 const { detailsValidator } = articleValidator;
 const { allRoles } = roles;
 const { validatehighlight, validateComment } = highlightValidator;
 
-router.get('/articles', validateSearchInput, ArticleController.search);
+router.get('/searcharticles', validateSearchInput, ArticleController.search);
 router.get(
   '/articles/:slug',
   findItem.findArticle,
@@ -42,15 +42,11 @@ router.post(
   validate,
   highlightAndComment
 );
-
-
-router.get('/articles', validateSearchInput, ArticleController.search);
-
-router.post('/articles/', verify, upload.array('images', 10), detailsValidator, validate, createArticle);
-
-
 router.get('/articles/:slug', findItem.findArticle, getArticle);
-
-router.get('/articles/:slug', findItem.findArticle, getArticle);
+router.get(
+  '/articles',
+  findItem.findAllArticles,
+  getAllArticles
+);
 
 export default router;

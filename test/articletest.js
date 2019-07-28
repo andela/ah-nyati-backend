@@ -12,10 +12,10 @@ describe('Article Controller', () => {
   describe('Testing article controller', () => {
     const article = '/api/v1/articles/';
     it(
-      'should get article',
+      'should get all articles',
       async () => {
         const response = await chai.request(app)
-          .get(`${article}article`)
+          .get(article)
           .send();
         expect(response).to.be.an('object');
         expect(response).to.have.status(200);
@@ -32,7 +32,6 @@ describe('Article Controller', () => {
         expect(response).to.be.an('object');
         expect(response).to.have.status(404);
         expect(response.body).to.have.property('message');
-        expect(response.body.message).to.equal('Article not found');
       },
     );
   });

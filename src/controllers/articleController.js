@@ -278,6 +278,66 @@ class ArticleController {
       });
     }
   }
+
+  /**
+   * @description - Get all article
+   * @static
+   * @async
+   * @param {object} req - request
+   * @param {object} res - response
+   * @returns {object} article
+   *
+   */
+  static async getAllArticles(req, res) {
+    try {
+      let offset = 0;
+      
+      const { currentPage, limit } = req.query; // page number
+      const defaultLimit = limit || 3; // number of records per page
+
+      offset = currentPage ? defaultLimit * (currentPage - 1) : 0;
+
+      const { count, rows: articles } = await Article.findAndCountAll({
+        offset,
+        raw: true,
+        limit: defaultLimit,
+        attributes: {
+          exclude: ['createdAt', 'updatedAt']
+        },
+        include: [
+          {
+            model: Category,
+            attributes: ['id', 'name']
+          },
+          {
+            model: User,
+            attributes: ['id', 'firstName', 'lastName', 'userName', 'bio', 'imageUrl']
+          }
+        ]
+      });
+
+      const pages = Math.ceil(count / limit) || 1;
+
+      return res.status(200).json({
+        status: 200,
+        message: 'All articles fetched successfully',
+        data: [ 
+          {
+            articles,
+            totalArticles: count,
+            currentPage,
+            limit,
+            totalPages: pages
+          }
+        ]
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: 500,
+        message: error.message
+      });
+    }
+  }
 }
 
 export default ArticleController;

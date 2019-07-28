@@ -4,10 +4,6 @@ app:
  staging: ah-nyati-backend-staging
  true:
    repo: andela/ah-nyati-backend
-before_script:
- - "npm run undo:migrate"
- - "npm run migrate"
- - "npm run seed"
 cache:
  directories:
    - node_modules
@@ -27,4 +23,6 @@ after_success:
  - "npm run coverage"
 services:
  - postgresql
+notifications:
+ email: false
  

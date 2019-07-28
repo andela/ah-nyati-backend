@@ -283,6 +283,25 @@ class FindItem {
   }
 
 
+  /**
+   *@description This method checks if there is articles in the table 
+   * @param {object} req
+   * @param {object} res
+   * @param {function} next
+   * @returns {function} next
+   * @memberof FindItem
+   */
+  static async findAllArticles(req, res, next) {
+    const findAllArticles = await Article.findAll({});
+
+    if (findAllArticles.length === 0) {
+      return res.status(404).json({
+        status: 404,
+        message: 'no article found'
+      });
+    }
+    return next();
+  }
 }
 
 export default FindItem;
