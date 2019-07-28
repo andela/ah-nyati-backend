@@ -41,8 +41,11 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         required: false,
       },
+      emailNotification: {
+        type: DataTypes.BOOLEAN,
+        required: false,
+      }
     },
-    {},
   );
   User.associate = models => {
     User.hasMany(models.Article, {
@@ -88,6 +91,10 @@ module.exports = (sequelize, DataTypes) => {
     User.hasMany(models.highlightComment, {
       foreignKey: 'userId',
       as: 'highlightComment'
+    });
+    User.hasMany(models.notification, {
+      foreignKey: 'userId',
+      as: 'userNotification'
     });
   };
   return User;

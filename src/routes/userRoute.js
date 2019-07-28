@@ -60,5 +60,21 @@ router.get(
   verify,
   UserController.getUserFollowee
 );
+router.get(
+  '/notification',
+  verify,
+  findItem.getUserNotification,
+  UserController.getUserNotification
+);
+router.post(
+  '/notification/:notifyId',
+  verify,
+  UserController.updateUserNotification
+);
+router.post(
+  '/notification/:userId',
+  verify,
+  UserController.disableUserNotification
+);
 
 export default router;

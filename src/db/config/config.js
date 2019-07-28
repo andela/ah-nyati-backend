@@ -69,5 +69,10 @@ module.exports = {
   port: process.env.PORT || 3000,
   secret: process.env.SECRET,
   GENERATE_SECRET: process.env.GENERATE_SECRET,
-  sendgrid: process.env.SENDGRID_API_KEY
+  sendgrid: process.env.SENDGRID_API_KEY,
+  DATABASE_URL: process.env.DATABASE_URL,
+  appId: process.env.PUSHER_APP_ID,
+  key: process.env.PUSHER_APP_KEY,
+  secret: process.env.PUSHER_APP_SECRET,
+  cluster: process.env.PUSHER_APP_CLUSTER
 };

@@ -14,7 +14,8 @@ module.exports = {
     role: 'superAdmin',
     password: hash,
     verificationToken: '',
-    imageUrl: 'image.png'
+    imageUrl: 'image.png',
+    emailNotification: false
   }, {
     firstName: 'Cavdy',
     lastName: 'Ghost',
@@ -25,7 +26,8 @@ module.exports = {
     role: 'admin',
     password: hash,
     verificationToken: '',
-    imageUrl: 'image.png'
+    imageUrl: 'image.png',
+    emailNotification: true
   }, {
     firstName: 'John2',
     lastName: 'Doe2',
@@ -36,9 +38,9 @@ module.exports = {
     role: 'user',
     password: 'password',
     verificationToken: '',
-    imageUrl: 'image.png'
+    imageUrl: 'image.png',
+    emailNotification: false
   },
-
   ], {}),
   down: queryInterface => queryInterface.bulkDelete('Users', null, {})
 };
