@@ -54,5 +54,19 @@ describe('Testing Notification Controller', () => {
         expect(response.body.message).to.equal('Notification successfully read');
       },
     );
+
+    it(
+      'should disable notification for a user',
+      async () => {
+        const response = await chai.request(app)
+          .post(`${notificationRoute}/disable/1`)
+          .set('token', testToken)
+          .send();
+        expect(response).to.be.an('object');
+        expect(response).to.have.status(200);
+        expect(response.body).to.have.property('message');
+        expect(response.body.message).to.equal('You have successfully opt out from receiving notifications');
+      },
+    );
   });
 });

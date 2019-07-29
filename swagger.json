@@ -181,7 +181,7 @@
         }
       }
     },
-    "/profiles/{id}": {
+    "/user/profiles/{id}": {
       "put": {
         "tags": ["Users"],
         "summary": "PUT API endpoint for user to create and update profile",
@@ -229,6 +229,13 @@
             "description": "The user's profile picture",
             "required": false,
             "type": "file"
+          },
+          {
+            "name": "emailNotification",
+            "in": "formData",
+            "description": "The user's email notification preference",
+            "required": false,
+            "type": "boolean"
           }
         ],
         "responses": {
@@ -255,7 +262,137 @@
         ]
       }
     },
-    "/follow/{userId}": {
+    "/user/profiles/{userName}": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "GET API endpoint for getting user profile",
+        "produces": ["application/json"],
+        "consumes": ["application/x-www-form-urlencoded"],
+        "parameters": [
+          {
+            "name": "userName",
+            "in": "path",
+            "description": "the username of the user",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "User not found"
+          },
+          "409": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/user/profiles": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "GET API endpoint for getting all authors",
+        "produces": ["application/json"],
+        "consumes": ["application/x-www-form-urlencoded"],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "User not found"
+          },
+          "409": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/user/access/{userId}": {
+      "put": {
+        "tags": ["Users"],
+        "summary": "PUT API endpoint for admin to change user role",
+        "produces": ["application/json"],
+        "consumes": ["application/x-www-form-urlencoded"],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "the id of the user",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "userRole",
+            "in": "formData",
+            "description": "user role",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "User not found"
+          },
+          "409": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/user/{userId}": {
+      "delete": {
+        "tags": ["Users"],
+        "summary": "DELETE API endpoint for deleting a user",
+        "produces": ["application/json"],
+        "consumes": ["application/x-www-form-urlencoded"],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "the id of the user",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "User not found"
+          },
+          "409": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/user/follow/{userId}": {
       "post": {
         "tags": ["Users"],
         "summary": "POST API endpoint for user to follow another user and unfollow another user",
@@ -268,6 +405,162 @@
             "description": "The userId of who to be followed",
             "required": true,
             "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "User not found"
+          },
+          "409": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/user/followers/{userId}": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "POST API endpoint for user to follow another user and unfollow another user",
+        "produces": ["application/json"],
+        "consumes": ["application/x-www-form-urlencoded"],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "User not found"
+          },
+          "409": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/user/followees/{userId}": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "POST API endpoint for user to follow another user and unfollow another user",
+        "produces": ["application/json"],
+        "consumes": ["application/x-www-form-urlencoded"],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "User not found"
+          },
+          "409": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/user/notification": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "POST API endpoint for user to follow another user and unfollow another user",
+        "produces": ["application/json"],
+        "consumes": ["application/x-www-form-urlencoded"],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "User not found"
+          },
+          "409": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/user/notification/{notifyId}": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "POST API endpoint for making a notification read",
+        "produces": ["application/json"],
+        "consumes": ["application/x-www-form-urlencoded"],
+        "parameters": [
+          {
+            "name": "notifyId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "User not found"
+          },
+          "409": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/user/notification/disable/{userId}": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "POST API endpoint disabling notification of a user",
+        "produces": ["application/json"],
+        "consumes": ["application/x-www-form-urlencoded"],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
           }
         ],
         "responses": {
@@ -362,6 +655,175 @@
         ]
       }
     },
+    "/articles/comments/{id}": {
+      "patch": {
+        "tags": ["Articles"],
+        "summary": "PATCH API endpoint for updating a single comment",
+        "produces": ["application/json"],
+        "consumes": ["application/x-www-form-urlencoded"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of comment",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "commentBody",
+            "in": "formData",
+            "description": "body of the comment",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "successful operation"
+          },
+          "404": {
+            "description": "No user found"
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "403": {
+            "description": "Auth token not supplied"
+          },
+          "500": {
+            "description": "Auth token expired"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      },
+      "get": {
+        "tags": ["Articles"],
+        "summary": "GET API endpoint for getting a comment",
+        "produces": ["application/json"],
+        "consumes": ["application/x-www-form-urlencoded"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of comment",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "article not found"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/articles/comments/{id}/history": {
+      "get": {
+        "tags": ["Articles"],
+        "summary": "GET API endpoint for getting comment history",
+        "produces": ["application/json"],
+        "consumes": ["application/x-www-form-urlencoded"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of comment",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "article not found"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/reports/": {
+      "post": {
+        "tags": ["Articles"],
+        "summary": "POST API endpoint for reporting an article",
+        "produces": ["application/json"],
+        "consumes": ["application/x-www-form-urlencoded"],
+        "parameters": [
+          {
+            "name": "typeId",
+            "in": "formData",
+            "description": "Description of the article",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "reportType",
+            "in": "formData",
+            "description": "Description of the article",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "formData",
+            "description": "Description of the article",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "article not found"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/stats": {
+      "get": {
+        "tags": ["Articles"],
+        "summary": "POST API endpoint for getting user stats",
+        "produces": ["application/json"],
+        "consumes": ["application/x-www-form-urlencoded"],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "article not found"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
     "articles/comments/{id}/like": {
       "post": {
         "tags": ["Articles"],
@@ -413,6 +875,80 @@
             "in": "path",
             "description": "slug of the article to be liked",
             "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "No user found"
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "403": {
+            "description": "Auth token not supplied"
+          },
+          "500": {
+            "description": "Auth token expired"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      },
+      "get": {
+        "tags": ["Articles"],
+        "summary": "GET API endpoint for getting all comment on an article",
+        "produces": ["application/json"],
+        "consumes": ["application/x-www-form-urlencoded"],
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "description": "slug of the article to view all comments",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "article not found"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/articles/tag/{slug}": {
+      "post": {
+        "tags": ["Articles"],
+        "summary": "POST API endpoint for adding tags to article",
+        "produces": ["application/json"],
+        "consumes": ["application/x-www-form-urlencoded"],
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "description": "slug of the article",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "tagName",
+            "in": "formData",
+            "description": "Article tags",
+            "required": false,
             "type": "string"
           }
         ],
@@ -553,6 +1089,105 @@
         "summary": "GET API endpoint for all articles",
         "produces": ["application/json"],
         "consumes": ["application/x-www-form-urlencoded"],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "article not found"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/articles/{slug}": {
+      "get": {
+        "tags": ["Articles"],
+        "summary": "GET API endpoint for getting a single article",
+        "produces": ["application/json"],
+        "consumes": ["application/x-www-form-urlencoded"],
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "description": "slug of a single article",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "article not found"
+          }
+        }
+      }
+    },
+    "/articles/highlight/{slug}": {
+      "post": {
+        "tags": ["Articles"],
+        "summary": "POST API endpoint for highlight and comment",
+        "produces": ["application/json"],
+        "consumes": ["application/x-www-form-urlencoded"],
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "description": "slug of an article",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "highlightedWord",
+            "in": "formData",
+            "description": "Highlighted word",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "comment",
+            "in": "formData",
+            "description": "Comment of highlighted word",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "article not found"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/articles/bookmark/{slug}": {
+      "post": {
+        "tags": ["Articles"],
+        "summary": "POST API endpoint for bookmarking an article",
+        "produces": ["application/json"],
+        "consumes": ["application/x-www-form-urlencoded"],
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "description": "slug of an article",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "successful operation"
@@ -744,17 +1379,11 @@
           "200": {
             "description": "Article rating has been rating has been updated successfully"
           },
-          "200": {
-            "description": "Article rating successful"
-          },
           "500": {
             "description": "Internal server error"
           },
           "403": {
             "description": "Auth token not supplied"
-          },
-          "500": {
-            "description": "Auth token expired"
           }
         },
         "security": [
