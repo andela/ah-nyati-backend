@@ -270,7 +270,17 @@ class FindItem{
    * @memberof FindItem
    */
   static async getAllAuthorsProfile(req, res) {
-    const authors = await Article.findAll({
+    let offset = 0;
+    
+    const { currentPage, limit } = req.query;
+    const defaultLimit = limit || 3;
+
+    offset = currentPage ? defaultLimit * (currentPage - 1) : 0;
+
+    const {count, rows: authors} = await Article.findAndCountAll({
+      offset,
+      raw: true,
+      limit: defaultLimit,
       attributes: ['views', 'read', 'readRatio'],
       include: [
         {
@@ -281,7 +291,9 @@ class FindItem{
        
       ]
       
-    })
+    });
+    
+    const pages = Math.ceil(count / limit) || 1;
     
     if (authors.length === 0) {
       return res.status(404).json({
@@ -289,14 +301,18 @@ class FindItem{
         message: 'No authors found',
       });
     }
+    
     const profile = {};
       
-    authors.forEach((userProfile) => {
-    const user = {...(userProfile.toJSON()).User};
-    profile[user.email] = user;
-    });
-
-    return (Object.values(profile))
+    
+    profile.authors = authors;
+    profile.pages = pages;
+    profile.count = count;
+    profile.limit = limit || 10;
+    profile.currentPage = currentPage || 1;
+    
+    return profile;
+    
   }
 
   /**

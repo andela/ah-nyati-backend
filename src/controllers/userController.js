@@ -181,7 +181,7 @@ class UserController {
   static async getAllAuthorsProfile(req, res) {
     try {
 
-    const authors = await findItem.getAllAuthorsProfile();
+    const authors = await findItem.getAllAuthorsProfile(req,res);
     
     return res.status(200).json({
       status: 200,
