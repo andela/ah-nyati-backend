@@ -72,7 +72,7 @@ router.post(
   UserController.updateUserNotification
 );
 router.post(
-  '/notification/:userId',
+  '/notification/disable/:userId',
   verify,
   UserController.disableUserNotification
 );
