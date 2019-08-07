@@ -93,7 +93,6 @@ static async getAllArticlesRating(req, res){
 
       const { count, rows: rating } = await Rating.findAndCountAll({
         where: { articleId },
-        raw: true,
         attributes: { exclude: ['id', 'updatedAt', 'articleId']},
         limit: defaultLimit,
         offset
