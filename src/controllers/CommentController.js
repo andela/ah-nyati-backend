@@ -85,7 +85,6 @@ class CommentController {
 
       const { count, rows: comments } = await Comment.findAndCountAll({
         where: { articleId },
-        raw: true,
         attributes: ['id', 'commentBody', 'createdAt'],
         limit: defaultLimit,
         offset,

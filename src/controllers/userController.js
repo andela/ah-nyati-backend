@@ -340,7 +340,6 @@ class UserController {
         where: {
           followee: userId
         },
-        raw: true,
         attributes: ['follower'],
         include: [
           {
@@ -472,7 +471,6 @@ class UserController {
         where: {
           follower: userId
         },
-        raw: true,
         attributes: ['followee'],
         include: [
           {

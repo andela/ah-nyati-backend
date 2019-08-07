@@ -18,7 +18,6 @@ class FindItem{
     try {
       const article = await Article.findOne({
         where: { slug },
-        raw: true,
         attributes: {
           exclude: ['updatedAt', 'catId', 'isDraft'],
         },
@@ -231,7 +230,6 @@ class FindItem{
       where: {
         id: userId
       },
-      raw: true,
       attributes: ['firstName', 'lastName', 'userName', 'email', 'emailNotification']
     });
     return findUser;
@@ -248,7 +246,6 @@ class FindItem{
       where: {
         followee: userId
       },
-      raw: true,
       attributes: ['follower', 'recieveNotification'],
       include: [
         {
@@ -279,7 +276,6 @@ class FindItem{
 
     const {count, rows: authors} = await Article.findAndCountAll({
       offset,
-      raw: true,
       limit: defaultLimit,
       attributes: ['views', 'read', 'readRatio'],
       include: [

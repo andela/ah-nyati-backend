@@ -314,7 +314,6 @@ class ArticleController {
 
       const { count, rows: articles } = await Article.findAndCountAll({
         offset,
-        raw: true,
         limit: defaultLimit,
         attributes: {
           exclude: ['createdAt', 'updatedAt']
