@@ -35,7 +35,7 @@ class CheckDuplicate {
 
       if (existingEmail.length > 0 && existingUsername.length > 0) {
         const errorMsg = {
-          username: 'Username already exists.',
+          userName: 'Username already exists.',
           email: 'Email already exists.',
         };
 
@@ -58,7 +58,7 @@ class CheckDuplicate {
 
       if (existingUsername.length > 0) {
         const errorMsg = {
-          username: 'Username already exists.',
+          userName: 'Username already exists.',
         };
 
         return res.status(409).json({

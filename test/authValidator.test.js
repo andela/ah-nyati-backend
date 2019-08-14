@@ -80,8 +80,8 @@ describe('Auth', () => {
           res.should.have.status(409);
           res.body.should.have.property('message');
           res.body.should.be.an('object');
-          res.body.message.username.should.be.an('string');
-          res.body.message.username.should.eql('Username already exists.');
+          res.body.message.userName.should.be.an('string');
+          res.body.message.userName.should.eql('Username already exists.');
           done();
         });
     });
