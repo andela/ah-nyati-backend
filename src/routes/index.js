@@ -10,6 +10,7 @@ import tagRoute from './tagRoute';
 import reportRoute from './reportRoute';
 import articleRoute from './articleRoute';
 import statRoute from './statRoute';
+import categoryRoute from './categoryRoute';
 
 const router = express.Router();
 
@@ -23,6 +24,7 @@ router.use('/api/v1', ratingRoute);
 router.use('/api/v1', bookmarkRoute);
 router.use('/api/v1', tagRoute);
 router.use('/api/v1', reportRoute);
+router.use('/api/v1', categoryRoute);
 
 router.use('/api/v1', statRoute);
 
