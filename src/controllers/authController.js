@@ -202,8 +202,8 @@ class AuthController {
             email: user.email
           }
         });
-
-        const url = `https://ah-nyati-frontend-pr-17.herokuapp.com/newpassword?resetToken=${token}&email=${user.email}`;
+       
+        const url = `https://ah-nyati-frontend.herokuapp.com/newpassword?resetToken=${token}&email=${user.email}`;
         const html = resetTemplate(user.userName, url);
 
         if (!isTest) {
@@ -223,7 +223,7 @@ class AuthController {
         });
       }
 
-      const url = `https://ah-nyati-frontend-pr-17.herokuapp.com/newpassword?resetToken=${user.verificationToken}&email=${user.email}`;
+      const url = `https://ah-nyati-frontend.herokuapp.com/newpassword?resetToken=${user.verificationToken}&email=${user.email}`;
       const html = resetTemplate(user.userName, url);
 
       if (!isTest) {

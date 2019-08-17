@@ -41,6 +41,19 @@ module.exports = {
     imageUrl: 'image.png',
     emailNotification: false
   },
+   {
+    firstName: 'Nzube',
+    lastName: 'Nnamani',
+    userName: 'Alpha1',
+    email: 'nzubennamani@gmail.com',
+    bio: 'local man is stuck in traffic',
+    isVerified: true,
+    role: 'user',
+    password: hash,
+    verificationToken: '',
+    imageUrl: 'image.png',
+    emailNotification: false
+  },
   ], {}),
   down: queryInterface => queryInterface.bulkDelete('Users', null, {})
 };
