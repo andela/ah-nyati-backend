@@ -34,7 +34,7 @@ class AuthController {
       const { id, isVerified } = result;
       const token = await generateToken({ id, email, isVerified, role });
 
-      const url = `${req.protocol}://${req.get('host')}/api/v1/auth/verify/${token}`;
+      const url = `https://ah-nyati-frontend.herokuapp.com/dashboard?verifyToken=${token}`;
       const message = template(userName, url);
       if (!isTest) {
         const subject = 'Welcome to Authors Haven';
