@@ -12,7 +12,7 @@ import checkCategoryExists from '../middleware/checkCategoryExists';
 import roles from '../helpers/helperData/roles';
 
 const router = express.Router();
-const { createArticle, getArticle, getAllArticles, highlightAndComment } = ArticleController;
+const { createArticle, getArticle, getAllArticles, highlightAndComment, updateArticle } = ArticleController;
 const { detailsValidator } = articleValidator;
 const { allRoles } = roles;
 const { validatehighlight, validateComment } = highlightValidator;
@@ -48,5 +48,15 @@ router.get(
   findItem.findAllArticles,
   getAllArticles
 );
+router.patch(
+  '/articles/:slug',
+  verify,
+  upload.array('images', 10),
+  detailsValidator,
+  validate,
+  checkCategoryExists,
+  updateArticle
+);
+
 
 export default router;
