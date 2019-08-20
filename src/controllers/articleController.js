@@ -352,6 +352,87 @@ class ArticleController {
       });
     }
   }
+
+/**
+   * @description - Users update their article
+   * @static
+   * @async
+   * @param {object} req - request
+   * @param {object} res - response
+   * @returns {object} article
+   *
+   */
+static async updateArticle(req, res) {
+  try {
+    const { slug } = req.params;
+    const userId = req.user;
+
+    
+    const getArticle = await Article.findOne({
+      where: {
+        slug
+      },
+      attributes: {
+        include: ['userId']
+      },
+    });
+
+    if (userId !== getArticle.userId) {
+      return res.status(403).json({
+        status: 403,
+        message: 'You don\'t have the permission to carry out this operation',
+      });
+    }
+
+    const {
+      title, description, body, catId, tagList, isDraft
+    } = req.body;
+
+    const images = req.files;
+      const imageUrl = urlExtractor(images);
+
+      const editedArticle = {
+        title,
+        description: description || getArticle.description,
+        body,
+        catId,
+        imageUrl: imageUrl || getArticle.imageUrl,
+        tagList: tagList || getArticle.tagList, 
+        isDraft: isDraft || getArticle.isDraft,
+      };
+
+      const result = await Article.update(editedArticle,
+        { where: {
+          slug,
+        },
+        returning: true
+      });
+      const { id } = getArticle;
+      const newTagDetails = tagExtractor(id, tagList);
+      const updatedArticle = result[1][0];
+      await Tag.bulkCreate(newTagDetails);
+
+      return res.status(200).json({
+        status: 200,
+        message: 'Article successfully updated',
+        data: {
+          id: updatedArticle.id,
+          title: updatedArticle.title,
+          slug: updatedArticle.slug,
+          description: updatedArticle.description,
+          body: updatedArticle.body,
+          imageUrl: updatedArticle.imageUrl,
+          isDraft: updatedArticle.isDraft,
+          updatedAt: updatedArticle.updatedAt
+        },
+      });
+  } catch (error) {
+    return res.status(500).json({
+      status: 500,
+      message: error.message
+    });
+  }
+}
 }
 
 export default ArticleController;

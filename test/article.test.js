@@ -10,7 +10,7 @@ dotenv.config();
 
 chai.use(chaiHttp);
 chai.should();
-
+let articleSlug;
 let testToken;
 const user = {
   email: 'john.doe@andela.com',
@@ -52,6 +52,7 @@ describe('Articles', () => {
         .field(testArticle)
         .attach('images', path.join(__dirname, 'img/test.jpg'), 'test.png')
         .end((err, res) => {
+          articleSlug  = res.body.data[0].slug;
           res.should.have.status(201);
           res.body.should.have.property('data');
           res.body.data.should.be.an('array');
@@ -69,6 +70,33 @@ describe('Articles', () => {
           done();
         });
     });
+
+
+    it('should update an article', (done) => {
+      chai.request(app).patch(`/api/v1/articles/${articleSlug}`)
+        .set('token', testToken)
+        .field(testArticle)
+        .attach('images', path.join(__dirname, 'img/test.jpg'), 'test.png')
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('data');
+          res.body.data.should.be.an('object');
+          res.body.data.should.have.property('imageUrl');
+          res.body.data.imageUrl.should.be.an('string');
+          res.body.data.should.have.property('slug');
+          res.body.data.slug.should.be.an('string');
+          res.body.data.should.have.property('isDraft');
+          res.body.data.isDraft.should.be.an('boolean');
+          res.body.data.slug.slice(0, 29).should.be.eql('the-rise-of-the-shadow-knight');
+          res.body.data.title.should.be.an('string').eql('The Rise of The Shadow Knight');
+          res.body.data.body.should.be.an('string').eql('Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.');
+          done();
+        });
+    });
+
+
+
+
 
     it('should return 400 error if title is empty', (done) => {
       const { title, ...partialArticleDetails } = testArticle;
