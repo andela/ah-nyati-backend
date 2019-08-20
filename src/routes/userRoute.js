@@ -14,7 +14,6 @@ const { superAdmin } = roles;
 const { idParamValidator, roleValidator } = userValidator;
 
 router.get('/profiles/:userName',
-  verify,
   UserController.getUserProfile);
 
 router.get('/profiles/',

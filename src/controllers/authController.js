@@ -32,7 +32,7 @@ class AuthController {
       const values = { userName, email, password: hashedpassword, role };
       const result = await User.create(values);
       const { id, isVerified } = result;
-      const token = await generateToken({ id, email, isVerified, role });
+      const token = await generateToken({ id, userName, email, isVerified, role });
 
       const url = `https://ah-nyati-frontend.herokuapp.com/dashboard?verifyToken=${token}`;
       const message = template(userName, url);
@@ -117,8 +117,8 @@ class AuthController {
       const result = await User.findOne({ where: { email } });
       if (result) {
         if (bcrypt.compareSync(password, result.password)) {
-          const { id, isVerified, role } = result;
-          const token = await generateToken({ id, email, isVerified, role });
+          const { id, userName, isVerified, role } = result;
+          const token = await generateToken({ id, userName, email, isVerified, role });
 
           const user = {
             id: result.id,
