@@ -16,7 +16,7 @@ socialRoute.get('/twitter', passport.authenticate('twitter', { scope: ['email'] 
 
 socialRoute.get('/twitter/callback', passport.authenticate('twitter'), socialLogin.socialUser);
 
-socialRoute.get('/github', passport.authenticate('github', { scope: ['email'] }));
+socialRoute.get('/github', passport.authenticate('github', { scope: ['user:email'] }));
 
 socialRoute.get('/github/callback', passport.authenticate('github'), socialLogin.socialUser);
 

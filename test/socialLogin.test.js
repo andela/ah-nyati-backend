@@ -12,14 +12,14 @@ describe('GET Social Login', () => {
     {
       dataValues: {
         id: 1,
-        firstname: 'Nzube',
-        lastname: 'Nnamani',
+        userName: 'Nzube',
         email: 'test@example.com',
-        bio: 'local man',
-        image_url: 'image.png',
+        createdAt: '24 09 2019',
+        updatedAt: '24 09 2019'
       }
     },
   ];
+
   let response;
   beforeEach(() => {
     response = {
