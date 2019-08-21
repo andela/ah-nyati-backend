@@ -1,7 +1,10 @@
+import querystring from 'querystring';
 import { Auth, hashPassword } from '../helpers/helpers';
 import { User } from '../db/models';
+import config from '../db/config/config';
 
 const { generateToken } = Auth;
+const { uiRedirectUrl } = config;
 
 /**
  *@description - class
@@ -21,6 +24,7 @@ export default class socialController {
   static async socialUser(req, res) {
     try {
       const userData = req.authInfo;
+
       if (userData.emails === undefined) {
         return res.status(400).send('Email not found');
       }
@@ -63,11 +67,10 @@ export default class socialController {
 
       const {
         id,
-        firstName: firstname,
-        lastName: lastname,
         email,
-        bio,
-        image_url: image,
+        userName,
+        createdAt,
+        updatedAt,
       } = user[0].dataValues;
 
       const token = generateToken({
@@ -75,18 +78,16 @@ export default class socialController {
         email
       }, '24h');
 
-      return res.status(200).json({
-        message: 'successful',
-        data: [
-          {
-            token,
-            firstname,
-            lastname,
-            bio,
-            image
-          }
-        ]
+      const query = querystring.stringify({
+        "id": id,
+        "token": token,
+        "userName": userName,
+        "email": email,
+        "createdAt": createdAt.toString(),
+        "updatedAt": updatedAt.toString(),
       });
+
+      return res.status(200).redirect(`${uiRedirectUrl}?${query}`);
     } catch (error) {
       return res.status(500).json({
         status: 500,

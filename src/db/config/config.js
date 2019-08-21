@@ -54,7 +54,9 @@ module.exports = {
     clientID: process.env.GITHUB_CLIENT_ID,
     clientSecret: process.env.GITHUB_CLIENT_SECRET,
     callbackURL: process.env.GITHUB_CALLBACK_URL,
+    scope: ['user:email']
   },
+  uiRedirectUrl: process.env.UI_REDIRECT_URL || 'http://localhost:3000/socialAuth',
   mailConfig: {
     host: process.env.MAIL_HOST,
     port: process.env.MAIL_PORT,
@@ -66,7 +68,7 @@ module.exports = {
   },
   isProduction: process.env.NODE_ENV === 'production',
   isTest: process.env.NODE_ENV === 'test',
-  port: process.env.PORT || 3000,
+  port: process.env.PORT || 4000,
   secret: process.env.SECRET,
   GENERATE_SECRET: process.env.GENERATE_SECRET,
   sendgrid: process.env.SENDGRID_API_KEY,

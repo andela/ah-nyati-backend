@@ -74,6 +74,7 @@
     "pg-connection-string": "^2.1.0",
     "pg-hstore": "^2.3.3",
     "pusher": "^2.2.1",
+    "querystring": "^0.2.0",
     "randomstring": "^1.1.5",
     "request": "^2.87.0",
     "sequelize": "^5.8.12",
