@@ -1,4 +1,4 @@
-import { Article, User, Follow, Comment, Category, notification } from '../db/models';
+import { Article, User, Follow, Comment, Category, notification, Like } from '../db/models';
 /**
 *
 *@description This class checks a table for the presence or absence of a row
@@ -384,6 +384,35 @@ class FindItem{
     }
     req.userNotification = userNotification;
     return next();
+  }
+
+  /** 
+   *@description This function counts rows in table
+   * @param {object} model
+   * @param {object} articleId
+   * @returns {function} next
+   * @memberof FindItem
+   */
+  static async findAndCount(model, articleId) {
+    if (model === 'Comment') {
+      const { count } = await Comment.findAndCountAll({
+        where: {
+          articleId
+        },
+        limit: 1,
+        attributes: ['id'],
+      });
+      return count;
+    }
+
+    const { count } = await Like.findAndCountAll({
+      where: {
+        articleId
+      },
+      limit: 1,
+      attributes: ['id'],
+    });
+    return count;
   }
 }
 
