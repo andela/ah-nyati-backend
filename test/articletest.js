@@ -1,3 +1,4 @@
+import '@babel/polyfill';
 import chaiHttp from 'chai-http';
 import chai, { expect } from 'chai';
 import dotenv from 'dotenv';

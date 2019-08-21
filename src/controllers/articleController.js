@@ -306,6 +306,7 @@ class ArticleController {
   static async getAllArticles(req, res) {
     try {
       let offset = 0;
+      const { findAndCount } = findItem;
       
       const { currentPage, limit } = req.query; // page number
       const defaultLimit = limit || 3; // number of records per page
@@ -318,6 +319,9 @@ class ArticleController {
         attributes: {
           exclude: ['createdAt', 'updatedAt']
         },
+        order: [
+          ['id', 'ASC'],
+        ],
         include: [
           {
             model: Category,
@@ -331,13 +335,22 @@ class ArticleController {
       });
 
       const pages = Math.ceil(count / limit) || 1;
+      const allArticles = await Promise.all(articles.map(async (article) => {
+        const comment = await findAndCount('Comment', article.id);
+        const like = await findAndCount('Like', article.id);
+        return {
+          article,
+          comments: comment,
+          likes: like,
+        };
+      }));
 
       return res.status(200).json({
         status: 200,
         message: 'All articles fetched successfully',
         data: [ 
           {
-            articles,
+            allArticles,
             totalArticles: count,
             currentPage,
             limit,
