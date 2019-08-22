@@ -131,7 +131,7 @@ describe('UserController', () => {
   });
 
   it('should enable user view another user\'s profile', (done) => {
-    chai.request(app).get('/api/v1/user/profiles/JohnDoe')
+    chai.request(app).get('/api/v1/user/profiles/1')
       .set('token', testToken)
       .end((err, res) => {
         res.should.have.status(200);
@@ -143,8 +143,8 @@ describe('UserController', () => {
       });
   });
 
-  it('should enable user view another user\'s profile', (done) => {
-    chai.request(app).get('/api/v1/user/profiles/JohnDoes')
+  it('should indicate that a user does not exist', (done) => {
+    chai.request(app).get('/api/v1/user/profiles/1000')
       .set('token', testToken)
       .end((err, res) => {
         res.should.have.status(404);

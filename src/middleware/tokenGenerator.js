@@ -63,7 +63,6 @@ class TokenGenerator {
                 email
               }
             });
-            return next();
           }
           return res.status(400).json({
             status: 400,

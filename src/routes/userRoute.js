@@ -13,7 +13,7 @@ const router = express.Router();
 const { superAdmin } = roles;
 const { idParamValidator, roleValidator } = userValidator;
 
-router.get('/profiles/:userName',
+router.get('/profiles/:userId',
   UserController.getUserProfile);
 
 router.get('/profiles/',
