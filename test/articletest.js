@@ -34,5 +34,15 @@ describe('Article Controller', () => {
         expect(response.body).to.have.property('message');
       },
     );
+    it('should get all articles by id',
+      async () => {
+        const response = await chai.request(app)
+          .get(`${article}user/1`)
+          .send();
+        expect(response).to.be.an('object');
+        expect(response).to.have.status(200);
+        expect(response.body).to.have.property('message');
+      },
+    );
   });
 });
