@@ -16,13 +16,13 @@ class UserController {
    * @memberof UserController
    */
   static async getUserProfile(req, res) {
-    const { userName } = req.params;
+    const { userId } = req.params;
 
     try {
       const userData = await User.findOne({
         attributes: ['firstName', 'lastName', 'userName',
           'email', 'bio', 'imageUrl'],
-        where: { userName },
+        where: { id: userId },
       });
 
       if (!userData) {
