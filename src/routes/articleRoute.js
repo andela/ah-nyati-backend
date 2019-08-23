@@ -12,7 +12,7 @@ import checkCategoryExists from '../middleware/checkCategoryExists';
 import roles from '../helpers/helperData/roles';
 
 const router = express.Router();
-const { createArticle, getArticle, getAllArticles, highlightAndComment, updateArticle } = ArticleController;
+const { createArticle, getArticle, getAllArticles, highlightAndComment, updateArticle, getAllArticlesByAUser } = ArticleController;
 const { detailsValidator } = articleValidator;
 const { allRoles } = roles;
 const { validatehighlight, validateComment } = highlightValidator;
@@ -43,6 +43,8 @@ router.post(
   highlightAndComment
 );
 router.get('/articles/:slug', findItem.findArticle, getArticle);
+router.get('/articles/user/:userId', findItem.findUser, getAllArticlesByAUser);
+
 router.get(
   '/articles',
   findItem.findAllArticles,
