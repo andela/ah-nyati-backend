@@ -45,5 +45,25 @@ describe('Article Controller', () => {
         expect(response.body).to.have.property('message');
       },
     );
+    it('should get all drafts by userId',
+      async () => {
+        const response = await chai.request(app)
+          .get(`${article}user/draft/1`)
+          .send();
+        expect(response).to.be.an('object');
+        expect(response).to.have.status(200);
+        expect(response.body).to.have.property('message');
+      },
+    );
+    it('should get all published by userId',
+      async () => {
+        const response = await chai.request(app)
+          .get(`${article}user/published/1`)
+          .send();
+        expect(response).to.be.an('object');
+        expect(response).to.have.status(200);
+        expect(response.body).to.have.property('message');
+      },
+    );
   });
 });

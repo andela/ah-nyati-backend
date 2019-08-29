@@ -6,6 +6,7 @@ import searchHelper, { searchOutcome } from '../helpers/searchHelper';
 import notification from '../helpers/notification';
 import findItem from '../helpers/findItem';
 
+
 /**
  * @description Article Controller
  * @class ArticleController
@@ -490,13 +491,14 @@ static async updateArticle(req, res) {
   static async getAllArticlesByAUser(req, res) {
     try {
       const { userId } = req.params
+     
       let offset = 0;
       
       const { currentPage, limit } = req.query; // page number
       const defaultLimit = limit || 3; // number of records per page
 
       offset = currentPage ? defaultLimit * (currentPage - 1) : 0;
-
+     
       const { count, rows: articles } = await Article.findAndCountAll({
         offset,
         limit: defaultLimit,
@@ -507,12 +509,123 @@ static async updateArticle(req, res) {
           exclude: ['createdAt', 'updatedAt']
         },
       });
-
+    
       const pages = Math.ceil(count / limit) || 1;
 
       return res.status(200).json({
         status: 200,
         message: 'All articles fetched successfully',
+        data: [ 
+          {
+            articles,
+            totalArticles: count,
+            currentPage,
+            limit,
+            totalPages: pages
+          }
+        ]
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: 500,
+        message: error.message
+      });
+    }
+  }
+
+
+  /**
+   * @description - Get all drafts authored by a specific user
+   * @static
+   * @async
+   * @param {object} req - request
+   * @param {object} res - response
+   * @returns {object} article
+   *
+   */
+  static async getAlldraftsByAUser(req, res) {
+    try {
+      const { userId } = req.params
+      let offset = 0;
+      
+      const {currentPage, limit } = req.query; // page number
+      const defaultLimit = limit || 3; // number of records per page
+
+      offset = currentPage ? defaultLimit * (currentPage - 1) : 0;
+
+     
+      const { count, rows: articles } = await Article.findAndCountAll({
+        offset,
+        limit: defaultLimit,
+        where: {
+          userId,
+          isDraft: true
+        },
+        attributes: {
+          exclude: ['createdAt', 'updatedAt']
+        },
+      });
+    
+      const pages = Math.ceil(count / limit) || 1;
+
+      return res.status(200).json({
+        status: 200,
+        message: 'All draft fetched successfully',
+        data: [ 
+          {
+            articles,
+            totalArticles: count,
+            currentPage,
+            limit,
+            totalPages: pages
+          }
+        ]
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: 500,
+        message: error.message
+      });
+    }
+  }
+
+  /**
+   * @description - Get all published articles authored by a specific user
+   * @static
+   * @async
+   * @param {object} req - request
+   * @param {object} res - response
+   * @returns {object} article
+   *
+   */
+  static async getAllpublishedArticlesByAUser(req, res) {
+    try {
+      const { userId } = req.params
+      let offset = 0;
+      
+      const {currentPage, limit } = req.query; // page number
+      const defaultLimit = limit || 3; // number of records per page
+
+      offset = currentPage ? defaultLimit * (currentPage - 1) : 0;
+
+     
+      const { count, rows: articles } = await Article.findAndCountAll({
+        offset,
+        limit: defaultLimit,
+        where: {
+          userId,
+          isDraft: false
+        },
+        attributes: {
+          exclude: ['createdAt', 'updatedAt']
+        },
+      });
+    
+      const pages = Math.ceil(count / limit) || 1;
+
+      return res.status(200).json({
+        status: 200,
+        message: 'All published articles fetched successfully',
         data: [ 
           {
             articles,

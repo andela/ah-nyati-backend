@@ -23,6 +23,9 @@ const {
   deleteArticle,
 } = ArticleController;
 const { detailsValidator, slugValidator } = articleValidator;
+
+const { createArticle, getArticle, getAllArticles, highlightAndComment, updateArticle, getAllArticlesByAUser, getAlldraftsByAUser, getAllpublishedArticlesByAUser } = ArticleController;
+const { detailsValidator } = articleValidator;
 const { allRoles } = roles;
 const { validatehighlight, validateComment } = highlightValidator;
 
@@ -52,7 +55,10 @@ router.post(
   highlightAndComment
 );
 router.get('/articles/:slug', findItem.findArticle, getArticle);
+
 router.get('/articles/user/:userId', findItem.findUser, getAllArticlesByAUser);
+router.get('/articles/user/draft/:userId', findItem.findUser, getAlldraftsByAUser);
+router.get('/articles/user/published/:userId', findItem.findUser, getAllpublishedArticlesByAUser);
 
 router.get(
   '/articles',
