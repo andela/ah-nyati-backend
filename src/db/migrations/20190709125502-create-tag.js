@@ -4,19 +4,21 @@ module.exports = {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
-      type: Sequelize.INTEGER
+      type: Sequelize.INTEGER,
     },
     tagName: {
       type: Sequelize.STRING
     },
     articleId: {
       type: Sequelize.INTEGER,
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE',
       allowNull: false,
       required: true,
       references: {
         model: 'Articles',
         key: 'id',
-        as: 'article'
+        as: 'article',
       },
     },
     createdAt: {

@@ -7,7 +7,7 @@
     "build": "babel src -d lib",
     "pretest": "npm run undo:migrate && npm run migrate && npm run seed",
     "test": "NODE_ENV=test nyc mocha --timeout 100000 --require @babel/register --exit",
-    "tes": "NODE_ENV=test nyc mocha --timeout 50000 --require @babel/register ./test/userValidator.test.js --exit",
+    "tes": "NODE_ENV=test nyc mocha --timeout 50000 --require @babel/register ./test/article.test.js --exit",
     "generate-lcov": "nyc report --reporter=text-lcov > lcov.info",
     "coveralls-coverage": "coveralls < lcov.info",
     "coverage": "nyc npm test && npm run generate-lcov && npm run coveralls-coverage",

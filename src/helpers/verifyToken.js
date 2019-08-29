@@ -23,6 +23,7 @@ const verifyToken = async (req, res, next) => {
   try {
     const decoded = await jwt.verify(token, secret);
     req.user = decoded.id;
+    req.decodedUser = decoded;
     if (decoded) return next();
   } catch (error) {
     return res.status(401).json({

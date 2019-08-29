@@ -5,6 +5,7 @@ import articleValidator from '../middleware/articleValidator';
 import highlightValidator from '../middleware/highlightValidator';
 import validate from '../middleware/validate';
 import authorize from '../middleware/authorize';
+import checkIsOwner from '../middleware/checkIsOwner';
 import upload from '../helpers/profilePic';
 import verify from '../helpers/verifyToken';
 import findItem from '../helpers/findItem';
@@ -12,8 +13,16 @@ import checkCategoryExists from '../middleware/checkCategoryExists';
 import roles from '../helpers/helperData/roles';
 
 const router = express.Router();
-const { createArticle, getArticle, getAllArticles, highlightAndComment, updateArticle, getAllArticlesByAUser } = ArticleController;
-const { detailsValidator } = articleValidator;
+const {
+  createArticle,
+  getArticle,
+  getAllArticles,
+  highlightAndComment,
+  updateArticle,
+  getAllArticlesByAUser,
+  deleteArticle,
+} = ArticleController;
+const { detailsValidator, slugValidator } = articleValidator;
 const { allRoles } = roles;
 const { validatehighlight, validateComment } = highlightValidator;
 
@@ -59,6 +68,15 @@ router.patch(
   checkCategoryExists,
   updateArticle
 );
+
+router.delete(
+  '/articles/:slug',
+  verify,
+  slugValidator,
+  validate,
+  checkIsOwner,
+  deleteArticle,
+)
 
 
 export default router;

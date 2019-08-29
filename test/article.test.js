@@ -12,8 +12,14 @@ chai.use(chaiHttp);
 chai.should();
 let articleSlug;
 let testToken;
+let userTestToken;
 const user = {
   email: 'john.doe@andela.com',
+  password: 'password',
+};
+const userTwo = {
+  userName: 'normalUser',
+  email: 'normal.user@andela.com',
   password: 'password',
 };
 const testArticle = {
@@ -39,7 +45,9 @@ describe('Articles', () => {
     try {
       const url = '/api/v1/auth/login';
       const response = await chai.request(app).post(url).send(user);
+      const responseTwo = await chai.request(app).post('/api/v1/auth/signup').send(userTwo);
       testToken = response.body.token;
+      userTestToken = responseTwo.body.token;
     } catch (error) {
       return error;
     }
@@ -70,7 +78,6 @@ describe('Articles', () => {
           done();
         });
     });
-
 
     it('should update an article', (done) => {
       chai.request(app).patch(`/api/v1/articles/${articleSlug}`)
@@ -177,6 +184,40 @@ describe('Articles', () => {
           res.should.have.status(404);
           res.body.should.be.an('object');
           res.body.should.have.property('message').equal('The category does not exist');
+          done();
+        });
+    });
+  });
+
+  describe('DELETE /articles', () => {
+    it('should delete new article', (done) => {
+      chai.request(app).delete(`/api/v1/articles/${articleSlug}`)
+        .set('token', testToken)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('message').eql('Article successfully deleted');
+          done();
+        });
+    });
+
+    it('should throw an error if slug is invalid', (done) => {
+      chai.request(app).delete(`/api/v1/articles/new article`)
+        .set('token', testToken)
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.should.have.property('message');
+          res.body.message.slug.should.eql('Invalid slug');
+          done();
+        });
+    });
+
+    it('should throw an error if user is not author', (done) => {
+      chai.request(app).delete(`/api/v1/articles/article`)
+        .set('token', userTestToken)
+        .end((err, res) => {
+          res.should.have.status(403);
+          res.body.should.have.property('message');
+          res.body.message.should.eql(`You don't have permission to perform this request!`);
           done();
         });
     });
