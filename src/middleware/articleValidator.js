@@ -1,4 +1,4 @@
-import { body } from 'express-validator';
+import { body, check } from 'express-validator';
 
 const articleValidator = {
   detailsValidator: [
@@ -61,6 +61,12 @@ const articleValidator = {
         return true;
       })
       .withMessage('isDraft must be true or false'),
+  ],
+  slugValidator: [
+    check('slug')
+      .trim()
+      .matches(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)
+      .withMessage('Invalid slug')
   ],
 };
 

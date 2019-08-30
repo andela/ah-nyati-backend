@@ -101,7 +101,7 @@ describe('Testing Follow System Controller', () => {
       'if user does not exist',
       async () => {
         const response = await chai.request(app)
-          .post(`${followRoute}follow/7`)
+          .post(`${followRoute}follow/99000`)
           .set('token', token)
           .send();
         expect(response).to.be.an('object');

@@ -1,4 +1,4 @@
-import { Article, Tag, User, Category, highlightComment } from '../db/models';
+import { Article, Tag, User, Category, highlightComment, ArticleArchive } from '../db/models';
 import slugGen from '../helpers/slugGen';
 import urlExtractor from '../helpers/urlExtractor';
 import tagExtractor from '../helpers/tagExtractor';
@@ -165,6 +165,37 @@ class ArticleController {
       return res.status(500).json({ 
         status: 500,
         message: error.message
+      });
+    }
+  }
+
+  /**
+   * @description - Deletes an article
+   * @static
+   * @async
+   * @param {object} req - delete article request object
+   * @param {object} res - delete article response object
+   * @returns {object} delete action response
+   *
+   */
+  static async deleteArticle(req, res) {
+    try {
+      const dataValues = res.locals.article;
+
+      const { id: oldId, createdAt: oldCreatedAt, updatedAt: oldUpdatedAt, slug, ...otherDetails } = dataValues;
+      const archiveDetails = { oldId, oldCreatedAt, oldUpdatedAt, slug, ...otherDetails };
+      
+      await ArticleArchive.create(archiveDetails);
+      await Article.destroy({ where: { slug } });
+
+      return res.status(200).json({
+        status: 200,
+        message: 'Article successfully deleted',
+      });
+    } catch (error) {
+      return res.status(500).json({ 
+        status: 500,
+        message: error.message,
       });
     }
   }
