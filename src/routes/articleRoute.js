@@ -76,7 +76,7 @@ router.delete(
   validate,
   checkIsOwner,
   deleteArticle,
-)
+);
 
 
 export default router;
