@@ -10,4 +10,9 @@ router.post('/articles/:slug/like',
   findItem.findArticle,
   LikeController.likeArticle);
 
+router.get('/articles/:slug/like',
+  verify,
+  findItem.findArticle,
+  LikeController.getArticleLikes);
+
 export default router;

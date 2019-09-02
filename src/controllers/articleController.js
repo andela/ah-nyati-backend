@@ -212,6 +212,7 @@ class ArticleController {
   static async getArticle(req, res) {
     try {
       const { slug } = req.params;
+      const { findAndCount } = findItem;
 
       const getArticle = await Article.findOne({
         where: {
@@ -232,6 +233,8 @@ class ArticleController {
         ]
       });
 
+      const {count, likers} = await findAndCount('Like', getArticle.id);
+
       const { body, views, read  } = getArticle.dataValues;
 
       const wordCount = body.split(' ').filter(word => word !== ' ');
@@ -250,6 +253,8 @@ class ArticleController {
       const article = {};
       article.article = getArticle;
       article.tag = allTags;
+      article.likes = count;
+      article.likers = likers;
       article.readTime = readTime;
 
       const timeOfPageLoad = 4;
@@ -368,7 +373,7 @@ class ArticleController {
       const pages = Math.ceil(count / limit) || 1;
       const allArticles = await Promise.all(articles.map(async (article) => {
         const comment = await findAndCount('Comment', article.id);
-        const like = await findAndCount('Like', article.id);
+        const { count: like} = await findAndCount('Like', article.id);
         return {
           article,
           comments: comment,
