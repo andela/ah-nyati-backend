@@ -61,6 +61,39 @@ class LikeController {
       });
     }
   }
+
+/**
+ * @description This function gets all likes for an article
+ * @static
+ * @param {object} req
+ * @param {object} res
+ * @returns {object} res
+ * @memberof LikeController
+ */
+static async getArticleLikes (req, res) {
+  const { article } = res.locals;
+      const articleId = article.id;
+
+      try {
+        const {count, rows: articleLikes} = await Like.findAndCountAll({
+          where: {
+            articleId,
+          },
+        });
+        return res.status(200).json({
+          status: 200,
+          data: {
+            articleLikes,
+            count
+          },
+        });
+      } catch (error) {
+        return res.status(500).json({
+          status: 500,
+          message: error.message,
+        });
+      }
+  }
 }
 
 export default LikeController;

@@ -405,14 +405,16 @@ class FindItem{
       return count;
     }
 
-    const { count } = await Like.findAndCountAll({
+    const { count, rows: likers } = await Like.findAndCountAll({
       where: {
         articleId
       },
-      limit: 1,
-      attributes: ['id'],
+      attributes: ['userId'],
     });
-    return count;
+    return {
+      count,
+      likers,
+    };
   }
 }
 
