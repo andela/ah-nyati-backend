@@ -53,7 +53,7 @@ class FindItem{
       });
       return article;
     }
-
+    
     /**
      *@description This function finds a comment using id
      * @param {integer} id - the id of the comment to find
